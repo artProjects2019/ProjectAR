@@ -52,7 +52,7 @@ function checkRow(madeTurn, mark, board) {
         }
         if(symbolCount === SIZE - 1 && columnNumber >= 0) {
             board[i][columnNumber] = X;
-            madeTurn.item = true;
+            madeTurn.status = true;
             break;
         }
     }
@@ -72,7 +72,7 @@ function checkColumn(madeTurn, mark, board) {
         }
         if(symbolCount === SIZE - 1 && rowNumber >= 0) {
             board[rowNumber][j] = X;
-            madeTurn.item = true;
+            madeTurn.status = true;
             break;
         }
     }
@@ -92,7 +92,7 @@ function checkDiagonalLeftTop(madeTurn, mark, board) {
     }
     if(symbolCount === SIZE - 1 && position >= 0) {
         board[position][position] = X;
-        madeTurn.item = true;
+        madeTurn.status = true;
     }
 }
 
@@ -110,7 +110,7 @@ function checkDiagonalLeftBottom(madeTurn, mark, board) {
     }
     if(symbolCount === SIZE - 1 && position >= 0) {
         board[SIZE - position - 1][position] = X;
-        madeTurn.item = true;
+        madeTurn.status = true;
     }
 }
 
@@ -119,32 +119,32 @@ function computerInput(board) {
 
     //Computer checks if it can make 3 in a row
     checkColumn(turnMade, X, board);
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         checkRow(turnMade, X, board);
     }
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         checkDiagonalLeftTop(turnMade, X, board);
     }
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         checkDiagonalLeftBottom(turnMade, X, board);
     }
 
     //Computer checks if the player can be blocked
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         checkColumn(turnMade, O, board);
     }
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         checkRow(turnMade, O, board);
     }
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         checkDiagonalLeftBottom(turnMade, O, board);
     }
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         checkDiagonalLeftTop(turnMade, O, board);
     }
 
     //Computer makes random move
-    if(!turnMade.item) {
+    if(!turnMade.status) {
         computerRandomInput(board);
     }
 }
@@ -158,7 +158,7 @@ function columnWin(gameOver, mark, board) {
             }
         }
         if(symbolCount === SIZE) {
-            gameOver.item = true;
+            gameOver.status = true;
         }
     }
 }
@@ -172,7 +172,7 @@ function rowWin(gameOver, mark, board) {
             }
         }
         if(symbolCount === SIZE) {
-            gameOver.item = true;
+            gameOver.status = true;
         }
     }
 }
@@ -185,7 +185,7 @@ function diagonalWin(gameOver, mark, board) {
         }
     }
     if(symbolCount === SIZE) {
-        gameOver.item = true;
+        gameOver.status = true;
     }
 
     symbolCount = 0;
@@ -196,7 +196,7 @@ function diagonalWin(gameOver, mark, board) {
         }
     }
     if(symbolCount === SIZE) {
-        gameOver.item = true;
+        gameOver.status = true;
     }
 }
 
@@ -216,7 +216,7 @@ function checkCatsGame(gameOver, board) {
         }
     }
     if(catsGame) {
-        gameOver.item = true;
+        gameOver.status = true;
     }
 }
 
@@ -238,26 +238,26 @@ function play() {
             [-1, -1, -1]];
 
     let endText;
-    let gameOver = {item: false};
+    let gameOver = {status: false};
 
-    while(!gameOver.item) {
+    while(!gameOver.status) {
         checkCatsGame(gameOver, board);
-        if(gameOver.item) {
-            endText = "Cat's game! ";
+        if(gameOver.status) {
+            endText = "Cat's game!";
             break;
         }
 
         playerInput(board);
 
         checkWin(gameOver, O, board);
-        if(gameOver.item) {
-            endText = "You win! ";
+        if(gameOver.status) {
+            endText = "You win!";
             break;
         }
 
         checkCatsGame(gameOver, board);
-        if(gameOver.item) {
-            endText = "Cat's game! ";
+        if(gameOver.status) {
+            endText = "Cat's game!";
             break;
         }
 
@@ -265,8 +265,8 @@ function play() {
         printBoard(board);
 
         checkWin(gameOver, X, board);
-        if(gameOver.item) {
-            endText = "You lose. ";
+        if(gameOver.status) {
+            endText = "You lose.";
             break;
         }
     }
