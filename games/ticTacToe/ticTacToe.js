@@ -22,7 +22,7 @@ function playerInput(board) {
     else {
         playerInput(board);
     }
-    // podmiana tekstur w AR();
+    // changeTextures(); --> in AR
 
 }
 
