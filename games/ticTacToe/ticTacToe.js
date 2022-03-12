@@ -115,7 +115,7 @@ function checkDiagonalLeftBottom(madeTurn, mark, board) {
 }
 
 function computerInput(board) {
-    let turnMade = {item: false};
+    let turnMade = {status: false};
 
     //Computer checks if it can make 3 in a row
     checkColumn(turnMade, X, board);
