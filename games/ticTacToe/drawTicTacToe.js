@@ -2,26 +2,6 @@ let camera, scene, raycaster, renderer;
 let mouse;
 let board;
 
-
-function initScene() {
-    raycaster = new THREE.Raycaster();
-    mouse = new THREE.Vector3();
-    board = new ticTacToeBoard();
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75,
-        window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.setZ(30);
-
-    renderer = new THREE.WebGLRenderer({
-        antialias: true
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    document.body.appendChild(renderer.domElement);
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
-}
-
 class ticTacToeBoard {
     boxes = [];
     constructor() {
@@ -59,6 +39,25 @@ class ticTacToeBoard {
     }
 }
 
+function initScene() {
+    raycaster = new THREE.Raycaster();
+    mouse = new THREE.Vector3();
+    board = new ticTacToeBoard();
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75,
+        window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.setZ(30);
+
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    document.body.appendChild(renderer.domElement);
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
+}
+
 function onDocumentMouseDown(event) {
     event.preventDefault();
 
@@ -70,7 +69,7 @@ function onDocumentMouseDown(event) {
 
     for(let i = 0; i < board.boxes.length; i++) {
         if (intersects.length > 0 && intersects[0].object === board.boxes[i]) {
-            updateTextureO(board.boxes[i]);
+            anotherTurn(i);
         }
     }
 }
@@ -80,17 +79,26 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-function updateTextureX(box){
-    box.material.map = new THREE.TextureLoader().load('textures/x.png' );
+function updateTextureX(number){
+    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/x.png');
 }
 
-function updateTextureO(box){
-    box.material.map = new THREE.TextureLoader().load('textures/o.png' );
+function updateTextureXWin(number){
+    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/xWin.png');
+}
+
+function updateTextureO(number){
+    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/o.png');
+}
+
+function updateTextureOWin(number){
+    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/oWin.png');
 }
 
 function start() {
     initScene();
 
     board.addToScene(scene);
+
     animate();
 }
