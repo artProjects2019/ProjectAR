@@ -237,12 +237,14 @@ function checkCatsGame() {
 
 function resumeGame() {
     checkWin(O);
-
-    computerInput();
-
-    checkWin(X);
-
     checkCatsGame();
+
+    if(!gameOver.status) {
+        computerInput();
+        checkWin(X);
+        checkCatsGame();
+    }
+
 }
 
 function drawWin(mark, boxesInARow) {
