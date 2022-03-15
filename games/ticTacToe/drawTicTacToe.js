@@ -8,15 +8,15 @@ class ticTacToeBoard {
         const SIZE = 5;
 
         for(let i = 0 ; i < 9 ; ++i){
-            const texture = new THREE.TextureLoader().load('textures/white.png' );
-            const geometry = new THREE.PlaneGeometry( SIZE, SIZE );
+            const texture = new THREE.TextureLoader().load('textures/white.png' ); // Loading basic texture png
+            const geometry = new THREE.PlaneGeometry(SIZE, SIZE);
             const material = new THREE.MeshBasicMaterial({
                 map: texture
             });
             let box = new THREE.Mesh(geometry, material);
-            this.boxes.push(box) ;
+            this.boxes.push(box);
         }
-        this.setPosition();
+        this.setBoxesPosition();
     }
 
     addToScene(){
@@ -25,7 +25,7 @@ class ticTacToeBoard {
         }
     }
 
-    setPosition(){
+    setBoxesPosition(){
         const POSITION = 6;
         this.boxes[0].position.set(POSITION, POSITION, 0);
         this.boxes[1].position.set(0, POSITION, 0);
@@ -44,8 +44,7 @@ function initScene() {
     mouse = new THREE.Vector3();
     board = new ticTacToeBoard();
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75,
-        window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.setZ(30);
 
     renderer = new THREE.WebGLRenderer({
@@ -56,6 +55,8 @@ function initScene() {
 
     document.body.appendChild(renderer.domElement);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+    board.addToScene(scene);
 }
 
 function onDocumentMouseDown(event) {
@@ -63,42 +64,39 @@ function onDocumentMouseDown(event) {
 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    raycaster.setFromCamera( mouse, camera );
+    raycaster.setFromCamera(mouse, camera);
 
-    let intersects = raycaster.intersectObjects( scene.children );
+    let intersects = raycaster.intersectObjects(scene.children);
 
     for(let i = 0; i < board.boxes.length; i++) {
         if (intersects.length > 0 && intersects[0].object === board.boxes[i]) {
-            anotherTurn(i);
+            playerTurn(i);
         }
     }
 }
 
 function animate() {
-    requestAnimationFrame( animate );
+    requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
 
-function updateTextureX(number){
-    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/x.png');
+function updateTextureX(boxNumber){
+    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/x.png');
 }
 
-function updateTextureXWin(number){
-    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/xWin.png');
+function updateTextureXWin(boxNumber){
+    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/xWin.png');
 }
 
-function updateTextureO(number){
-    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/o.png');
+function updateTextureO(boxNumber){
+    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/o.png');
 }
 
-function updateTextureOWin(number){
-    board.boxes[number].material.map = new THREE.TextureLoader().load('textures/oWin.png');
+function updateTextureOWin(boxNumber){
+    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/oWin.png');
 }
 
 function start() {
     initScene();
-
-    board.addToScene(scene);
-
     animate();
 }

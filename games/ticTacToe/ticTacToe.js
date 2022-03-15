@@ -10,7 +10,7 @@ let logicBoard =
 
 let gameOver = {status: false};
 
-function anotherTurn(boxNumber) {
+function playerTurn(boxNumber) {
 
     if(!gameOver.status) {
         let row = Math.floor(boxNumber / 3);
@@ -19,9 +19,17 @@ function anotherTurn(boxNumber) {
         if(logicBoard[row][column] === EMPTY) {
             logicBoard[row][column] = O;
             updateTextureO(boxNumber);
-            resumeGame();
+
+            checkWin(O);
+            checkCatsGame();
+
+            computerTurn();
         }
     }
+}
+
+function calculateBoxNumber(row, column) {
+    return 3*row+column;
 }
 
 function computerRandomInput() {
@@ -30,7 +38,7 @@ function computerRandomInput() {
 
     if(logicBoard[row][column] === EMPTY) {
         logicBoard[row][column] = X;
-        updateTextureX(3*row+column);
+        updateTextureX(calculateBoxNumber(row, column));
     }
     else {
         computerRandomInput();
@@ -40,18 +48,18 @@ function computerRandomInput() {
 function checkRow(madeTurn, mark) {
     for(let i = 0; i < SIZE; ++i) {
         let symbolCount = 0;
-        let columnNumber = -1;
+        let column = -1;
         for(let j = 0; j < SIZE; ++j) {
             if(logicBoard[i][j] === mark) {
                 symbolCount++;
             }
             else if(logicBoard[i][j] === EMPTY) {
-                columnNumber = j;
+                column = j;
             }
         }
-        if(symbolCount === SIZE - 1 && columnNumber >= 0) {
-            logicBoard[i][columnNumber] = X;
-            updateTextureX(3*i+columnNumber);
+        if(symbolCount === SIZE - 1 && column >= 0) {
+            logicBoard[i][column] = X;
+            updateTextureX(calculateBoxNumber(i, column));
             madeTurn.status = true;
             break;
         }
@@ -61,18 +69,18 @@ function checkRow(madeTurn, mark) {
 function checkColumn(madeTurn, mark) {
     for(let j = 0; j < SIZE; ++j) {
         let symbolCount = 0;
-        let rowNumber = -1;
+        let row = -1;
         for(let i = 0; i < SIZE; ++i) {
             if(logicBoard[i][j] === mark) {
                 symbolCount++;
             }
             else if(logicBoard[i][j] === EMPTY) {
-                rowNumber = i;
+                row = i;
             }
         }
-        if(symbolCount === SIZE - 1 && rowNumber >= 0) {
-            logicBoard[rowNumber][j] = X;
-            updateTextureX(3*rowNumber+j);
+        if(symbolCount === SIZE - 1 && row >= 0) {
+            logicBoard[row][j] = X;
+            updateTextureX(calculateBoxNumber(row, j));
             madeTurn.status = true;
             break;
         }
@@ -93,7 +101,7 @@ function checkDiagonalLeftTop(madeTurn, mark) {
     }
     if(symbolCount === SIZE - 1 && position >= 0) {
         logicBoard[position][position] = X;
-        updateTextureX(3*position+position);
+        updateTextureX(calculateBoxNumber(position, position));
         madeTurn.status = true;
     }
 }
@@ -112,7 +120,7 @@ function checkDiagonalLeftBottom(madeTurn, mark) {
     }
     if(symbolCount === SIZE - 1 && position >= 0) {
         logicBoard[SIZE - position - 1][position] = X;
-        updateTextureX(3*(SIZE - position - 1) + position);
+        updateTextureX(calculateBoxNumber((SIZE - position - 1), position));
         madeTurn.status = true;
     }
 }
@@ -159,7 +167,7 @@ function columnWin(mark) {
         for(let j = 0; j < SIZE; ++j) {
             if(logicBoard[i][j] === mark) {
                 symbolCount++;
-                boxesInARow.push(3*i+j);
+                boxesInARow.push(calculateBoxNumber(i, j));
             }
         }
         if(symbolCount === SIZE) {
@@ -176,7 +184,7 @@ function rowWin(mark) {
         for(let j = 0; j < SIZE; ++j) {
             if(logicBoard[j][i] === mark) {
                 symbolCount++;
-                boxesInARow.push(3*j+i);
+                boxesInARow.push(calculateBoxNumber(j, i));
             }
         }
         if(symbolCount === SIZE) {
@@ -192,7 +200,7 @@ function diagonalWin(mark) {
     for(let i = 0; i < SIZE; ++i) {
         if(logicBoard[i][i] === mark) {
             symbolCount++;
-            boxesInARow.push(3*i+i);
+            boxesInARow.push(calculateBoxNumber(i, i));
         }
     }
     if(symbolCount === SIZE) {
@@ -206,7 +214,7 @@ function diagonalWin(mark) {
     for(let i = 0; i < SIZE; ++i) {
         if(logicBoard[SIZE - i - 1][i] === mark) {
             symbolCount++;
-            boxesInARow.push(3*(SIZE - i - 1)+i);
+            boxesInARow.push(calculateBoxNumber((SIZE - i - 1), i));
         }
     }
     if(symbolCount === SIZE) {
@@ -235,16 +243,12 @@ function checkCatsGame() {
     }
 }
 
-function resumeGame() {
-    checkWin(O);
-    checkCatsGame();
-
+function computerTurn() {
     if(!gameOver.status) {
         computerInput();
         checkWin(X);
         checkCatsGame();
     }
-
 }
 
 function drawWin(mark, boxesInARow) {
