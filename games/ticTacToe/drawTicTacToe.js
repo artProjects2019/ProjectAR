@@ -1,14 +1,18 @@
-let camera, scene, raycaster, renderer;
+let camera;
+let scene;
+let raycaster;
+let renderer;
 let mouse;
 let board;
 
 class ticTacToeBoard {
     boxes = [];
+
     constructor() {
         const SIZE = 5;
 
         for(let i = 0 ; i < 9 ; ++i){
-            const texture = new THREE.TextureLoader().load('textures/white.png' ); // Loading basic texture png
+            const texture = new THREE.TextureLoader().load('textures/white.png' ); // Loading a basic texture png
             const geometry = new THREE.PlaneGeometry(SIZE, SIZE);
             const material = new THREE.MeshBasicMaterial({
                 map: texture
@@ -19,7 +23,7 @@ class ticTacToeBoard {
         this.setBoxesPosition();
     }
 
-    addToScene(){
+    addToScene() {
         for(let i = 0 ; i < 9 ; ++i){
             scene.add(this.boxes[i]);
         }
@@ -56,7 +60,7 @@ function initScene() {
     document.body.appendChild(renderer.domElement);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
 
-    board.addToScene(scene);
+    board.addToScene();
 }
 
 function onDocumentMouseDown(event) {
@@ -68,6 +72,7 @@ function onDocumentMouseDown(event) {
 
     let intersects = raycaster.intersectObjects(scene.children);
 
+    // check which box has been clicked by the player and make a player's move
     for(let i = 0; i < board.boxes.length; i++) {
         if (intersects.length > 0 && intersects[0].object === board.boxes[i]) {
             playerTurn(i);
