@@ -1,3 +1,10 @@
+ import  {
+     updateTextureX,
+     updateTextureXWin,
+     updateTextureO,
+     updateTextureOWin
+ }  from './drawTicTacToe.js'
+
 const SIZE = 3;
 const X = 1;
 const O = 0;
@@ -291,3 +298,7 @@ function checkCatsGame() {
         gameOver.status = true;
     }
 }
+
+export {
+    playerTurn
+};
