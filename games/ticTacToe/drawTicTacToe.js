@@ -1,7 +1,6 @@
 import {ARButton} from '../../three/examples/jsm/webxr/ARButton.js';
 import {playerTurn} from './ticTacToe.js'
 
-const intersected = [];
 const tempMatrix = new THREE.Matrix4();
 
 let camera;
@@ -11,7 +10,6 @@ let board;
 let controller;
 let raycaster;
 let container;
-let group;
 
 class ticTacToeBoard {
     boxes = [];
@@ -34,12 +32,6 @@ class ticTacToeBoard {
     addToScene() {
         for(let i = 0 ; i < 9 ; ++i){
             scene.add(this.boxes[i]);
-        }
-    }
-
-    addBoxesToGroup(){
-        for(let i = 0 ; i < 9 ; ++i){
-            group.add(this.boxes[i]);
         }
     }
 
@@ -99,10 +91,7 @@ function init() {
     controller.addEventListener('select', onSelect);
     scene.add(controller);
 
-    group = new THREE.Group();
-    scene.add(group);
     board = new ticTacToeBoard();
-    board.addBoxesToGroup();
     board.addToScene();
 
     const geometry = new THREE.BufferGeometry().setFromPoints(
@@ -121,7 +110,7 @@ function init() {
     });
 }
 
-function onSelect( ) {
+function onSelect() {
     tempMatrix.identity().extractRotation(controller.matrixWorld);
     raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
@@ -143,7 +132,7 @@ function render() {
     renderer.render(scene, camera);
 }
 
-function start(){
+function start() {
     init();
     animate();
 }
