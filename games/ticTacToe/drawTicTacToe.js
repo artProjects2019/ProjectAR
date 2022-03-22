@@ -1,5 +1,6 @@
 import {ARButton} from '../../three/examples/jsm/webxr/ARButton.js';
 import {playerTurn} from './ticTacToe.js'
+import {playAudio} from '../audio/sound.js'
 
 const tempMatrix = new THREE.Matrix4();
 
@@ -35,7 +36,7 @@ class ticTacToeBoard {
         }
     }
 
-    setBoxesPosition(){
+    setBoxesPosition() {
         const POSITION = 0.08;
         this.boxes[0].position.set(POSITION, POSITION, -0.5);
         this.boxes[1].position.set(0, POSITION, -0.5);
@@ -131,6 +132,7 @@ function onSelect() {
     for(let i = 0; i < board.boxes.length; i++) {
         if (intersections.length > 0 && intersections[0].object === board.boxes[i]) {
             playerTurn(i);
+            playAudio("../audio/click.wav");
         }
     }
 }

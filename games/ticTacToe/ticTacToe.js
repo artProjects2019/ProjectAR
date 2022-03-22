@@ -1,9 +1,11 @@
- import  {
+import  {
      updateTextureX,
      updateTextureXWin,
      updateTextureO,
      updateTextureOWin
- }  from './drawTicTacToe.js'
+}  from './drawTicTacToe.js'
+
+import {playAudio} from '../audio/sound.js'
 
 const SIZE = 3;
 const X = 1;
@@ -18,12 +20,16 @@ let logicBoard =
 
 let gameOver = {status: false};
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function calculateBoxNumber(row, column) {
     return 3*row+column; // number of the box from 0 to 8
 }
 
 // if the game is still going then the player makes a move based on the clicked box
-function playerTurn(boxNumber) {
+async function playerTurn(boxNumber) {
     if(!gameOver.status) {
         let row = Math.floor(boxNumber / 3);
         let column = boxNumber % 3;
@@ -37,6 +43,7 @@ function playerTurn(boxNumber) {
             checkCatsGame();
 
             // computer makes a move only after player's turn
+            await sleep(200);
             computerTurn();
         }
     }
@@ -210,7 +217,7 @@ function columnWin(mark) {
             }
         }
         if(symbolCount === SIZE) {
-            drawWin(mark, boxesInARow);
+            resultOfTheGame(mark, boxesInARow);
             gameOver.status = true;
         }
     }
@@ -228,7 +235,7 @@ function rowWin(mark) {
             }
         }
         if(symbolCount === SIZE) {
-            drawWin(mark, boxesInARow);
+            resultOfTheGame(mark, boxesInARow);
             gameOver.status = true;
         }
     }
@@ -245,7 +252,7 @@ function diagonalWin(mark) {
         }
     }
     if(symbolCount === SIZE) {
-        drawWin(mark, boxesInARow);
+        resultOfTheGame(mark, boxesInARow);
         gameOver.status = true;
     }
 
@@ -259,7 +266,7 @@ function diagonalWin(mark) {
         }
     }
     if(symbolCount === SIZE) {
-        drawWin(mark, boxesInARow);
+        resultOfTheGame(mark, boxesInARow);
         gameOver.status = true;
     }
 }
@@ -272,13 +279,16 @@ function checkWin(mark) {
 }
 
 // changes the textures of the winning boxes
-function drawWin(mark, boxesInARow) {
+function resultOfTheGame(mark, boxesInARow) {
     for(let boxNumber of boxesInARow) {
         if (mark === O) {
             updateTextureOWin(boxNumber);
+            playAudio("../audio/win.wav");
         }
-        if (mark === X)
+        if (mark === X) {
             updateTextureXWin(boxNumber);
+            playAudio("../audio/lose.wav");
+        }
     }
 }
 
