@@ -217,7 +217,7 @@ function columnWin(mark) {
             }
         }
         if(symbolCount === SIZE) {
-            resultOfTheGame(mark, boxesInARow);
+            drawWin(mark, boxesInARow);
             gameOver.status = true;
         }
     }
@@ -235,7 +235,7 @@ function rowWin(mark) {
             }
         }
         if(symbolCount === SIZE) {
-            resultOfTheGame(mark, boxesInARow);
+            drawWin(mark, boxesInARow);
             gameOver.status = true;
         }
     }
@@ -252,7 +252,7 @@ function diagonalWin(mark) {
         }
     }
     if(symbolCount === SIZE) {
-        resultOfTheGame(mark, boxesInARow);
+        drawWin(mark, boxesInARow);
         gameOver.status = true;
     }
 
@@ -266,7 +266,7 @@ function diagonalWin(mark) {
         }
     }
     if(symbolCount === SIZE) {
-        resultOfTheGame(mark, boxesInARow);
+        drawWin(mark, boxesInARow);
         gameOver.status = true;
     }
 }
@@ -274,42 +274,52 @@ function diagonalWin(mark) {
 // checks the entire board looking for a win for a specific mark(X or O)
 function checkWin(mark) {
     columnWin(mark);
-    rowWin(mark);
-    diagonalWin(mark);
+    if(!gameOver.status) {
+        rowWin(mark);
+    }
+    if(!gameOver.status) {
+        diagonalWin(mark);
+    }
+    if(gameOver.status) {
+        if(mark === O) {
+            playAudio("../audio/win.wav");
+        }
+        if(mark === X) {
+            playAudio("../audio/lose.wav");
+        }
+    }
 }
 
 // changes the textures of the winning boxes
-function resultOfTheGame(mark, boxesInARow) {
+function drawWin(mark, boxesInARow) {
     for(let boxNumber of boxesInARow) {
-        if (mark === O) {
+        if(mark === O) {
             updateTextureOWin(boxNumber);
-            playAudio("../audio/win.wav");
         }
-        if (mark === X) {
+        if(mark === X) {
             updateTextureXWin(boxNumber);
-            playAudio("../audio/lose.wav");
         }
     }
 }
 
 // checks whether the game ended in a draw or is still going
 function checkCatsGame() {
-    let catsGame = true;
+    if(!gameOver.status) {
+        let catsGame = true;
 
-    for(let i = 0; i < SIZE; ++i) {
-        for(let j = 0; j < SIZE; ++j) {
-            if(logicBoard[i][j] === EMPTY) {
-                catsGame = false;
+        for(let i = 0; i < SIZE; ++i) {
+            for(let j = 0; j < SIZE; ++j) {
+                if(logicBoard[i][j] === EMPTY) {
+                    catsGame = false;
+                }
             }
         }
-    }
 
-    if(catsGame) {
-        gameOver.status = true;
-        playAudio("../audio/draw.wav");
+        if(catsGame) {
+            gameOver.status = true;
+            playAudio("../audio/draw.wav");
+        }
     }
 }
 
-export {
-    playerTurn
-};
+export {playerTurn};
