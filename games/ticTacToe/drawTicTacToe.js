@@ -19,7 +19,7 @@ class ticTacToeBoard {
 
         for(let i = 0 ; i < 9 ; ++i){
             const texture = new THREE.TextureLoader().load('textures/white.png' ); // Loading a basic texture png
-            const geometry = new THREE.PlaneBufferGeometry(BOX_SIZE, BOX_SIZE);
+            const geometry = new THREE.BoxBufferGeometry(BOX_SIZE, BOX_SIZE, BOX_SIZE * 0.25);
             const material = new THREE.MeshBasicMaterial({
                 map: texture
             });
@@ -49,20 +49,31 @@ class ticTacToeBoard {
     }
 }
 
+function createMaterial(texture) {
+    return [
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/white.png')}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/white.png')}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/white.png')}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/white.png')}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/' + texture + '.png')}),
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/' + texture + '.png')})
+    ];
+}
+
 function updateTextureX(boxNumber){
-    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/x.png');
+    board.boxes[boxNumber].material = createMaterial('x');
 }
 
 function updateTextureXWin(boxNumber){
-    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/xWin.png');
+    board.boxes[boxNumber].material = createMaterial('xWin');
 }
 
 function updateTextureO(boxNumber){
-    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/o.png');
+    board.boxes[boxNumber].material = createMaterial('o');
 }
 
 function updateTextureOWin(boxNumber){
-    board.boxes[boxNumber].material.map = new THREE.TextureLoader().load('textures/oWin.png');
+    board.boxes[boxNumber].material = createMaterial('oWin');
 }
 
 function init() {
