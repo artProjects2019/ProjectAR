@@ -306,6 +306,7 @@ function checkCatsGame() {
 
     if(catsGame) {
         gameOver.status = true;
+        playAudio("../audio/draw.wav");
     }
 }
 
