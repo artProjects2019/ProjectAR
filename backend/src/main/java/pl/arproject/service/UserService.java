@@ -61,7 +61,7 @@ public class UserService {
         userRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-
+    // to do
     private boolean areUsernameAndPasswordCorrect(Optional<User> userFromDb, User user) {
         if(userFromDb.isPresent()) {
             String passwordMdHash = DigestUtils.md5Hex(user.getPassword());
