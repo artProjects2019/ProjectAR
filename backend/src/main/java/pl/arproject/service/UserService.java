@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.apache.commons.codec.digest.DigestUtils;
+import pl.arproject.cryptography.AdvancedEncryptionStandard;
 import pl.arproject.entity.User;
 import pl.arproject.repository.UserRepository;
 
@@ -43,8 +43,8 @@ public class UserService {
                     .body("Given username or email is already taken");
         }
 
-        String passwordMdHash = DigestUtils.md5Hex(user.getPassword());
-        user.setPassword(passwordMdHash);
+        String encryptedPassword = AdvancedEncryptionStandard.encrypt(user.getPassword());
+        user.setPassword(encryptedPassword);
         userRepository.save(user);
 
         return ResponseEntity.ok().body("Successfully registered");
@@ -76,8 +76,8 @@ public class UserService {
 
     private boolean areEmailAndPasswordCorrect(Optional<User> userFromDb, User user) {
         if(userFromDb.isPresent()) {
-            String passwordMdHash = DigestUtils.md5Hex(user.getPassword());
-            return userFromDb.get().getPassword().equals(passwordMdHash);
+            String encryptedPassword = AdvancedEncryptionStandard.encrypt(user.getPassword());
+            return userFromDb.get().getPassword().equals(encryptedPassword);
         } else {
             return false;
         }
