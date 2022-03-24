@@ -1,4 +1,4 @@
-import {ARButton} from '../../three/examples/jsm/webxr/ARButton.js';
+import {ARButton} from '../three/examples/jsm/webxr/ARButton.js';
 import {playerTurn} from './ticTacToe.js'
 import {playAudio} from '../audio/sound.js'
 

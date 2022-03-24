@@ -6,7 +6,7 @@ body {
 .container{
     width: auto;
     padding: 10px;
-    height: 850px;
+    /*height: 850px;*/
     display: flex;
 
 
@@ -30,11 +30,18 @@ body {
     color: white;
 }
 
-#cos{
-    height: 85px;
+.soon{
+    background: #0c0c0c;
+    text-align: center;
+    padding: 200px;
+    font-size: 30px;
+    color: #394041;
+    font-weight: 800;
 }
 
 #top{
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     font-size: 60px;
@@ -55,28 +62,19 @@ body {
 }
 
 #company{
-    background: #0c0c0c;
     padding: 10px;
 
     display: flex;
     justify-content: space-between;
     text-align: center;
-
+    background: #4CAF50;
     /*height: 100px;*/
 }
 
-#companyL{
-    float: left;
-    width: 300px;
-    text-align: center;
-}
-
-#companyR{
-    float: left;
-}
 
 #companyPhoto{
-    width: 75%;
+    width: 15%;
+    padding: 21px;
 }
 
 .option{
@@ -102,19 +100,23 @@ body {
 
 .person{
     background: #0c0c0c;
+    width: 33%;
+    padding: 20px;
 }
 
 .person_img{
-    width: 50%;
-    border-radius: 75%;
+    width: 150px;
+    border-radius: 100%;
+    border: 3px solid white;
 }
 
 .personPhoto{
 }
 
-#owners{
+.bar{
     text-align: center;
-    background: #0c0c0c;
+    background: #4CAF50;
+    /*background: #0c0c0c;*/
     height: auto;
     padding: 5px;
 }
@@ -141,4 +143,8 @@ body {
     display: inline-block;
     font-size: 20px;
     border: 2px solid black;
+}
+
+.brake{
+    height: 100px;
 }
