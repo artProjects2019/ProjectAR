@@ -18,6 +18,7 @@ public class UserService {
 
     public ResponseEntity findAllUsers() {
         List<User> users = userRepository.findAll();
+
         return ResponseEntity.ok(users);
     }
 
@@ -25,44 +26,55 @@ public class UserService {
         Optional<User> userFromDb = userRepository.findByUsername(username);
 
         if(userFromDb.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("User " + username + " not found");
         }
         return ResponseEntity.ok(userFromDb);
     }
 
     public ResponseEntity registerUser(User user) {
-        Optional<User> userFromDb = userRepository.findByUsername(user.getUsername());
+        Optional<User> userFromDb = userRepository.
+                findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
         if(userFromDb.isPresent()) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body("Given username or email is already taken");
         }
 
         String passwordMdHash = DigestUtils.md5Hex(user.getPassword());
         user.setPassword(passwordMdHash);
         userRepository.save(user);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body("Successfully registered");
     }
 
     public ResponseEntity loginUser(User user) {
-        Optional<User> userFromDb = userRepository.findByUsername(user.getUsername());
+        Optional<User> userFromDb = userRepository.findByEmail(user.getEmail());
 
-        if(!areUsernameAndPasswordCorrect(userFromDb, user)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if(!areEmailAndPasswordCorrect(userFromDb, user)) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Given email or password is incorrect");
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Successfully logged in");
     }
 
     public ResponseEntity deleteUserById(Long id) {
         Optional<User> userFromDb = userRepository.findById(id);
 
         if(userFromDb.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("User with id: " + id + " not found");
         }
         userRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body("Successfully deleted");
     }
-    // to do
-    private boolean areUsernameAndPasswordCorrect(Optional<User> userFromDb, User user) {
+
+    private boolean areEmailAndPasswordCorrect(Optional<User> userFromDb, User user) {
         if(userFromDb.isPresent()) {
             String passwordMdHash = DigestUtils.md5Hex(user.getPassword());
             return userFromDb.get().getPassword().equals(passwordMdHash);
