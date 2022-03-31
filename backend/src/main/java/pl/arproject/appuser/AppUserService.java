@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.arproject.email.RegistrationEmailService;
 import pl.arproject.registration.token.ConfirmationToken;
 import pl.arproject.registration.token.ConfirmationTokenService;
 
@@ -23,6 +24,7 @@ public class AppUserService implements UserDetailsService {
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+    private final RegistrationEmailService registrationEmailService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws WebApplicationException {
@@ -75,8 +77,7 @@ public class AppUserService implements UserDetailsService {
         );
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-        // Send email with the confirmation link
+        registrationEmailService.sendEmail(appUser.getEmail(), appUser.getUsername(), token);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
