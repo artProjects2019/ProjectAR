@@ -1,0 +1,184 @@
+body {
+    background: #394041;
+    font-family: "Microsoft YaHei UI Light", serif;
+    width: auto;
+}
+
+.container{
+    width: auto;
+    /*padding: 10px;*/
+    /*height: 850px;*/
+    display: flex;
+
+
+}
+.container div {
+    margin: 10px;  //
+    /*width: 200px;*/
+    width: auto; //
+}
+
+#menu{
+    background: #1c1e1e;
+    min-height: 100px;
+    width: 150px;
+    color: white;
+}
+
+#main{
+    background: #1c1e1e;
+    min-height: 250px;
+    width: 100%;
+    color: white;
+}
+
+.soon{
+    background: #0c0c0c;
+    text-align: center;
+    padding: 200px;
+    font-size: 30px;
+    color: #394041;
+    font-weight: 800;
+}
+
+#top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    font-size: 60px;
+    letter-spacing: 3px;
+    font-weight: 900;
+}
+
+#topL{
+    float:left;
+}
+
+#topR{
+    float:right;
+    align-self: flex-end;
+    text-align: center;
+    margin-bottom: 10px;
+    transform: translateY(-25%);
+}
+
+#company{
+    padding: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    background: #4CAF50;
+    /*height: 100px;*/
+}
+
+
+#companyPhoto{
+    width: 190px;
+    height: 35px;
+    padding: 21px;
+}
+
+.option{
+    float: bottom;
+    font-size: 20px;
+    font-weight: 900;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    padding: 10px;
+    opacity: 0.8;
+    text-align: center;
+}
+.option:hover{
+    background: #2d2d2d;
+    cursor: pointer;
+}
+
+#people{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.person{
+    background: #0c0c0c;
+    width: 33%;
+    padding: 20px;
+}
+
+.person_img{
+    width: 150px;
+    border-radius: 100%;
+    border: 3px solid white;
+}
+
+.personPhoto{
+}
+
+.bar{
+    text-align: center;
+    background: #4CAF50;
+    /*background: #0c0c0c;*/
+    height: auto;
+    padding: 5px;
+}
+
+#login{
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border: 2px solid black;
+
+}
+
+#signin{
+    background-color: white; /* Green */
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border: 2px solid black;
+}
+
+.brake{
+    height: 100px;
+}
+
+.dropdown-toggle {
+    white-space: normal;
+    font-family: "Microsoft YaHei UI Light", serif;
+}
+
+.dropdown-item {
+    padding: 0.25rem;
+    width: 75%;
+}
+
+.btn-secondary {
+    background-color: #1c1e1e;
+}
+
+.btn {
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1.4rem
+}
+
+* {
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+*:before,
+*:after {
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
