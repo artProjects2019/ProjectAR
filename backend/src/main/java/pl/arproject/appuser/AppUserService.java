@@ -51,14 +51,11 @@ public class AppUserService implements UserDetailsService {
     }
 
     public ResponseEntity<?> signUpUser(AppUser appUser) {
-        boolean userFoundByEmail = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
-        boolean userFoundByUsername = appUserRepository.findByUsername(appUser.getUsername()).isPresent();
+        boolean userFound = appUserRepository
+                .findByEmailOrUsername(appUser.getEmail(), appUser.getUsername())
+                .isPresent();
 
-        if(userFoundByEmail || userFoundByUsername) {
-            // if there is an unconfirmed email and the username and password are the same
-            // then send an email with the confirmation link
-
-            // right now just inform that email is already taken
+        if(userFound) {
             return ResponseEntity
                     .status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body("email or username are already taken");
@@ -81,7 +78,7 @@ public class AppUserService implements UserDetailsService {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(token);
+                .body("verification link has been sent to your email");
     }
 
     public void enableUser(String email) {

@@ -70,6 +70,6 @@ public class RegistrationService {
         confirmationTokenService.updateConfirmedAt(token);
         appUserService.enableUser(confirmationToken.getAppUser().getEmail());
 
-        return ResponseEntity.ok().body("token confirmed");
+        return ResponseEntity.ok().body("verification completed");
     }
 }
