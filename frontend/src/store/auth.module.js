@@ -1,4 +1,5 @@
 import AuthService from '../services/auth.service';
+// import {re} from "@babel/core/lib/vendor/import-meta-resolve";
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
     ? { status: { loggedIn: true }, user }
@@ -31,7 +32,7 @@ export const auth = {
                 },
                 error => {
                     commit('registerFailure');
-                    return Promise.reject(error);
+                    return Promise.reject(error.response.data);
                 }
             );
         }
