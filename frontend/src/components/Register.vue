@@ -60,18 +60,18 @@ export default {
       username: yup
           .string()
           .required("Username is required!")
-          .min(3, "Must be at least 3 characters!")
-          .max(20, "Must be maximum 20 characters!"),
+          .min(4, "Must be at least 4 characters!")
+          .max(15, "Must be maximum 15 characters!"),
       email: yup
           .string()
           .required("Email is required!")
           .email("Email is invalid!")
-          .max(50, "Must be maximum 50 characters!"),
+          .max(64, "Must be maximum 64 characters!"),
       password: yup
           .string()
           .required("Password is required!")
-          .min(6, "Must be at least 6 characters!")
-          .max(40, "Must be maximum 40 characters!"),
+          .min(8, "Must be at least 8 characters!")
+          .max(20, "Must be maximum 20 characters!"),
     });
     return {
       successful: false,
@@ -80,6 +80,16 @@ export default {
       schema,
     };
   },
+  // computed: {
+  //   loggedIn() {
+  //     return this.$store.state.auth.status.loggedIn;
+  //   },
+  // },
+  // mounted() {
+  //   if (this.successful) {
+  //     this.$router.push('/');
+  //   }
+  // },
   methods: {
     handleRegister(user) {
       this.message = "";
