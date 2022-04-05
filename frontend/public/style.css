@@ -5,7 +5,7 @@ body {
 }
 
 .container{
-    width: auto;
+    width: 100%;
     display: flex;
 }
 
@@ -172,4 +172,10 @@ body {
     -webkit-box-sizing: content-box !important;
     -moz-box-sizing: content-box !important;
     box-sizing: content-box !important;
+}
+
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
 }
