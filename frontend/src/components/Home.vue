@@ -48,17 +48,29 @@
       <div class="brake"></div>
 
       <div class="bar">
-        <h1>O projekcie</h1>
+        O projekcie
       </div>
 
       <div class="soon">
-        Coming soon...
+        Projekt powstaje w ramach realizacji kursu Projekt zespołowy, organizowanym na Politechnice Wrocławskiej
+        dla studentów III roku, kierunku Automatyka i Robotyka. Projekt tworzony jest we współpracy z
+        wrocławskim odziałem firmy Iteratec.
+      </div>
+      <div class="soon">
+        Projekt jest platformą obsługującą gry w alternatywnej rzeczywistości. Aktualnie projekt znajduje się we
+        wczesnej fazie rozwoju, natomiast w przyszłości twórcy przewidują takie funkcjonalności jak:
+        <br>
+        - sesje gier (publiczna, prywatna) -<br>
+        - statystyki gier oraz graczy -<br>
+        - dodawanie znajomych -<br>
+        - czat z użytkownikami -<br>
+        - więcej gier -<br>
       </div>
 
       <div class="brake"></div>
 
       <div class="bar">
-        <h1>Twórcy projektu</h1>
+        Twórcy projektu
       </div>
       <div id= "people">
         <div class="person">
@@ -67,13 +79,14 @@
           </div>
 
           <h1>Marcin Salamandra</h1>
-          Mauris pretium est eget accumsan pretium. In tincidunt venenatis lorem, non lobortis lacus
-          condimentum nec. Vestibulum a ligula arcu. Sed in nunc sit amet risus lacinia accumsan iaculis
-          sed nisi. Nulla sagittis consectetur velit sed consequat. Nunc eleifend in leo in dictum.
-          Morbi imperdiet elementum auctor. Vivamus id lorem erat. Nullam molestie interdum ipsum id
-          consequat. Cras ac magna ipsum. Pellentesque nunc justo, fermentum id pellentesque nec, rutrum
-          at ipsum. Morbi elementum magna in orci lobortis, ut porta odio ornare. Cras elementum magna ac
-          turpis tristique ultricies.
+          <br>
+          <div class="personText">
+          Nie zadzieraj z tym okazem, bo nie ujdzie Ci to płazem.
+          Stwór, który jest pod ochroną, wpisany w czerwoną księgę gatunków zagrożonych. Jest obślizgły, a na jego
+          ciele możemy dostrzec pomarańczowe łaty (prawie takie jak u krowy, ale w przypadku krowy łaty są czarne).
+          Odradzane jest głaskanie tego zwierzaka, gdyż jego śluz jest mocno trujący, może spowodować zaczerwienienia i
+          czkawkę... Jeśli go spotkasz na leśnej polanie, uwiecznij tego stwora na swym ekranie.
+          </div>
         </div>
 
         <div class="person">
@@ -81,13 +94,14 @@
             <img class="person_img" src="../plugins/image/los.jpg" alt="Lukasz Pawlos">
           </div>
           <h1>Łukasz Pawłoś</h1>
-          Mauris pretium est eget accumsan pretium. In tincidunt venenatis lorem, non lobortis lacus
-          condimentum nec. Vestibulum a ligula arcu. Sed in nunc sit amet risus lacinia accumsan iaculis
-          sed nisi. Nulla sagittis consectetur velit sed consequat. Nunc eleifend in leo in dictum.
-          Morbi imperdiet elementum auctor. Vivamus id lorem erat. Nullam molestie interdum ipsum id
-          consequat. Cras ac magna ipsum. Pellentesque nunc justo, fermentum id pellentesque nec, rutrum
-          at ipsum. Morbi elementum magna in orci lobortis, ut porta odio ornare. Cras elementum magna ac
-          turpis tristique ultricies.
+          <br>
+          <div class="personText">
+          Z uśmiechem na twarzy przemierza lasy, nigdy nie zchodzi z wyznoczonej trasy. Zwany przez  wielu jako król
+          Bieszczadzkich Puszczy, zwierz, potężny i postawny, jest postrachem dla niedźwiedzi, wilków i strusi.
+          Legendy mówią, że jest nieśmiertelny i pamięta czasy Jezusa, grał w karty ze Świętym Piotrem, odwiedził
+          Atlantydę. W czasach Imperium Rzymskiego uważany był za osobę postawioną wyżej niż cesarz.
+          Swoją nieśmiertelność zawdzięcza nieskończonej pętli while w której żyje.
+          </div>
 
         </div>
 
@@ -96,15 +110,18 @@
             <img class="person_img" src="../plugins/image/remek.jpg" alt="Remigiusz Mielcarz">
           </div>
           <h1>Remigiusz Mielcarz</h1>
-          Mauris pretium est eget accumsan pretium. In tincidunt venenatis lorem, non lobortis lacus
-          condimentum nec. Vestibulum a ligula arcu. Sed in nunc sit amet risus lacinia accumsan iaculis
-          sed nisi. Nulla sagittis consectetur velit sed consequat. Nunc eleifend in leo in dictum.
-          Morbi imperdiet elementum auctor. Vivamus id lorem erat. Nullam molestie interdum ipsum id
-          consequat. Cras ac magna ipsum. Pellentesque nunc justo, fermentum id pellentesque nec, rutrum
-          at ipsum. Morbi elementum magna in orci lobortis, ut porta odio ornare. Cras elementum magna ac
-          turpis tristique ultricies.
+          <br>
+          <div class="personText">
+            To człowiek inteligentny, król znający wartość poezji, blyskotliwy generał, poliglota, koneser piękna
+            (nie tylko tego kobiecego - potrafi docenić sztukę, architekturę) i zręczny złodziej: cała jego
+            barbarzyńskość mieści się w niesamowitej woli życia, zwierzęcej czujności, żelaznej wytrzymałości,
+            zabobonności oraz pogardy dla cywilizacji i jej praw, sprzecznych z naturą człowieka.
+
+          </div>
         </div>
       </div>
+
+      <div class="brake"></div>
 
       <div class="bar">
         <a href="https://www.iteratec.com/pl/">
@@ -113,9 +130,6 @@
 
       </div>
 
-      <div class="soon">
-        Coming soon...
-      </div>
 
     </div>
   </div>

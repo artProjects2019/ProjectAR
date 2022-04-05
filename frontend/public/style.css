@@ -31,7 +31,7 @@ body {
 .soon{
     background: #0c0c0c;
     text-align: center;
-    padding: 200px;
+    padding: 50px;
     font-size: 30px;
     color: #394041;
     font-weight: 800;
@@ -96,17 +96,22 @@ body {
 
 .person{
     background: #0c0c0c;
-    width: 33%;
+    width: 33% !important;
     padding: 20px;
+    font-size: 20px;
+}
+.personText{
+    text-align: justify;
 }
 
 .person_img{
-    width: 150px;
+    width: 175px;
     border-radius: 100%;
     border: 3px solid white;
 }
 
 .personPhoto{
+    padding: 15px;
 }
 
 .bar{
@@ -114,6 +119,8 @@ body {
     background: #4CAF50;
     height: auto;
     padding: 5px;
+    font-weight: bold;
+    font-size: 45px;
 }
 
 #login{
