@@ -6,7 +6,7 @@
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           class="profile-img-card"
       />
-      <Form :validation-schema="schema">
+      <Form @submit="handleRegister" :validation-schema="schema">
         <div v-if="!successful">
           <div class="form-group">
             <label for="username">Username</label>
@@ -79,6 +79,30 @@ export default {
       message: "",
       schema,
     };
+  },
+  methods: {
+    handleRegister(user) {
+      this.message = "";
+      this.successful = false;
+      this.loading = true;
+      this.$store.dispatch("auth/register", user).then(
+          (data) => {
+            this.message = data.message;
+            this.successful = true;
+            this.loading = false;
+          },
+          (error) => {
+            this.message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            this.successful = false;
+            this.loading = false;
+          }
+      );
+    },
   },
 };
 </script>
