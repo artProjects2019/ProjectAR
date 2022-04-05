@@ -127,10 +127,7 @@
         <a href="https://www.iteratec.com/pl/">
           <img id="companyPhoto" src="../plugins/image/iteratec.png" alt="iteratec logo">
         </a>
-
       </div>
-
-
     </div>
   </div>
   </body>

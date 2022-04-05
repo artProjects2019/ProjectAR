@@ -1,6 +1,6 @@
 <template>
-  <div class="col-md-12"> <!-- podział strony na kolumny -->
-    <div class="card card-container"> <!-- na tej kolumnie -->
+  <div class="col-md-12">
+    <div class="card card-container">
       <img
           id="profile-img"
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -8,12 +8,12 @@
       />
       <Form @submit="handleLogin" :validation-schema="schema">
         <div class="form-group">
-          <label for="username">Username</label>
+          <label>Username</label>
           <Field name="username" type="text" class="form-control" />
           <ErrorMessage name="username" class="error-feedback" />
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label>Password</label>
           <Field name="password" type="password" class="form-control" />
           <ErrorMessage name="password" class="error-feedback" />
         </div>

@@ -1,5 +1,4 @@
 import AuthService from '../services/auth.service';
-// import {re} from "@babel/core/lib/vendor/import-meta-resolve";
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
     ? { status: { loggedIn: true }, user }
