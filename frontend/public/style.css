@@ -33,8 +33,7 @@ body {
     text-align: center;
     padding: 50px;
     font-size: 30px;
-    color: #394041;
-    font-weight: 800;
+    color: white;
 }
 
 #top{
@@ -101,7 +100,7 @@ body {
     font-size: 20px;
 }
 .personText{
-    text-align: justify;
+    text-align: center;
 }
 
 .person_img{
@@ -145,7 +144,7 @@ body {
 }
 
 .brake{
-    height: 100px;
+    height: 60px;
 }
 
 .dropdown-toggle {
@@ -183,6 +182,6 @@ body {
 
 .container, .container-lg, .container-md, .container-sm, .container-xl {
     max-width: 100%;
-    padding-right: 0px;
-    padding-left: 0px;
+    padding-right: 0;
+    padding-left: 0;
 }
