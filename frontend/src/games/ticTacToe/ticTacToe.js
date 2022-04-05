@@ -20,6 +20,15 @@ let logicBoard =
 
 let gameOver = {status: false};
 
+function restart(){
+    logicBoard =
+            [[EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY]];
+    gameOver.status = false;
+
+}
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -322,4 +331,4 @@ function checkCatsGame() {
     }
 }
 
-export {playerTurn};
+export {playerTurn, restart};

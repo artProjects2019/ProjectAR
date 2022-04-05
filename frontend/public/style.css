@@ -6,16 +6,12 @@ body {
 
 .container{
     width: auto;
-    /*padding: 10px;*/
-    /*height: 850px;*/
     display: flex;
-
-
 }
+
 .container div {
-    margin: 10px;  //
-    /*width: 200px;*/
-    width: auto; //
+    margin: 10px;
+    width: auto;
 }
 
 #menu{
@@ -65,14 +61,11 @@ body {
 
 #company{
     padding: 10px;
-
     display: flex;
     justify-content: space-between;
     text-align: center;
     background: #4CAF50;
-    /*height: 100px;*/
 }
-
 
 #companyPhoto{
     width: 190px;
@@ -119,7 +112,6 @@ body {
 .bar{
     text-align: center;
     background: #4CAF50;
-    /*background: #0c0c0c;*/
     height: auto;
     padding: 5px;
 }
@@ -133,11 +125,10 @@ body {
     display: inline-block;
     font-size: 20px;
     border: 2px solid black;
-
 }
 
 #signin{
-    background-color: white; /* Green */
+    background-color: white;
     padding: 10px 16px;
     text-align: center;
     text-decoration: none;
@@ -175,10 +166,10 @@ body {
     -moz-box-sizing: content-box !important;
     box-sizing: content-box !important;
 }
+
 *:before,
 *:after {
     -webkit-box-sizing: content-box !important;
     -moz-box-sizing: content-box !important;
     box-sizing: content-box !important;
 }
-

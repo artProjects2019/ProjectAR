@@ -1,5 +1,5 @@
 import {ARButton} from "three/examples/jsm/webxr/ARButton";
-import {playerTurn} from './ticTacToe.js'
+import {playerTurn, restart} from './ticTacToe.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
 
@@ -144,12 +144,8 @@ function render() {
     renderer.render(scene, camera);
 }
 
-function arButton() {
-    // document.body.removeChild(ARButton);
-    // ARButton.createButton(renderer, {});
-}
-
 function start() {
+    restart();
     init();
     animate();
 }
@@ -162,5 +158,4 @@ export {
     updateTextureO,
     updateTextureOWin,
     start,
-    arButton
 };
