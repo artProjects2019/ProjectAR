@@ -185,3 +185,13 @@ body {
     padding-right: 0;
     padding-left: 0;
 }
+
+#text {
+    color: white;
+    float: bottom;
+    font-size: 20px;
+    font-weight: 900;
+    padding: 10px;
+    opacity: 0.8;
+    text-align: center;
+}

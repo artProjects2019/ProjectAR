@@ -41,6 +41,14 @@
       >
         {{ message }}
       </div>
+
+<!--      <div-->
+<!--        v-if="message"-->
+<!--      >-->
+        <router-link to="./">
+          <font-awesome-icon icon="home" /> Home Page
+        </router-link>
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -82,11 +90,12 @@ export default {
   },
   // computed: {
   //   loggedIn() {
-  //     return this.$store.state.auth.status.loggedIn;
+  //     return this.$store.state.auth.status.loggedIn; // registered
   //   },
   // },
   // mounted() {
-  //   if (this.successful) {
+  //   if (this.successful) { // this.registered()
+  //                          // wait 3 sec
   //     this.$router.push('/');
   //   }
   // },

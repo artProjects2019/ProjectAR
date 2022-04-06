@@ -5,25 +5,70 @@
     <div id="menu">
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            GAMES
+            <div id="text">
+              GAMES
+            </div>
+
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div class="dropdown-item">
               <router-link
-                  style ="text-decoration: none;color: #1c1e1e;"
-                  to="./TicTacToe">
+                  style ="text-decoration: none; color: black;"
+                  to="./ticTacToe">
                 TicTacToe
               </router-link>
             </div>
           </div>
         </div>
 
-      <div class="option">ONLINE PLAYERS</div>
-      <div class="option">RANKING</div>
-      <div class="option">STATS</div>
-      <div class="option">MY ACCOUNT</div>
-      <div class="option">FRIENDS</div>
-      <div class="option">NEWS</div>
+      <div class="option">
+        <router-link
+            style ="text-decoration: none; color: white;"
+            to="./players">
+          ONLINE PLAYERS
+        </router-link>
+      </div>
+
+      <div class="option">
+        <router-link
+            style ="text-decoration: none; color: white;"
+            to="./ranking">
+          RANKING
+        </router-link>
+      </div>
+
+      <div class="option">
+        <router-link
+            style ="text-decoration: none; color: white;"
+            to="./stats">
+          STATS
+        </router-link>
+      </div>
+
+      <div class="option">
+        <router-link
+            style ="text-decoration: none; color: white;"
+            to="./account">
+          MY ACCOUNT
+        </router-link>
+      </div>
+
+      <div class="option">
+        <router-link
+            style ="text-decoration: none; color: white;"
+            to="./friends">
+          FRIENDS
+        </router-link>
+      </div>
+
+      <div class="option">
+        <router-link
+            style ="text-decoration: none; color: white;"
+            to="./news">
+          NEWS
+        </router-link>
+      </div>
+
     </div>
 
     <div id="main">
