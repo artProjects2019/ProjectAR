@@ -5,7 +5,6 @@ import Register from "./components/Register.vue";
 import TicTacToe from "./components/TicTacToe";
 import Account from "@/components/Account";
 import Friends from "@/components/Friends";
-import News from "@/components/News";
 import Players from "@/components/Players";
 import Stats from "@/components/Stats";
 import Ranking from "@/components/Ranking";
@@ -34,10 +33,6 @@ const routes = [
     {
         path: "/friends",
         component: Friends,
-    },
-    {
-        path: "/news",
-        component: News,
     },
     {
         path: "/players",

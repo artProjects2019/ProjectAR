@@ -6,7 +6,7 @@
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div id="text">
-              GAMES
+              GRY
             </div>
 
           </button>
@@ -25,7 +25,7 @@
         <router-link
             style ="text-decoration: none; color: white;"
             to="./players">
-          ONLINE PLAYERS
+          GRACZE ONLINE
         </router-link>
       </div>
 
@@ -41,7 +41,7 @@
         <router-link
             style ="text-decoration: none; color: white;"
             to="./stats">
-          STATS
+          STATYSTYKI
         </router-link>
       </div>
 
@@ -49,7 +49,7 @@
         <router-link
             style ="text-decoration: none; color: white;"
             to="./account">
-          MY ACCOUNT
+          KONTO
         </router-link>
       </div>
 
@@ -57,15 +57,7 @@
         <router-link
             style ="text-decoration: none; color: white;"
             to="./friends">
-          FRIENDS
-        </router-link>
-      </div>
-
-      <div class="option">
-        <router-link
-            style ="text-decoration: none; color: white;"
-            to="./news">
-          NEWS
+          ZNAJOMI
         </router-link>
       </div>
 
@@ -79,18 +71,16 @@
 
         <div id="topR">
           <button id="login" @click="$router.push('./login')">
-            <font-awesome-icon icon="sign-in-alt" /> Login
+            <font-awesome-icon icon="sign-in-alt" /> Logowanie
           </button>
 
           <button id="signin" @click="$router.push('./register')">
-            <font-awesome-icon icon="user-plus" /> Sign In
+            <font-awesome-icon icon="user-plus" /> Rejestracja
           </button>
 
         </div>
 
       </div>
-
-      <div class="brake"></div>
 
       <div class="bar">
         O projekcie
@@ -112,8 +102,6 @@
         - więcej gier -<br>
       </div>
 
-      <div class="brake"></div>
-
       <div class="bar">
         Twórcy projektu
       </div>
@@ -125,13 +113,6 @@
 
           <h1>Marcin Salamandra</h1>
           <br>
-          <div class="personText">
-          Nie zadzieraj z tym okazem, bo nie ujdzie Ci to płazem.
-          Stwór, który jest pod ochroną, wpisany w czerwoną księgę gatunków zagrożonych. Jest obślizgły, a na jego
-          ciele możemy dostrzec pomarańczowe łaty (prawie takie jak u krowy, ale w przypadku krowy łaty są czarne).
-          Odradzane jest głaskanie tego zwierzaka, gdyż jego śluz jest mocno trujący, może spowodować zaczerwienienia i
-          czkawkę... Jeśli go spotkasz na leśnej polanie, uwiecznij tego stwora na swym ekranie.
-          </div>
         </div>
 
         <div class="person">
@@ -140,13 +121,6 @@
           </div>
           <h1>Łukasz Pawłoś</h1>
           <br>
-          <div class="personText">
-          Z uśmiechem na twarzy przemierza lasy, nigdy nie zchodzi z wyznoczonej trasy. Zwany przez  wielu jako król
-          Bieszczadzkich Puszczy, zwierz, potężny i postawny, jest postrachem dla niedźwiedzi, wilków i strusi.
-          Legendy mówią, że jest nieśmiertelny i pamięta czasy Jezusa, grał w karty ze Świętym Piotrem, odwiedził
-          Atlantydę. W czasach Imperium Rzymskiego uważany był za osobę postawioną wyżej niż cesarz.
-          Swoją nieśmiertelność zawdzięcza nieskończonej pętli while w której żyje.
-          </div>
 
         </div>
 
@@ -156,17 +130,8 @@
           </div>
           <h1>Remigiusz Mielcarz</h1>
           <br>
-          <div class="personText">
-            To człowiek inteligentny, król znający wartość poezji, blyskotliwy generał, poliglota, koneser piękna
-            (nie tylko tego kobiecego - potrafi docenić sztukę, architekturę) i zręczny złodziej: cała jego
-            barbarzyńskość mieści się w niesamowitej woli życia, zwierzęcej czujności, żelaznej wytrzymałości,
-            zabobonności oraz pogardy dla cywilizacji i jej praw, sprzecznych z naturą człowieka.
-
-          </div>
         </div>
       </div>
-
-      <div class="brake"></div>
 
       <div class="bar">
         <a href="https://www.iteratec.com/pl/">
