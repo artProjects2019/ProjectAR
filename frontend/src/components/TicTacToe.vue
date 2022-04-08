@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div id="startGame">
+    START GRY <br>
+    TUTAJ<br>
+    |<br>|<br>|<br>|<br>|<br>V<br>
   </div>
 </template>
 
@@ -16,3 +19,14 @@ export default {
   }
 }
 </script>
+
+<style>
+
+#startGame{
+  padding: 50px;
+  font-size: 60px;
+  color: white;
+  text-align: center;
+}
+
+</style>

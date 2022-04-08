@@ -9,12 +9,12 @@
       />
       <Form @submit="handleLogin" :validation-schema="schema">
         <div class="form-group">
-          <label>Username</label>
+          <label>Nazwa użytkownika</label>
           <Field name="username" type="text" class="form-control" />
           <ErrorMessage name="username" class="error-feedback" />
         </div>
         <div class="form-group">
-          <label>Password</label>
+          <label>Hasło</label>
           <Field name="password" type="password" class="form-control" />
           <ErrorMessage name="password" class="error-feedback" />
         </div>
@@ -25,7 +25,7 @@
                 v-show="loading"
                 class="spinner-border spinner-border-sm"
             ></span>
-            <span>Login</span>
+            <span>Zaloguj</span>
           </button>
         </div>
 

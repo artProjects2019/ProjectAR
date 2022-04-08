@@ -2,71 +2,11 @@
   <link rel="stylesheet" href="style.css"/>
   <body>
   <div class="container">
-    <div id="menu">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div id="text">
-              GRY
-            </div>
-
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <div class="dropdown-item">
-              <router-link
-                  style ="text-decoration: none; color: black;"
-                  to="./ticTacToe">
-                TicTacToe
-              </router-link>
-            </div>
-          </div>
-        </div>
-
-      <div class="option">
-        <router-link
-            style ="text-decoration: none; color: white;"
-            to="./players">
-          GRACZE ONLINE
-        </router-link>
-      </div>
-
-      <div class="option">
-        <router-link
-            style ="text-decoration: none; color: white;"
-            to="./ranking">
-          RANKING
-        </router-link>
-      </div>
-
-      <div class="option">
-        <router-link
-            style ="text-decoration: none; color: white;"
-            to="./stats">
-          STATYSTYKI
-        </router-link>
-      </div>
-
-      <div class="option">
-        <router-link
-            style ="text-decoration: none; color: white;"
-            to="./account">
-          KONTO
-        </router-link>
-      </div>
-
-      <div class="option">
-        <router-link
-            style ="text-decoration: none; color: white;"
-            to="./friends">
-          ZNAJOMI
-        </router-link>
-      </div>
-
-    </div>
-
+    <Menu/>
     <div id="main">
       <div id="top">
         <div id="topL">
-          kVRnik
+          CHLEW
         </div>
 
         <div id="topR">
@@ -143,8 +83,11 @@
   </body>
 </template>
 <script>
+import Menu from "@/components/Menu";
 export default {
   name: "Home-vue",
+  components: {Menu},
+
   data() {
     return {
       content: "",

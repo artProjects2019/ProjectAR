@@ -125,3 +125,19 @@ export default {
   },
 };
 </script>
+
+<style>
+
+:root{
+  --primary: #4CAF50 !important;
+}
+.btn-primary {
+  background-color: #4CAF50 !important;
+  border-color: #4CAF50 !important;
+}
+
+.btn-primary:hover {
+  background-color: #106900 !important;
+  border-color: #106900 !important;
+}
+</style>

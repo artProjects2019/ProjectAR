@@ -7,6 +7,7 @@ body {
 .container{
     width: 100%;
     display: flex;
+    min-height: 1000px;
 }
 
 .container div {
@@ -196,15 +197,17 @@ body {
     opacity: 0.8;
     text-align: center;
 }
-
+:root{
+    --primary: #4CAF50 !important;
+}
 .btn-primary {
-    background-color: #4CAF50;
-    border-color: #4CAF50;
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
 }
 
 .btn-primary:hover {
-    background-color: #106900;
-    border-color: #106900;
+    background-color: #106900 !important;
+    border-color: #106900 !important;
 }
 
 a:hover {

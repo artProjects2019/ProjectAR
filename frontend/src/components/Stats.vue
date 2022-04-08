@@ -1,13 +1,24 @@
 <template>
-  <div></div>
+  <link rel="stylesheet" href="style.css"/>
+  <body>
+  <div class="container">
+    <Menu/>
+
+    <div id="main">
+      <div class="bar">
+        Staystyki
+      </div>
+
+    </div>
+
+  </div>
+  </body>
 </template>
 
 <script>
+import Menu from "@/components/Menu";
 export default {
-  name: "Stats-vue"
+  name: "Stats-vue",
+  components: {Menu}
 }
 </script>
-
-<style scoped>
-
-</style>
