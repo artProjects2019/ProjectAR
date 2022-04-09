@@ -1,5 +1,6 @@
 package pl.arproject;
 
+import lombok.NonNull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +18,9 @@ public class Application {
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				// Vue app is running on 8081
+			public void addCorsMappings(@NonNull CorsRegistry registry) {
 				registry.addMapping("/registration").allowedOrigins("http://localhost:8081");
+				registry.addMapping("/authentication").allowedOrigins("http://localhost:8081");
 			}
 		};
 	}

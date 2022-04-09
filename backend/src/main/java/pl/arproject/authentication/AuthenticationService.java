@@ -27,7 +27,7 @@ public class AuthenticationService {
         }
         catch (BadCredentialsException e) {
             return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+                    .status(HttpStatus.NOT_FOUND)
                     .body("username or password are invalid");
         }
 
