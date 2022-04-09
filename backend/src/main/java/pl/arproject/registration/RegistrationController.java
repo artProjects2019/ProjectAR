@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(path = "/registration")
+@RequestMapping("/registration")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
 
     @PostMapping
-    public ResponseEntity<?> signUpUser(@RequestBody RegistrationRequest request) {
-        return registrationService.signUpUser(request);
+    public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest request) {
+        return registrationService.registerUser(request);
     }
 
-    @GetMapping(path = "confirm")
+    @GetMapping(path = "/confirm")
     public ResponseEntity<?> confirmToken(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }

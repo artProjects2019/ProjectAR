@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(path = "users")
+@RequestMapping(path = "/users")
 public class AppUserController {
 
     private final AppUserService appUserService;
