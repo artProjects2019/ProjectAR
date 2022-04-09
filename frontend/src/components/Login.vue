@@ -60,5 +60,33 @@ export default {
       schema,
     };
   },
+  methods: {
+    handleLogin(user) {
+      this.message = "";
+      this.successful = false;
+      this.loading = true;
+      this.$store.dispatch("auth/login", user).then(
+          (data) => {
+            this.message = (data.response &&
+                    data.response.data &&
+                    data.response.data.message) ||
+                data.message ||
+                data.toString();
+            this.successful = true;
+            this.loading = false;
+          },
+          (error) => {
+            this.message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            this.successful = false;
+            this.loading = false;
+          }
+      );
+    },
+  },
 };
 </script>
