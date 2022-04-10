@@ -40,7 +40,7 @@
           class="alert"
           :class="successful ? 'alert-success' : 'alert-danger'"
       >
-        {{ message }}
+        <pre>{{ message }}</pre>
       </div>
         <router-link to="./">
           <font-awesome-icon icon="home" /> Powrót
