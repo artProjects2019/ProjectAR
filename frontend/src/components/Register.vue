@@ -40,7 +40,7 @@
           class="alert"
           :class="successful ? 'alert-success' : 'alert-danger'"
       >
-        <pre>{{ message }}</pre>
+        {{ message }}
       </div>
         <router-link to="./">
           <font-awesome-icon icon="home" /> Powrót
@@ -140,4 +140,9 @@ export default {
   background-color: #106900 !important;
   border-color: #106900 !important;
 }
+
+.alert {
+  white-space: pre-wrap;
+}
+
 </style>
