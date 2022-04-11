@@ -169,10 +169,18 @@ body {
     line-height: 1.4rem
 }
 
+.btn-block {
+    width: 95%;
+}
+
 * {
     -webkit-box-sizing: content-box !important;
     -moz-box-sizing: content-box !important;
     box-sizing: content-box !important;
+}
+
+.form-control {
+    width: 95%;
 }
 
 *:before,
@@ -228,7 +236,7 @@ label {
 }
 .card-container.card {
     max-width: 350px !important;
-    padding: 40px 40px;
+    padding: 70px;
 }
 .card {
     background-color: #f7f7f7;

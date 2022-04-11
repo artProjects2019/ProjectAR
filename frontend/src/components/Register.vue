@@ -1,5 +1,4 @@
 <template>
-  <link rel="stylesheet" href="style.css"/>
   <div class="col-md-12">
     <div class="card card-container">
       <img
@@ -10,12 +9,12 @@
       <Form @submit="handleRegister" :validation-schema="schema">
         <div v-if="!successful">
           <div class="form-group">
-            <label>User name</label>
+            <label>Username</label>
             <Field name="username" type="text" class="form-control" />
             <ErrorMessage name="username" class="error-feedback" />
           </div>
           <div class="form-group">
-            <label>E-mail adress</label>
+            <label>E-mail</label>
             <Field name="email" type="email" class="form-control" />
             <ErrorMessage name="email" class="error-feedback" />
           </div>
@@ -77,6 +76,7 @@ export default {
           .required("Password is required!")
           .min(8, "Must be at least 8 characters!")
           .max(20, "Must be maximum 20 characters!"),
+          // .test(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, "Must contain a special character!"),
     });
     return {
       successful: false,

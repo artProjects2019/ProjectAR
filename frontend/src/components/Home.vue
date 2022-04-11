@@ -1,5 +1,4 @@
 <template>
-  <link rel="stylesheet" href="style.css"/>
   <body>
   <div class="container">
     <Menu/>
@@ -28,11 +27,11 @@
 
       <div class="soon">
         The project is a part of the Team Project course organized at the Wrocław University of Technology
-        for third-year students of Control Engineering and Robotics. The project is created in cooperation with
+        for third-year students of Control Engineering and Robotics. The project is being created in cooperation with
         Wrocław branch of iteratec.
       </div>
       <div class="soon">
-        The project is an alternative reality gaming platform.
+        The project is an augmented reality gaming platform.
         Currently, the project is at an early stage of development,
         while in the future, the developers envisage such functionalities as:
         <br>
@@ -44,7 +43,7 @@
       </div>
 
       <div class="bar">
-        Project creators
+        Authors
       </div>
       <div id= "people">
         <div class="person">

@@ -1,5 +1,4 @@
 <template>
-  <link rel="stylesheet" href="style.css"/>
   <div class="col-md-12">
     <div class="card card-container">
       <img
@@ -9,7 +8,7 @@
       />
       <Form @submit="handleLogin" :validation-schema="schema">
         <div class="form-group">
-          <label>User name</label>
+          <label>Username</label>
           <Field name="username" type="text" class="form-control" />
           <ErrorMessage name="username" class="error-feedback" />
         </div>
@@ -28,13 +27,16 @@
             <span>Log in</span>
           </button>
         </div>
-
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-        </div>
       </Form>
+
+      <div v-if="message && !successful" class="alert" :class="'alert-danger'">
+        {{ message }}
+      </div>
+
+      <router-link to="./">
+        <font-awesome-icon icon="home" /> Back
+      </router-link>
+
     </div>
   </div>
 </template>
@@ -56,10 +58,21 @@ export default {
       password: yup.string().required("Password is required!"),
     });
     return {
+      successful: false,
       loading: false,
       message: "",
       schema,
     };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+  mounted() {
+    if (this.successful) {
+      this.$router.push('/account');
+    }
   },
   methods: {
     handleLogin(user) {
@@ -91,3 +104,11 @@ export default {
   },
 };
 </script>
+
+<style>
+
+.alert.alert-danger {
+  width: 95%;
+}
+
+</style>
