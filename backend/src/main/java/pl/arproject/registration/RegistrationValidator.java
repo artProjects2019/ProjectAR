@@ -44,6 +44,6 @@ public class RegistrationValidator {
             errorMessage.append("password is not valid");
         }
 
-        return  errorMessage.toString();
+        return errorMessage.toString();
     }
 }

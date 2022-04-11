@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(path = "/authentication")
+@RequestMapping(path = "/authenticate")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;

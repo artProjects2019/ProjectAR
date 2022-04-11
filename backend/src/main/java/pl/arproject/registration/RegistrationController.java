@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/registration")
+@RequestMapping("/register")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
