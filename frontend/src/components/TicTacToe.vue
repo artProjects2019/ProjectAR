@@ -1,7 +1,7 @@
 <template>
   <div id="startGame">
-    START GRY <br>
-    TUTAJ<br>
+    START GAME <br>
+    THERE<br>
     |<br>|<br>|<br>|<br>|<br>V<br>
   </div>
 </template>

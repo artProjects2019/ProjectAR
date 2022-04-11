@@ -6,7 +6,7 @@
 
     <div id="main">
       <div class="bar">
-        Staystyki
+        Statistics
       </div>
 
     </div>
@@ -18,7 +18,8 @@
 <script>
 import Menu from "@/components/Menu";
 export default {
-  name: "Stats-vue",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Statistics",
   components: {Menu}
 }
 </script>

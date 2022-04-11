@@ -3,7 +3,7 @@
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <div id="text">
-          GRY
+          GAMES
         </div>
 
       </button>
@@ -30,7 +30,7 @@
       <router-link
           style ="text-decoration: none; color: white;"
           to="./users">
-        GRACZE ONLINE
+        PLAYERS ONLINE
       </router-link>
     </div>
 
@@ -46,7 +46,7 @@
       <router-link
           style ="text-decoration: none; color: white;"
           to="./stats">
-        STATYSTYKI
+        STATISTICS
       </router-link>
     </div>
 
@@ -54,7 +54,7 @@
       <router-link
           style ="text-decoration: none; color: white;"
           to="./account">
-        KONTO
+        ACCOUNT
       </router-link>
     </div>
 
@@ -62,7 +62,7 @@
       <router-link
           style ="text-decoration: none; color: white;"
           to="./friends">
-        ZNAJOMI
+        FRIENDS
       </router-link>
     </div>
   </div>

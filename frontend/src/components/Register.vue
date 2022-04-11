@@ -10,17 +10,17 @@
       <Form @submit="handleRegister" :validation-schema="schema">
         <div v-if="!successful">
           <div class="form-group">
-            <label>Nazwa użytkownika</label>
+            <label>User name</label>
             <Field name="username" type="text" class="form-control" />
             <ErrorMessage name="username" class="error-feedback" />
           </div>
           <div class="form-group">
-            <label>Adres email</label>
+            <label>E-mail adress</label>
             <Field name="email" type="email" class="form-control" />
             <ErrorMessage name="email" class="error-feedback" />
           </div>
           <div class="form-group">
-            <label>Hasło</label>
+            <label>Password</label>
             <Field name="password" type="password" class="form-control" />
             <ErrorMessage name="password" class="error-feedback" />
           </div>
@@ -30,7 +30,7 @@
                   v-show="loading"
                   class="spinner-border spinner-border-sm"
               ></span>
-              Zarejestruj
+              Sign up
             </button>
           </div>
         </div>
@@ -43,7 +43,7 @@
         {{ message }}
       </div>
         <router-link to="./">
-          <font-awesome-icon icon="home" /> Powrót
+          <font-awesome-icon icon="home" /> Back
         </router-link>
     </div>
   </div>
@@ -53,7 +53,8 @@ import {Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 
 export default {
-  name: "Register-vue",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Register",
   components: {
     Form,
     Field,

@@ -9,12 +9,12 @@
       />
       <Form @submit="handleLogin" :validation-schema="schema">
         <div class="form-group">
-          <label>Nazwa użytkownika</label>
+          <label>User name</label>
           <Field name="username" type="text" class="form-control" />
           <ErrorMessage name="username" class="error-feedback" />
         </div>
         <div class="form-group">
-          <label>Hasło</label>
+          <label>Password</label>
           <Field name="password" type="password" class="form-control" />
           <ErrorMessage name="password" class="error-feedback" />
         </div>
@@ -25,7 +25,7 @@
                 v-show="loading"
                 class="spinner-border spinner-border-sm"
             ></span>
-            <span>Zaloguj</span>
+            <span>Log in</span>
           </button>
         </div>
 
@@ -43,7 +43,8 @@
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-  name: "Login-vue",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Login",
   components: {
     Form,
     Field,

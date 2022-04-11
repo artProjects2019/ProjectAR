@@ -4,7 +4,7 @@
       <div>
         <font-awesome-icon icon="fa-thin fa-trophy" />
         <h2>
-          <font-awesome-icon icon="ranking-star" /> RANKING GRACZY TOP 5
+          <font-awesome-icon icon="ranking-star" /> TOP 5 PLAYER RANKING
         </h2>
       </div>
 
@@ -74,7 +74,8 @@
 <script>
 
 export default {
-name: "Ranking-vue"
+// eslint-disable-next-line vue/multi-word-component-names
+name: "Ranking"
 }
 </script>
 

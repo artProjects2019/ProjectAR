@@ -6,16 +6,16 @@
     <div id="main">
       <div id="top">
         <div id="topL">
-          CHLEW
+          kVRnik
         </div>
 
         <div id="topR">
           <button id="login" @click="$router.push('./login')">
-            <font-awesome-icon icon="sign-in-alt" /> Logowanie
+            <font-awesome-icon icon="sign-in-alt" /> Log in
           </button>
 
           <button id="signin" @click="$router.push('./register')">
-            <font-awesome-icon icon="user-plus" /> Rejestracja
+            <font-awesome-icon icon="user-plus" /> Sign up
           </button>
 
         </div>
@@ -23,27 +23,28 @@
       </div>
 
       <div class="bar">
-        O projekcie
+        About project
       </div>
 
       <div class="soon">
-        Projekt powstaje w ramach realizacji kursu Projekt zespołowy, organizowanym na Politechnice Wrocławskiej
-        dla studentów III roku, kierunku Automatyka i Robotyka. Projekt tworzony jest we współpracy z
-        wrocławskim odziałem firmy Iteratec.
+        The project is a part of the Team Project course organized at the Wrocław University of Technology
+        for third-year students of Control Engineering and Robotics. The project is created in cooperation with
+        Wrocław branch of iteratec.
       </div>
       <div class="soon">
-        Projekt jest platformą obsługującą gry w alternatywnej rzeczywistości. Aktualnie projekt znajduje się we
-        wczesnej fazie rozwoju, natomiast w przyszłości twórcy przewidują takie funkcjonalności jak:
+        The project is an alternative reality gaming platform.
+        Currently, the project is at an early stage of development,
+        while in the future, the developers envisage such functionalities as:
         <br>
-        - sesje gier (publiczna, prywatna) -<br>
-        - statystyki gier oraz graczy -<br>
-        - dodawanie znajomych -<br>
-        - czat z użytkownikami -<br>
-        - więcej gier -<br>
+        - game sessions (public, private) -<br>
+        - statistics of games and players -<br>
+        - adding friends -<br>
+        - chat with users -<br>
+        - more games -<br>
       </div>
 
       <div class="bar">
-        Twórcy projektu
+        Project creators
       </div>
       <div id= "people">
         <div class="person">
@@ -85,7 +86,8 @@
 <script>
 import Menu from "@/components/Menu";
 export default {
-  name: "Home-vue",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Home",
   components: {Menu},
 
   data() {

@@ -6,7 +6,7 @@
 
     <div id="main">
       <div class="bar">
-        Znajomi
+        Friends
       </div>
     </div>
 
@@ -17,7 +17,8 @@
 <script>
 import Menu from "@/components/Menu";
 export default {
-  name: "Friends-vue",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Friends",
   components: {Menu}
 }
 </script>

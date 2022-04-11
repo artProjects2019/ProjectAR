@@ -6,12 +6,12 @@
 
     <div id="main">
       <div class="bar">
-        Gracze Online
+        Players online
       </div>
 
       <div class="player">
         <img class="person_img" src="../plugins/image/person-icon.png" alt="Marcin Salamandra">
-        Przykładowy gracz
+        Sample player
       </div>
 
     </div>
