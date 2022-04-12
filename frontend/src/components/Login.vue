@@ -87,7 +87,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            this.$router.push("/account");
+            this.$router.push("/");
           },
           (error) => {
             this.message =

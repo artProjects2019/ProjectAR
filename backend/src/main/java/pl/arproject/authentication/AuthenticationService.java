@@ -25,6 +25,6 @@ public class AuthenticationService {
         UserDetails userDetails = appUserService.loadUserByUsername(request.getUsername());
         String jwt = jwtUtil.generateJwt(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, request.getUsername()));
     }
 }

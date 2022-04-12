@@ -11,4 +11,5 @@ import lombok.ToString;
 @ToString
 public class AuthenticationResponse {
     private final String jwt;
+    private final String username;
 }

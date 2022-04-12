@@ -7,10 +7,10 @@ class AuthService {
                 password: user.password
             })
             .then(response => {
-                if (response.data.jwt) {
-                    localStorage.setItem('user', JSON.stringify(response.data.jwt));
+                if (response.data) {
+                    localStorage.setItem('user', JSON.stringify(response.data));
                 }
-                return response.data.jwt;
+                return response.data;
             });
     }
     logout() {
