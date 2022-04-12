@@ -77,7 +77,7 @@ export default {
                 data.message ||
                 data.toString();
             this.successful = true;
-            this.loading = false;
+            this.loading = true;
             this.$router.push("/account");
           },
           (error) => {
