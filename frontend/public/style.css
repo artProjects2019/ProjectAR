@@ -235,6 +235,7 @@ a:hover {
 
 a {
     color: #35c71c;
+    width: 60px;
 }
 
 *:before {
@@ -253,6 +254,21 @@ label {
 .col-md-12 {
     padding-right: 0px;
     padding-left: 0px;
+}
+
+#link_container {
+
+}
+
+#link1
+{
+    display:inline;
+    float: left;
+}
+
+#link2 {
+    display: inline;
+    float: right;
 }
 
 .card {

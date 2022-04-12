@@ -9,7 +9,7 @@
       </div>
 
       <div v-if="logged">
-        <strong> Hello, {{ logged }} </strong>
+        <strong> Hello, {{ logged.username }} </strong>
       </div>
     </div>
 

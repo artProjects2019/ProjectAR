@@ -41,9 +41,19 @@
       >
         {{ message }}
       </div>
-        <router-link to="./">
-          <font-awesome-icon icon="home" /> Back
-        </router-link>
+      <div id="link_container">
+        <div id="link1">
+          <router-link to="./login">
+            <font-awesome-icon icon="sign-in-alt" /> Log in
+          </router-link>
+        </div>
+
+        <div id="link2">
+          <router-link to="./">
+            <font-awesome-icon icon="home" /> Back
+          </router-link>
+        </div>
+      </div>
     </div>
   </div>
 </template>
