@@ -8,6 +8,7 @@ import Friends from "@/components/Friends";
 import Users from "@/components/Users";
 import Stats from "@/components/Stats";
 import Ranking from "@/components/Ranking";
+import Register_confirm from "@/components/Register_confirm";
 
 const routes = [
     {
@@ -21,6 +22,10 @@ const routes = [
     {
         path: "/register",
         component: Register,
+    },
+    {
+        path: "/register/confirm/*",
+        component: Register_confirm,
     },
     {
         path: "/ticTacToe",

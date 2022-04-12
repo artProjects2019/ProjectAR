@@ -35,6 +35,11 @@ export const auth = {
                 }
             );
         }
+        // registerConfirmed({ commit }) {
+        //     return AuthService.registerConfirmed().then(
+        //
+        //     )
+        // }
     },
     mutations: {
         loginSuccess(state, user) {
