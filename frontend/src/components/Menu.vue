@@ -53,14 +53,6 @@
     <div class="option">
       <router-link
           style ="text-decoration: none; color: white;"
-          to="./account">
-        ACCOUNT
-      </router-link>
-    </div>
-
-    <div class="option">
-      <router-link
-          style ="text-decoration: none; color: white;"
           to="./friends">
         FRIENDS
       </router-link>

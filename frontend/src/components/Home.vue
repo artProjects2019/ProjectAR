@@ -13,16 +13,21 @@
             <font-awesome-icon icon="sign-in-alt" /> Log in
           </button>
 
-          <button id="signin" @click="$router.push('./register')">
+          <button id="signup" @click="$router.push('./register')">
             <font-awesome-icon icon="user-plus" /> Sign up
           </button>
 
         </div>
 
         <div v-if="logged" id="topR">
+          <button id="user" @click="$router.push('./account')">
+            <font-awesome-icon icon="user" /> {{logged.username}}
+          </button>
+
           <button id="logout" @click.prevent="logOut">
             <font-awesome-icon icon="sign-out-alt" /> Log out
           </button>
+
         </div>
       </div>
 
