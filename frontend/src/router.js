@@ -22,10 +22,18 @@ const routes = [
     {
         path: "/register",
         component: Register,
-    },
-    {
-        path: "/register/confirm/*",
-        component: Register_confirm,
+        children: [
+            {
+                path: '/register/confirm',
+                component: Register_confirm,
+                children: [
+                    {
+                        path: '/register/confirm/**',
+                        component: Register_confirm
+                    }
+                ]
+            },
+        ]
     },
     {
         path: "/ticTacToe",
