@@ -76,7 +76,6 @@ export default {
           .required("Password is required!")
           .min(8, "Must be at least 8 characters!")
           .max(20, "Must be maximum 20 characters!"),
-          // .test(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, "Must contain a special character!"),
     });
     return {
       successful: false,
@@ -85,17 +84,6 @@ export default {
       schema,
     };
   },
-  // computed: {
-  //   loggedIn() {
-  //     return this.$store.state.auth.status.loggedIn; // registered
-  //   },
-  // },
-  // mounted() {
-  //   if (this.successful) { // this.registered()
-  //                          // wait 3 sec
-  //     this.$router.push('/');
-  //   }
-  // },
   methods: {
     handleRegister(user) {
       this.message = "";

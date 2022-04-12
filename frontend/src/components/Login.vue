@@ -64,16 +64,6 @@ export default {
       schema,
     };
   },
-  computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
-  },
-  mounted() {
-    if (this.successful) {
-      this.$router.push('/account');
-    }
-  },
   methods: {
     handleLogin(user) {
       this.message = "";
@@ -88,6 +78,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = false;
+            this.$router.push("/account");
           },
           (error) => {
             this.message =
@@ -104,11 +95,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-.alert.alert-danger {
-  width: 95%;
-}
-
-</style>

@@ -134,6 +134,17 @@ body {
     border: 2px solid black;
 }
 
+#logout{
+    background-color: #983a3a; /* Red */
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border: 2px solid black;
+}
+
 #signin{
     background-color: white;
     padding: 10px 16px;

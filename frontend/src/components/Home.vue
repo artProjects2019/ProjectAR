@@ -8,7 +8,7 @@
           kVRnik
         </div>
 
-        <div id="topR">
+        <div v-if="!logged" id="topR">
           <button id="login" @click="$router.push('./login')">
             <font-awesome-icon icon="sign-in-alt" /> Log in
           </button>
@@ -19,6 +19,11 @@
 
         </div>
 
+        <div v-if="logged" id="topR">
+          <button id="logout" @click.prevent="logOut">
+            <font-awesome-icon icon="sign-out-alt" /> Log out
+          </button>
+        </div>
       </div>
 
       <div class="bar">
@@ -61,7 +66,6 @@
           </div>
           <h1>Łukasz Pawłoś</h1>
           <br>
-
         </div>
 
         <div class="person">
@@ -88,11 +92,16 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   components: {Menu},
-
-  data() {
-    return {
-      content: "",
-    };
+  computed: {
+    logged() {
+      return this.$store.state.auth.user;
+    },
   },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    }
+  }
 };
 </script>
