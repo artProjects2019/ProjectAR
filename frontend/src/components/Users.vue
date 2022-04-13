@@ -8,9 +8,9 @@
         Players online
       </div>
 
-      <div class="player">
-        <img class="person_img" src="../plugins/image/person-icon.png" alt="Marcin Salamandra">
-        Sample player
+      <div class="player" v-for="(user) in users " :key="user">
+        <img class="person_img" src="../plugins/image/person-icon.png" alt="User img">
+        <h1>{{user.username}}</h1>
       </div>
 
     </div>
@@ -20,10 +20,25 @@
 
 <script>
 import Menu from "@/components/Menu";
+import axios from "axios";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Users",
-  components: {Menu},
+  data() {
+    return {users: []}
+  },
+  components: { Menu},
+
+  mounted() {
+    this.fetchUsers();
+  },
+  methods: {
+    fetchUsers(){
+      axios.get("/users").then(function (response){
+        this.users = response.data
+      }.bind(this))
+    }
+  }
 }
 </script>
 
