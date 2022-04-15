@@ -79,7 +79,7 @@ public class RegistrationService {
         Optional<ConfirmationToken> tokenFromDb = confirmationTokenService.getToken(token);
 
         // if token does not exist
-        if(tokenFromDb.isEmpty()) {
+        if(!tokenFromDb.isPresent()) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("token not found");

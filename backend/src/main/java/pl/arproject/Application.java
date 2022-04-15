@@ -20,7 +20,7 @@ public class Application {
 			@Override
 			public void addCorsMappings(@NonNull CorsRegistry registry) {
 				registry.addMapping("/register").allowedOrigins("http://localhost:8081");
-				registry.addMapping("/authenticate").allowedOrigins("http://localhost:8081");
+				registry.addMapping("/login").allowedOrigins("http://localhost:8081");
 			}
 		};
 	}

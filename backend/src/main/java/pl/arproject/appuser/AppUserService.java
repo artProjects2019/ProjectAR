@@ -29,7 +29,7 @@ public class AppUserService implements UserDetailsService {
     public ResponseEntity<?> findUserByUsername(String username) {
         Optional<AppUser> userFromDb = appUserRepository.findByUsername(username);
 
-        if(userFromDb.isEmpty()) {
+        if(!userFromDb.isPresent()) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("user " + username + " not found");
