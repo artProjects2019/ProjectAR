@@ -13,7 +13,7 @@ public class RegistrationEmailService {
         String message =
                 "Hi " + username + "!\n" +
                 "\nThank you for registering. Please click on the below link to activate your account:\n" +
-                "http://localhost:8080/register/confirm/?token=" + token +
+                "https://ar-project2019.herokuapp.com/register/confirm/?token=" + token +
                 "\n\nThis email is generated automatically, please do not reply.";
 
         String subject = "Confirm your email";
