@@ -1,7 +1,6 @@
 package pl.arproject.registration;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,12 +9,16 @@ import pl.arproject.appuser.AppUser;
 import pl.arproject.appuser.AppUserRepository;
 import pl.arproject.appuser.AppUserRole;
 import pl.arproject.email.RegistrationEmailService;
+import pl.arproject.exception.RegistrationConfirmationException;
+import pl.arproject.exception.RegistrationRequestException;
 import pl.arproject.registration.token.ConfirmationToken;
 import pl.arproject.registration.token.ConfirmationTokenService;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.*;
 
 @AllArgsConstructor
 @Service
@@ -32,9 +35,7 @@ public class RegistrationService {
 
         // if registration data are invalid
         if(!errorMessage.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body(errorMessage);
+            throw new RegistrationRequestException(errorMessage);
         }
 
         AppUser appUser = new AppUser(
@@ -49,9 +50,7 @@ public class RegistrationService {
 
         // if email or username is already taken
         if(userFound) {
-            return ResponseEntity
-                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("email or username are already taken");
+            throw new RegistrationRequestException("email or username are already taken");
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
@@ -70,7 +69,7 @@ public class RegistrationService {
         registrationEmailService.sendEmail(appUser.getEmail(), appUser.getUsername(), token);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(CREATED)
                 .body("verification link has been sent to your email");
     }
 
@@ -80,32 +79,28 @@ public class RegistrationService {
 
         // if token does not exist
         if(!tokenFromDb.isPresent()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("token not found");
+            throw new RegistrationConfirmationException("token not found", NOT_FOUND);
         }
 
         ConfirmationToken confirmationToken = tokenFromDb.get();
 
         // if token is already confirmed
         if(confirmationToken.getConfirmedAt() != null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("email already confirmed");
+            throw new RegistrationConfirmationException("email already confirmed", GONE);
         }
 
         LocalDateTime expiresAt = confirmationToken.getExpiresAt();
 
         // if token already expired
         if(expiresAt.isBefore(LocalDateTime.now())) {
-            return ResponseEntity
-                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("token already expired");
+            throw new RegistrationConfirmationException("token already expired", GONE);
         }
 
         confirmationTokenService.updateConfirmedAt(token);
         appUserRepository.enableUser(confirmationToken.getAppUser().getEmail());
 
-        return ResponseEntity.ok().body("verification completed");
+        return ResponseEntity
+                .status(OK)
+                .body("verification completed");
     }
 }

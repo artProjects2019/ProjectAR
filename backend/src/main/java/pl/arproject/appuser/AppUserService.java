@@ -1,7 +1,6 @@
 package pl.arproject.appuser;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,9 +29,7 @@ public class AppUserService implements UserDetailsService {
         Optional<AppUser> userFromDb = appUserRepository.findByUsername(username);
 
         if(!userFromDb.isPresent()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("user " + username + " not found");
+            throw new UsernameNotFoundException("user " + username + " not found");
         }
 
         return ResponseEntity.ok(userFromDb);
