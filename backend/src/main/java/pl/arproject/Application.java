@@ -19,8 +19,8 @@ public class Application {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(@NonNull CorsRegistry registry) {
-				registry.addMapping("/register").allowedOrigins("https://ar-project2019.herokuapp.com/");
-				registry.addMapping("/login").allowedOrigins("https://ar-project2019.herokuapp.com/");
+				registry.addMapping("/api/register").allowedOrigins("https://ar-project2019.herokuapp.com/");
+				registry.addMapping("/api/login").allowedOrigins("https://ar-project2019.herokuapp.com/");
 			}
 		};
 	}

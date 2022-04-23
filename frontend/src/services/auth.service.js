@@ -1,7 +1,7 @@
 import axios from 'axios';
 class AuthService {
     login(user) {
-        return axios.post('login', {
+        return axios.post('api/login', {
                 username: user.username,
                 password: user.password
             })
@@ -16,7 +16,7 @@ class AuthService {
         localStorage.removeItem('user');
     }
     register(user) {
-        return axios.post('register', {
+        return axios.post('api/register', {
             username: user.username,
             password: user.password,
             email: user.email,

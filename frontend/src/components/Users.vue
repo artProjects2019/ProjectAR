@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     fetchUsers(){
-      axios.get("/users").then(function (response){
+      axios.get("api/users").then(function (response){
         this.users = response.data
       }.bind(this))
     }
