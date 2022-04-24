@@ -9,24 +9,47 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.arproject.appuser.AppUserService;
+import pl.arproject.authentication.UserDetailsServiceImpl;
+import pl.arproject.security.filter.JwtAuthenticationFilter;
+
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AppUserService appUserService;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final JwtProperties jwtProperties;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/login/**").permitAll()
-                .anyRequest().permitAll();
+        JwtAuthenticationFilter jwtAuthenticationFilter =
+                new JwtAuthenticationFilter(authenticationManager(), jwtProperties);
+
+        jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
+
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilter(jwtAuthenticationFilter);
+
+        http.authorizeRequests()
+                .antMatchers("/",
+                        "/index.html",
+                        "/style.css",
+                        "/css/**",
+                        "/js/**",
+                        "/audio/**",
+                        "/img/**",
+                        "/textures/**").permitAll()
+                .antMatchers(POST, "/api/register").permitAll()
+                .antMatchers(GET, "/api/register/confirm/**").permitAll()
+                .antMatchers(POST, "/api/login/**").permitAll()
+                .antMatchers(GET, "/api/users/**").permitAll()
+                .anyRequest().authenticated();
     }
 
     @Override
@@ -43,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder());
-        provider.setUserDetailsService(appUserService);
+        provider.setUserDetailsService(userDetailsService);
 
         return provider;
     }

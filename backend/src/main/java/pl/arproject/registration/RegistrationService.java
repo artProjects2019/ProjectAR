@@ -42,7 +42,7 @@ public class RegistrationService {
                 request.getUsername(),
                 request.getPassword(),
                 request.getEmail(),
-                AppUserRole.ROLE_USER);
+                AppUserRole.USER);
 
         boolean userFound = appUserRepository
                 .findByEmailOrUsername(appUser.getEmail(), appUser.getUsername())

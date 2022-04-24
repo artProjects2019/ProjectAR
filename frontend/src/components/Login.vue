@@ -29,7 +29,7 @@
         </div>
       </Form>
 
-      <div v-if="message && !successful" class="alert" :class="'alert-danger'">
+      <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
         {{ message }}
       </div>
 
@@ -90,12 +90,7 @@ export default {
             this.$router.push("/");
           },
           (error) => {
-            this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
+            this.message = error.response.data;
             this.successful = false;
             this.loading = false;
           }

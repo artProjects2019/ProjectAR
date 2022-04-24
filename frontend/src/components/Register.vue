@@ -34,11 +34,7 @@
           </div>
         </div>
       </Form>
-      <div
-          v-if="message"
-          class="alert"
-          :class="successful ? 'alert-success' : 'alert-danger'"
-      >
+      <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
         {{ message }}
       </div>
       <div id="link_container">

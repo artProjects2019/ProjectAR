@@ -1,15 +1,14 @@
 package pl.arproject.authentication;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+@Setter
+@NoArgsConstructor
 public class AuthenticationRequest {
-    private final String username;
-    private final String password;
+
+    private String username;
+    private String password;
 }
