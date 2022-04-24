@@ -91,6 +91,10 @@ export default {
     };
   },
   methods: {
+    created(){
+      setTimeout( () => this.$router.push({ path: '/confirm'}), 5000);
+    },
+
     handleRegister(user) {
       this.message = "";
       this.successful = false;
@@ -103,7 +107,8 @@ export default {
                 data.message ||
                 data.toString();
             this.successful = true;
-            this.loading = false;
+            this.loading = true;
+            this.created();
           },
           (error) => {
             this.message =

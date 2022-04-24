@@ -34,12 +34,19 @@ export const auth = {
                     return Promise.reject(error.response.data);
                 }
             );
+        },
+        confirm({ commit }, token) {
+            return AuthService.confirm(token).then(
+                response => {
+                    commit('confirmationSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('confirmationFailure');
+                    return Promise.reject(error.response.data);
+                }
+            );
         }
-        // registerConfirmed({ commit }) {
-        //     return AuthService.registerConfirmed().then(
-        //
-        //     )
-        // }
     },
     mutations: {
         loginSuccess(state, user) {

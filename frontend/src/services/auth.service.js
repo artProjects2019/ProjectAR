@@ -22,5 +22,10 @@ class AuthService {
             email: user.email,
         });
     }
+
+    confirm(token) {
+        return axios.get('api/register/confirm?token=' + token.token, {
+        });
+    }
 }
 export default new AuthService();
