@@ -12,7 +12,7 @@ public class RegistrationEmailService {
     public void sendEmail(String toEmail, String username, String token) {
         String message =
                 "Hi " + username + "!\n" +
-                        "\nThank you for registering. Please click on the below link to activate your account:\n" +
+                        "\nThank you for registering. With the below token you can activate your account:\n" +
                           token +
                         "\n\nThis email is generated automatically, please do not reply.";
         String subject = "Confirm your email";

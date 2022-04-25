@@ -16,11 +16,23 @@ public class ConfirmationTokenService {
         confirmationTokenRepository.save(token);
     }
 
-    public Optional<ConfirmationToken> getToken(String token) {
+    public Optional<ConfirmationToken> findByToken(String token) {
         return confirmationTokenRepository.findByToken(token);
     }
 
     public void updateConfirmedAt(String token) {
         confirmationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
+    }
+
+    public ConfirmationToken findByUserId(Long userId) {
+        return confirmationTokenRepository.findByUserId(userId);
+    }
+
+    public void refreshToken(Long userId,
+                             String token,
+                             LocalDateTime createdAt,
+                             LocalDateTime expiresAt) {
+
+        confirmationTokenRepository.refreshToken(userId, token, createdAt, expiresAt);
     }
 }

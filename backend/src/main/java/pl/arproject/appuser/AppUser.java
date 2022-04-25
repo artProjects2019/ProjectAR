@@ -7,11 +7,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "users")
 @Entity(name = "AppUser")
@@ -45,5 +45,16 @@ public class AppUser {
         this.password = password;
         this.email = email;
         this.role = role;
+    }
+
+    public boolean equalsExceptIdAndPassword(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AppUser)) return false;
+        AppUser appUser = (AppUser) o;
+        return isLocked() == appUser.isLocked() &&
+                isEnabled() == appUser.isEnabled() &&
+                getUsername().equals(appUser.getUsername()) &&
+                getEmail().equals(appUser.getEmail()) &&
+                getRole() == appUser.getRole();
     }
 }

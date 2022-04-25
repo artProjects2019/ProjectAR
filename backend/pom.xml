@@ -142,10 +142,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>target\classes\static</outputDirectory>
+							<outputDirectory>target/classes/static</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src\static</directory>
+									<directory>src/static</directory>
 								</resource>
 							</resources>
 						</configuration>

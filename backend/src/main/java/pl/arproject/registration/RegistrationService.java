@@ -44,13 +44,22 @@ public class RegistrationService {
                 request.getEmail(),
                 AppUserRole.USER);
 
-        boolean userFound = appUserRepository
-                .findByEmailOrUsername(appUser.getEmail(), appUser.getUsername())
-                .isPresent();
+        Optional<AppUser> userFromDb = appUserRepository
+                .findByEmailOrUsername(appUser.getEmail(), appUser.getUsername());
 
         // if email or username is already taken
-        if(userFound) {
-            throw new RegistrationRequestException("email or username are already taken");
+        if(userFromDb.isPresent()) {
+            // if exactly the same user exist and his account is not confirmed then send refreshed token
+            if(sameUserExistAndHisTokenIsNotConfirmed(userFromDb.get(), appUser)) {
+                refreshOldTokenAndSendNewConfirmationEmail(userFromDb.get());
+
+                return ResponseEntity
+                        .status(OK)
+                        .body("refreshed token has been sent to your email");
+            }
+            else  { // otherwise it means that this is not the same user so return an error message
+                throw new RegistrationRequestException("email or username are already taken");
+            }
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
@@ -70,12 +79,12 @@ public class RegistrationService {
 
         return ResponseEntity
                 .status(CREATED)
-                .body("verification link has been sent to your email");
+                .body("verification token has been sent to your email");
     }
 
     @Transactional
     public ResponseEntity<?> confirmToken(String token) {
-        Optional<ConfirmationToken> tokenFromDb = confirmationTokenService.getToken(token);
+        Optional<ConfirmationToken> tokenFromDb = confirmationTokenService.findByToken(token);
 
         // if token does not exist
         if(!tokenFromDb.isPresent()) {
@@ -102,5 +111,28 @@ public class RegistrationService {
         return ResponseEntity
                 .status(OK)
                 .body("verification completed");
+    }
+
+    private boolean sameUserExistAndHisTokenIsNotConfirmed(AppUser userFromDb, AppUser newUser) {
+        ConfirmationToken oldToken = confirmationTokenService.findByUserId(userFromDb.getId());
+
+        boolean oldTokenIsNotConfirmed = oldToken.getConfirmedAt() == null;
+        boolean passwordsMatches = bCryptPasswordEncoder.matches(newUser.getPassword(), userFromDb.getPassword());
+        boolean usersAreIdentical = userFromDb.equalsExceptIdAndPassword(newUser) && passwordsMatches;
+
+        return usersAreIdentical && oldTokenIsNotConfirmed;
+    }
+
+    private void refreshOldTokenAndSendNewConfirmationEmail(AppUser appUser) {
+        String token = UUID.randomUUID().toString();
+
+        confirmationTokenService.refreshToken(
+                appUser.getId(),
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15)
+        );
+
+        registrationEmailService.sendEmail(appUser.getEmail(), appUser.getUsername(), token);
     }
 }
