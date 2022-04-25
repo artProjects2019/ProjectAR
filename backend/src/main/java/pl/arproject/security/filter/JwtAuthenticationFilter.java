@@ -100,7 +100,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             if (appUserService.passwordsMatchesAndTokenIsNotConfirmed(
                     userFromDb.get(), lastAuthenticationRequest.getPassword())) {
 
-                response.getOutputStream().print("email not confirmed");
+                response.getOutputStream().print("email not confirmed, try to register" +
+                        " with the same data and then confirm your email");
             }
             else {
                 response.getOutputStream().print("invalid username or password");
