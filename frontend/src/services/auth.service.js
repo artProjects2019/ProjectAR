@@ -22,10 +22,14 @@ class AuthService {
             email: user.email,
         });
     }
-
     confirm(token) {
         return axios.get('api/register/confirm?token=' + token.token, {
         });
+    }
+    addFriend(user) {
+        return axios.post('api/addfriend', {
+            username: user.username,
+        })
     }
 }
 export default new AuthService();

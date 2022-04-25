@@ -46,6 +46,18 @@ export const auth = {
                     return Promise.reject(error.response.data);
                 }
             );
+        },
+        addFriend({ commit }, user) {
+            return AuthService.addFriend(user).then(
+                response => {
+                    commit('additionSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('additionFailure');
+                    return Promise.reject(error.response.data);
+                }
+            )
         }
     },
     mutations: {
@@ -68,6 +80,14 @@ export const auth = {
         },
         registerFailure(state) {
             state.status.loggedIn = false;
+        },
+        additionSuccess(state) {
+            console.log("Addition success");
+            state.status.friends = true;
+        },
+        additionFailure(state) {
+            console.log("Addition failure");
+            state.status.friends = false;
         }
     }
 };
