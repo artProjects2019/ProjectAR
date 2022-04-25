@@ -2,12 +2,13 @@ package pl.arproject.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
-import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.arproject.appuser.AppUser;
+import pl.arproject.appuser.AppUserService;
 import pl.arproject.authentication.AuthenticationRequest;
 import pl.arproject.exception.UserNotFoundException;
 import pl.arproject.security.JwtProperties;
@@ -21,15 +22,26 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@AllArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProperties jwtProperties;
+    private final AppUserService appUserService;
+    private AuthenticationRequest lastAuthenticationRequest;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+                                   JwtProperties jwtProperties,
+                                   AppUserService appUserService) {
+
+        this.authenticationManager = authenticationManager;
+        this.jwtProperties = jwtProperties;
+        this.appUserService = appUserService;
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -38,6 +50,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             AuthenticationRequest authenticationRequest = new ObjectMapper()
                     .readValue(request.getInputStream(), AuthenticationRequest.class);
+
+            lastAuthenticationRequest = authenticationRequest;
 
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(),
@@ -79,6 +93,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setStatus(SC_UNAUTHORIZED);
-        response.getOutputStream().print("invalid username or password");
+
+        Optional<AppUser> userFromDb = appUserService.findByUsername(lastAuthenticationRequest.getUsername());
+
+        if (userFromDb.isPresent()) {
+            if (appUserService.passwordsMatchesAndTokenIsNotConfirmed(
+                    userFromDb.get(), lastAuthenticationRequest.getPassword())) {
+
+                response.getOutputStream().print("email not confirmed");
+            }
+            else {
+                response.getOutputStream().print("invalid username or password");
+            }
+        }
+        else {
+            response.getOutputStream().print("invalid username or password");
+        }
     }
 }

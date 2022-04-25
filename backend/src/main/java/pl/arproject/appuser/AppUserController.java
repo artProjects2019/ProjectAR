@@ -21,7 +21,8 @@ public class AppUserController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<?> findUserByUsername(@PathVariable("username") String username) {
-        return appUserService.findUserByUsername(username);
+    public ResponseEntity<?> getUserByUsername(@PathVariable("username") String username) {
+        return appUserService.getUserByUsername(username);
     }
 }
+

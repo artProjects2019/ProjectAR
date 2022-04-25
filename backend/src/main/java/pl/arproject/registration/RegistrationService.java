@@ -2,12 +2,13 @@ package pl.arproject.registration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.arproject.appuser.AppUser;
 import pl.arproject.appuser.AppUserRepository;
 import pl.arproject.appuser.AppUserRole;
+import pl.arproject.appuser.AppUserService;
 import pl.arproject.email.RegistrationEmailService;
 import pl.arproject.exception.RegistrationConfirmationException;
 import pl.arproject.exception.RegistrationRequestException;
@@ -28,7 +29,8 @@ public class RegistrationService {
     private final RegistrationValidator registrationValidator;
     private final RegistrationEmailService registrationEmailService;
     private final ConfirmationTokenService confirmationTokenService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final AppUserService appUserService;
 
     public ResponseEntity<?> registerUser(RegistrationRequest request) {
         String errorMessage = registrationValidator.validateRegistrationRequest(request);
@@ -50,7 +52,7 @@ public class RegistrationService {
         // if email or username is already taken
         if(userFromDb.isPresent()) {
             // if exactly the same user exist and his account is not confirmed then send refreshed token
-            if(sameUserExistAndHisTokenIsNotConfirmed(userFromDb.get(), appUser)) {
+            if(appUserService.sameUserExistAndTokenIsNotConfirmed(userFromDb.get(), appUser)) {
                 refreshOldTokenAndSendNewConfirmationEmail(userFromDb.get());
 
                 return ResponseEntity
@@ -62,7 +64,7 @@ public class RegistrationService {
             }
         }
 
-        String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
+        String encodedPassword = passwordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPassword);
         appUserRepository.save(appUser);
 
@@ -113,17 +115,7 @@ public class RegistrationService {
                 .body("verification completed");
     }
 
-    private boolean sameUserExistAndHisTokenIsNotConfirmed(AppUser userFromDb, AppUser newUser) {
-        ConfirmationToken oldToken = confirmationTokenService.findByUserId(userFromDb.getId());
-
-        boolean oldTokenIsNotConfirmed = oldToken.getConfirmedAt() == null;
-        boolean passwordsMatches = bCryptPasswordEncoder.matches(newUser.getPassword(), userFromDb.getPassword());
-        boolean usersAreIdentical = userFromDb.equalsExceptIdAndPassword(newUser) && passwordsMatches;
-
-        return usersAreIdentical && oldTokenIsNotConfirmed;
-    }
-
-    private void refreshOldTokenAndSendNewConfirmationEmail(AppUser appUser) {
+    public void refreshOldTokenAndSendNewConfirmationEmail(AppUser appUser) {
         String token = UUID.randomUUID().toString();
 
         confirmationTokenService.refreshToken(
