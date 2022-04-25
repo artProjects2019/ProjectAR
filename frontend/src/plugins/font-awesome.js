@@ -10,5 +10,11 @@ import {
     faSignOut,
     faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faRankingStar,faSignOut,faPlus);
+import {
+    faFacebook,
+    faInstagram,
+    faGithub,
+} from '@fortawesome/free-brands-svg-icons'
+
+library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faRankingStar,faSignOut,faPlus,faFacebook, faInstagram,faGithub);
 export { FontAwesomeIcon };

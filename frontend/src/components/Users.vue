@@ -19,10 +19,15 @@
                 <button @submit="handleAdd" class="add">
                   <font-awesome-icon icon="plus" /> Add to friends
                 </button>
-
                 <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
                   {{ message }}
                 </div>
+              </div>
+
+              <div v-if="(USER.username === logged.username)">
+                <button class="add" @click="$router.push('./account')">
+                  My account
+                </button>
               </div>
 
               <div v-if="friends" class="add">

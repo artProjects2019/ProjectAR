@@ -105,13 +105,18 @@ body {
 }
 
 .person_img{
-    width: 175px;
+    width: 175px !important;
     border-radius: 100%;
     border: 3px solid white;
 }
 
 .personPhoto{
     padding: 15px;
+}
+
+.brands{
+    display: flex;
+    justify-content: space-around;
 }
 
 .bar{

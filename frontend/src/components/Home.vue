@@ -63,6 +63,23 @@
 
           <h1>Marcin Salamandra</h1>
           <br>
+          <div class="brands">
+            <div>
+              <a href="https://github.com/salamaan">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'github' }" /></h1>
+              </a>
+            </div>
+            <div>
+              <a href="https://www.facebook.com/marcin.salamandra">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }" /></h1>
+              </a>
+            </div>
+            <div>
+              <a href="https://www.instagram.com/salaman914/">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'instagram' }" /></h1>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div class="person">
@@ -71,6 +88,23 @@
           </div>
           <h1>Łukasz Pawłoś</h1>
           <br>
+          <div class="brands">
+            <div>
+              <a href="https://github.com/lukasz-pawlos">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'github' }" /></h1>
+              </a>
+            </div>
+            <div>
+              <a href="https://www.facebook.com/profile.php?id=100007344810188">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }" /></h1>
+              </a>
+            </div>
+            <div>
+              <a href="https://www.instagram.com/losiek23/">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'instagram' }" /></h1>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div class="person">
@@ -79,6 +113,23 @@
           </div>
           <h1>Remigiusz Mielcarz</h1>
           <br>
+          <div class="brands">
+            <div>
+              <a href="https://github.com/RemigiuszMielcarz">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'github' }" /></h1>
+              </a>
+            </div>
+            <div>
+              <a href="https://www.facebook.com/rimonelo">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }" /></h1>
+              </a>
+            </div>
+            <div>
+              <a href="https://www.instagram.com/remy00_/">
+                <h1><font-awesome-icon :icon="{ prefix: 'fab', iconName: 'instagram' }" /></h1>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
