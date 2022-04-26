@@ -19,7 +19,8 @@
                 <button @click="handleInvite(logged.username, USER.username)" class="add" >
                   <font-awesome-icon icon="plus" /> Add to friends
                 </button>
-                <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+                <div v-if="message && (selectedUser === USER.username)"
+                     class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
                   {{ message }}
                 </div>
               </div>
@@ -54,6 +55,7 @@ export default {
       successful: false,
       loading: false,
       message: "",
+      selectedUser: "",
     };
   },
   components: {
@@ -84,6 +86,7 @@ export default {
 
       invitation.sender = user;
       invitation.receiver = user2;
+      this.selectedUser = user2;
 
       this.message = "";
       this.successful = false;

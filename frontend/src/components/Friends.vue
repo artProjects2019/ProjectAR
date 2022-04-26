@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     fetchFriends() {
-      axios.get("api/friends" + this.logged.username).then(function (response) {
+      axios.get("api/friends/" + this.logged.username).then(function (response) {
         this.friends = response.data
       }.bind(this))
     },

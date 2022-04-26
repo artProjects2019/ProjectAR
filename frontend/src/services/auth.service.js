@@ -33,15 +33,15 @@ class AuthService {
         })
     }
     accept(acceptation) {
-        return axios.post('api/friends/invitation/accept', {
-            receiverUsername: acceptation.receiver,
+        return axios.post('api/friends/accept', {
             senderUsername: acceptation.sender,
+            receiverUsername: acceptation.receiver,
         })
     }
     decline(rejection) {
-        return axios.post('api/friends/invitation/decline', {
-            receiverUsername: rejection.receiver,
+        return axios.post('api/friends/decline', {
             senderUsername: rejection.sender,
+            receiverUsername: rejection.receiver,
         })
     }
 }

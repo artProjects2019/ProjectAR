@@ -29,6 +29,10 @@ public class FriendInvitationService {
         friendInvitationRepository.save(invitation);
     }
 
+    public void deleteBySenderAndReceiver(Long senderId, Long receiverId) {
+        friendInvitationRepository.deleteBySenderAndReceiver(senderId, receiverId);
+    }
+
     public ResponseEntity<?> getInvitationsByUsername(String username) {
         Optional<AppUser> userFromDb = appUserService.findByUsername(username);
 
@@ -46,4 +50,5 @@ public class FriendInvitationService {
                 .body(invitations);
     }
 }
+
 
