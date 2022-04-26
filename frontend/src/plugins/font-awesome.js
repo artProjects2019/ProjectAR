@@ -9,6 +9,8 @@ import {
     faRankingStar,
     faSignOut,
     faPlus,
+    faUserCheck,
+    faUserXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faFacebook,
@@ -16,5 +18,5 @@ import {
     faGithub,
 } from '@fortawesome/free-brands-svg-icons'
 
-library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faRankingStar,faSignOut,faPlus,faFacebook, faInstagram,faGithub);
+library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faRankingStar, faSignOut, faPlus, faUserCheck, faUserXmark ,faFacebook, faInstagram, faGithub);
 export { FontAwesomeIcon };

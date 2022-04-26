@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     created(){
-      setTimeout( () => this.$router.push({ path: '/confirm'}), 5000);
+      setTimeout( () => this.$router.push({ path: '/confirm'}), 3000);
     },
 
     handleRegister(user) {

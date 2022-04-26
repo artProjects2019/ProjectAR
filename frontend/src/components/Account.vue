@@ -8,21 +8,24 @@
         My account
       </div>
 
-      <div v-if="logged">
+      <div v-if="logged" style="position: center">
         <strong> Hello, {{ logged.username }} </strong>
       </div>
-    </div>
 
+      <Account_panel/>
+
+    </div>
   </div>
   </body>
 </template>
 
 <script>
 import Menu from "@/components/Menu";
+import Account_panel from "@/components/Account_panel";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Account",
-  components: {Menu},
+  components: {Menu, Account_panel},
   computed: {
     logged() {
       return this.$store.state.auth.user;

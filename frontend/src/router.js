@@ -9,6 +9,7 @@ import Users from "@/components/Users";
 import Stats from "@/components/Stats";
 import Ranking from "@/components/Ranking";
 import Register_confirm from "@/components/Register_confirm";
+import Friend_invitation from "@/components/Friend_invitation";
 
 const routes = [
     {
@@ -50,6 +51,10 @@ const routes = [
     {
         path: "/stats",
         component: Stats,
+    },
+    {
+        path: "/friendInvitation",
+        component: Friend_invitation,
     },
 ];
 const router = createRouter({

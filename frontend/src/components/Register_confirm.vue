@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     created(){
-      setTimeout( () => this.$router.push({ path: '/login'}), 5000);
+      setTimeout( () => this.$router.push({ path: '/login'}), 3000);
     },
 
     handleConfirmation(token) {

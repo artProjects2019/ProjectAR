@@ -16,7 +16,7 @@
 
             <div v-if="logged">
               <div v-if="!(USER.username === logged.username)">
-                <button @submit="handleAdd" class="add">
+                <button @click="handleAdd(logged.username, USER.username)" class="add">
                   <font-awesome-icon icon="plus" /> Add to friends
                 </button>
                 <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
@@ -73,11 +73,13 @@ export default {
         this.users = response.data
       }.bind(this))
     },
-    handleAdd(user) {
+    handleAdd(user, user2) {
+      console.log(user);
+      console.log(user2);
       this.message = "";
       this.successful = false;
       this.loading = true;
-      this.$store.dispatch("auth/addFriend", user).then(
+      this.$store.dispatch("auth/invite", user,user2).then(
           (data) => {
             this.message = (data.response &&
                     data.response.data &&

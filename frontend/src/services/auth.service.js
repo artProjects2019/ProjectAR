@@ -26,9 +26,10 @@ class AuthService {
         return axios.get('api/register/confirm?token=' + token.token, {
         });
     }
-    addFriend(user) {
-        return axios.post('api/addfriend', {
-            username: user.username,
+    invite(user,user2) {
+        return axios.post('api/friends/invite', {
+            senderUsername: user.username,
+            receiverUsername: user2.username,
         })
     }
 }

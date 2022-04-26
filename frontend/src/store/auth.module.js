@@ -47,14 +47,14 @@ export const auth = {
                 }
             );
         },
-        addFriend({ commit }, user) {
-            return AuthService.addFriend(user).then(
+        invite({ commit }, user, user2) {
+            return AuthService.invite(user, user2).then(
                 response => {
-                    commit('additionSuccess');
+                    commit('invitationSuccess');
                     return Promise.resolve(response.data);
                 },
                 error => {
-                    commit('additionFailure');
+                    commit('invitationFailure');
                     return Promise.reject(error.response.data);
                 }
             )
@@ -81,11 +81,11 @@ export const auth = {
         registerFailure(state) {
             state.status.loggedIn = false;
         },
-        additionSuccess(state) {
+        invitationSuccess(state) {
             console.log("Addition success");
             state.status.friends = true;
         },
-        additionFailure(state) {
+        invitationFailure(state) {
             console.log("Addition failure");
             state.status.friends = false;
         }

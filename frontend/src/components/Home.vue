@@ -138,16 +138,18 @@
           <img id="companyPhoto" src="../plugins/image/iteratec.png" alt="iteratec logo">
         </a>
       </div>
+      <Account_panel/>
     </div>
   </div>
   </body>
 </template>
 <script>
 import Menu from "@/components/Menu";
+import Account_panel from "@/components/Account_panel";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
-  components: {Menu},
+  components: {Menu,Account_panel},
   computed: {
     logged() {
       return this.$store.state.auth.user;
