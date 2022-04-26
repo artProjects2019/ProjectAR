@@ -47,8 +47,8 @@ export const auth = {
                 }
             );
         },
-        invite({ commit }, user, user2) {
-            return AuthService.invite(user, user2).then(
+        invite({ commit }, invitation) {
+            return AuthService.invite(invitation).then(
                 response => {
                     commit('invitationSuccess');
                     return Promise.resolve(response.data);

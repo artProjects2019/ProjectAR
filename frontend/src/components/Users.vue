@@ -12,11 +12,11 @@
             <div class="personPhoto">
               <img class="person_img" src="../plugins/image/person-icon.png" alt="User img">
             </div>
-            Username<h1>{{USER.username}}</h1>
+            Username<h1>{{ USER.username }}</h1>
 
             <div v-if="logged">
               <div v-if="!(USER.username === logged.username)">
-                <button @click="handleAdd(logged.username, USER.username)" class="add">
+                <button @click="handleAdd(logged.username, USER.username)" class="add" >
                   <font-awesome-icon icon="plus" /> Add to friends
                 </button>
                 <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
@@ -44,6 +44,7 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
+import * as yup from "yup";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Users",
@@ -74,12 +75,18 @@ export default {
       }.bind(this))
     },
     handleAdd(user, user2) {
-      console.log(user);
-      console.log(user2);
+      const invitation = yup.object().shape({
+        sender: yup.string(),
+        receiver: yup.string(),
+      });
+
+      invitation.sender = user;
+      invitation.receiver = user2;
+
       this.message = "";
       this.successful = false;
       this.loading = true;
-      this.$store.dispatch("auth/invite", user,user2).then(
+      this.$store.dispatch("auth/invite", invitation).then(
           (data) => {
             this.message = (data.response &&
                     data.response.data &&

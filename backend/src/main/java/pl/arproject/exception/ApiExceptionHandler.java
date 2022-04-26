@@ -11,21 +11,17 @@ import static org.springframework.http.HttpStatus.*;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RegistrationRequestException.class)
-    public ResponseEntity<Object> handleRegistrationRequestException(
-            RegistrationRequestException e) {
-
+    public ResponseEntity<Object> handleRegistrationRequestException(RegistrationRequestException e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
-                UNPROCESSABLE_ENTITY
+                CONFLICT
         );
 
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
 
     @ExceptionHandler(RegistrationConfirmationException.class)
-    public ResponseEntity<Object> handleRegistrationConfirmationException(
-            RegistrationConfirmationException e) {
-
+    public ResponseEntity<Object> handleRegistrationConfirmationException(RegistrationConfirmationException e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 e.getHttpStatus()
@@ -35,12 +31,30 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(
-            UserNotFoundException e) {
-
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 NOT_FOUND
+        );
+
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler(UserAlreadyInvitedException.class)
+    public ResponseEntity<Object> handleUserAlreadyInvitedException(UserAlreadyInvitedException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                CONFLICT
+        );
+
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler(UsersAreAlreadyFriendsException.class)
+    public ResponseEntity<Object> handleUsersAreAlreadyFriendsException(UsersAreAlreadyFriendsException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                CONFLICT
         );
 
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());

@@ -21,7 +21,7 @@ public class Application {
 			public void addCorsMappings(@NonNull CorsRegistry registry) {
 				registry.addMapping("/api/register").allowedOrigins("http://localhost:8081");
 				registry.addMapping("/api/login").allowedOrigins("http://localhost:8081");
-
+				registry.addMapping("/api/friends/invite").allowedOrigins("http://localhost:8081");
 			}
 		};
 	}

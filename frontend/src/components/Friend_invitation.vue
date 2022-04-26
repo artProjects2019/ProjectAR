@@ -13,7 +13,7 @@
           <div class="personPhoto">
             <img class="person_img" src="../plugins/image/person-icon.png" alt="User img">
           </div>
-          Username<h1>Koks69</h1>
+          Username<h1>{{ INVITATION.senderUsername }}</h1>
 
           <div>
             <button class="add">
@@ -58,7 +58,7 @@ export default {
   methods: {
     fetchInvitations(){
       axios.get("api/friends/invitations/" + this.logged.username).then(function (response) {
-        this.users = response.data
+        this.invitations = response.data
       }.bind(this))
     }
   },
