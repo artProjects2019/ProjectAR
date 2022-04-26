@@ -8,7 +8,7 @@
           kVRnik
         </div>
 
-        <div v-if="!logged" id="topR">
+        <div v-if="!logged" class="topR">
           <button id="login" @click="$router.push('./login')">
             <font-awesome-icon icon="sign-in-alt" /> Log in
           </button>
@@ -19,7 +19,7 @@
 
         </div>
 
-        <div v-if="logged" id="topR">
+        <div v-if="logged" class="topR">
           <button id="user" @click="$router.push('./account')">
             <font-awesome-icon icon="user" /> {{logged.username}}
           </button>
@@ -138,18 +138,18 @@
           <img id="companyPhoto" src="../plugins/image/iteratec.png" alt="iteratec logo">
         </a>
       </div>
-      <Account_panel/>
     </div>
   </div>
   </body>
 </template>
 <script>
 import Menu from "@/components/Menu";
-import Account_panel from "@/components/Account_panel";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
-  components: {Menu,Account_panel},
+  components: {
+    Menu
+  },
   computed: {
     logged() {
       return this.$store.state.auth.user;

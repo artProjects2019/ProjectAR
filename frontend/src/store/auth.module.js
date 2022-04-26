@@ -58,6 +58,30 @@ export const auth = {
                     return Promise.reject(error.response.data);
                 }
             )
+        },
+        accept({ commit }, acceptation) {
+            return AuthService.accept(acceptation).then(
+                response => {
+                    commit('acceptationSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('acceptationFailure');
+                    return Promise.reject(error.response.data);
+                }
+            )
+        },
+        decline({ commit }, rejection) {
+            return AuthService.decline(rejection).then(
+                response => {
+                    commit('rejectionSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('rejectionFailure');
+                    return Promise.reject(error.response.data);
+                }
+            )
         }
     },
     mutations: {
@@ -82,12 +106,34 @@ export const auth = {
             state.status.loggedIn = false;
         },
         invitationSuccess(state) {
-            console.log("Addition success");
-            state.status.friends = true;
+            console.log("Invitation success");
+            state.status.invited = true;
         },
         invitationFailure(state) {
-            console.log("Addition failure");
-            state.status.friends = false;
+            console.log("Invitation failure");
+            state.status.invited = false;
+        },
+        acceptationSuccess(state) {
+            console.log("Acceptation success");
+            state.status.invited = false;
+            state.status.accepted = true;
+        },
+        acceptationFailure(state) {
+            console.log("Acceptation failure");
+            state.status.invited = false;
+            state.status.accepted = false;
+        },
+        rejectionSuccess(state) {
+            console.log("Rejection success");
+            state.status.invited = false;
+            state.status.accepted = false;
+            state.status.rejected = true;
+        },
+        rejectionFailure(state) {
+            console.log("Rejection failure");
+            state.status.invited = false;
+            state.status.accepted = true;
+            state.status.rejected = false;
         }
     }
 };

@@ -51,7 +51,7 @@ body {
     float:left;
 }
 
-#topR{
+.topR{
     float:right;
     align-self: flex-end;
     text-align: center;

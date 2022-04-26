@@ -16,7 +16,7 @@
 
             <div v-if="logged">
               <div v-if="!(USER.username === logged.username)">
-                <button @click="handleAdd(logged.username, USER.username)" class="add" >
+                <button @click="handleInvite(logged.username, USER.username)" class="add" >
                   <font-awesome-icon icon="plus" /> Add to friends
                 </button>
                 <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
@@ -56,10 +56,12 @@ export default {
       message: "",
     };
   },
-  components: { Menu},
+  components: {
+    Menu
+  },
   computed: {
     friends() {
-      return this.$store.state.auth.friends;
+      return this.$store.state.auth.accept;
     },
     logged() {
       return this.$store.state.auth.user;
@@ -74,7 +76,7 @@ export default {
         this.users = response.data
       }.bind(this))
     },
-    handleAdd(user, user2) {
+    handleInvite(user, user2) {
       const invitation = yup.object().shape({
         sender: yup.string(),
         receiver: yup.string(),
@@ -113,6 +115,13 @@ export default {
 </script>
 
 <style>
+
+.person_img{
+  width: 40% !important;
+  border-radius: 100%;
+  border: 3px solid white;
+}
+
 .player{
   background: #0c0c0c;
   width: 20% !important;

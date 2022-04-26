@@ -32,5 +32,17 @@ class AuthService {
             receiverUsername: invitation.receiver,
         })
     }
+    accept(acceptation) {
+        return axios.post('api/friends/invitation/accept', {
+            receiverUsername: acceptation.receiver,
+            senderUsername: acceptation.sender,
+        })
+    }
+    decline(rejection) {
+        return axios.post('api/friends/invitation/decline', {
+            receiverUsername: rejection.receiver,
+            senderUsername: rejection.sender,
+        })
+    }
 }
 export default new AuthService();
