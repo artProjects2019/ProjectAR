@@ -98,7 +98,7 @@ public class FriendService {
         friendInvitationService.deleteBySenderAndReceiver(sender.getId(), receiver.getId());
 
         return ResponseEntity
-                .status(ACCEPTED)
+                .status(OK)
                 .body("invitation declined");
     }
 
@@ -117,7 +117,7 @@ public class FriendService {
                 .body(friends);
     }
 
-    public List<AppUser> findAllFriendsFromDb(Long id) {
+    private List<AppUser> findAllFriendsFromDb(Long id) {
         List<AppUser> firstPartOfFriends = friendRepository
                 .findSecondUserByFirstUserId(id);
 

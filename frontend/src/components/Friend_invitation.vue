@@ -25,7 +25,10 @@
               Decline
             </button>
           </div>
-
+            <div v-if="message && (selectedUser === INVITATION.senderUsername)"
+                 class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+              {{ message }}
+            </div>
           </div>
         </div>
 
@@ -47,6 +50,10 @@ export default {
   data() {
     return {
       invitations: [],
+      successful: false,
+      loading: false,
+      message: "",
+      selectedUser: "",
     };
   },
   computed: {
@@ -61,6 +68,9 @@ export default {
     this.fetchInvitations();
   },
   methods: {
+    created(){
+      setTimeout( () => this.fetchInvitations(), 3000);
+    },
     fetchInvitations(){
       axios.get("api/friends/invitations/" + this.logged.username).then(function (response) {
         this.invitations = response.data
@@ -74,6 +84,7 @@ export default {
 
       acceptation.sender = user;
       acceptation.receiver = user2;
+      this.selectedUser = user;
 
       this.message = "";
       this.successful = false;
@@ -87,6 +98,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
+            this.created();
           },
           (error) => {
             this.message =
@@ -108,6 +120,7 @@ export default {
 
       rejection.sender = user;
       rejection.receiver = user2;
+      this.selectedUser = user;
 
       this.message = "";
       this.successful = false;
@@ -121,6 +134,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
+            this.created();
           },
           (error) => {
             this.message =
