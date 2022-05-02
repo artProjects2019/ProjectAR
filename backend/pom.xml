@@ -145,7 +145,7 @@
 							<outputDirectory>target/classes/static</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/static</directory>
+									<directory>src/main/resources/static</directory>
 								</resource>
 							</resources>
 						</configuration>
