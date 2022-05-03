@@ -2,7 +2,6 @@
   <body>
   <div class="container">
     <Menu/>
-
     <div id="main">
       <div class="bar">
         Invitations
@@ -10,10 +9,11 @@
 
       <div id="players" v-for="(INVITATION) in invitations " :key="INVITATION">
         <div class="player">
-          <div class="personPhoto">
-            <img class="person_img" src="../plugins/image/person-icon.png" alt="User img">
-          </div>
-          Username<h1>{{ INVITATION.senderUsername }}</h1>
+          <user_photo/>
+        <div class="userName">
+          <h6>Username</h6>
+          <h3>{{ INVITATION.senderUsername }}</h3>
+        </div>
 
           <div>
             <button @click="handleAcceptation(INVITATION.senderUsername, logged.username)" class="add">
@@ -31,9 +31,7 @@
             </div>
           </div>
         </div>
-
     </div>
-
   </div>
   </body>
 </template>
@@ -41,11 +39,13 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
+import user_photo from "@/components/User_photo";
 import * as yup from "yup";
 export default {
   name: "Friend_invitation",
   components: {
-    Menu
+    Menu,
+    user_photo
   },
   data() {
     return {
@@ -153,7 +153,6 @@ export default {
 </script>
 
 <style scoped>
-
 .decline{
   background-color: white; /* Green */
   color: black;
@@ -163,12 +162,6 @@ export default {
   display: inline-block;
   font-size: 16px;
   border: 2px solid black;
-}
-
-.person_img{
-  width: 40% !important;
-  border-radius: 100%;
-  border: 3px solid white;
 }
 
 </style>

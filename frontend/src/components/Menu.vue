@@ -8,61 +8,52 @@
 
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <div class="dropdown-item">
-          <router-link
-              style ="text-decoration: none; color: black;"
-              to="./ticTacToe">
+        <div class="dropdown-item" @click = "handleGame(games.id1)">
             TicTacToe
-          </router-link>
         </div>
+          <div class="dropdown-item" @click = "handleGame(games.id2)">
+            Checkers
+          </div>
       </div>
     </div>
-
-    <div class="option">
-      <router-link
-          style ="text-decoration: none; color: white;"
-          to="./">
-        HOME
-      </router-link>
+    <div class="option" @click="$router.push('./')">
+          HOME
     </div>
-
-    <div class="option">
-      <router-link
-          style ="text-decoration: none; color: white;"
-          to="./users">
-        PLAYERS ONLINE
-      </router-link>
+    <div class="option" @click="$router.push('./users')">
+          PLAYERS ONLINE
     </div>
-
-    <div class="option">
-      <router-link
-          style ="text-decoration: none; color: white;"
-          to="./ranking">
+    <div class="option" @click="$router.push('./ranking')">
         RANKING
-      </router-link>
     </div>
-
-    <div class="option">
-      <router-link
-          style ="text-decoration: none; color: white;"
-          to="./stats">
+    <div class="option" @click="$router.push('./stats')">
         STATISTICS
-      </router-link>
     </div>
-
-    <div class="option">
-      <router-link
-          style ="text-decoration: none; color: white;"
-          to="./friends">
+    <div class="option" @click="$router.push('./friends')">
         FRIENDS
-      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import {game} from '../store/actual-game'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Menu"
-}
+  name: "Menu",
+  data() {
+    return {
+      games: {
+        id1 : "TicTacToe",
+        id2 : "Checkers"
+      },
+    }
+  },
+  methods:{
+    handleGame(selectedGame){
+      this.$router.push('./gameSession')
+      game.ID = selectedGame
+      console.log(game.ID)
+      return game;
+    }
+  }
+  }
 </script>

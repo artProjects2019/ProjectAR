@@ -9,11 +9,11 @@
         </div>
         <div id="players">
           <div class="player" v-for="(USER) in users " :key="USER">
-            <div class="personPhoto">
-              <img class="person_img" src="../plugins/image/person-icon.png" alt="User img">
+            <user_photo/>
+            <div class="userName">
+              <h6>Username</h6>
+              <h3>{{ USER.username }}</h3>
             </div>
-            Username<h1>{{ USER.username }}</h1>
-
             <div v-if="logged">
               <div v-if="!(USER.username === logged.username)">
                 <button @click="handleInvite(logged.username, USER.username)" class="add" >
@@ -45,6 +45,7 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
+import user_photo from "@/components/User_photo";
 import * as yup from "yup";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -59,7 +60,8 @@ export default {
     };
   },
   components: {
-    Menu
+    Menu,
+    user_photo
   },
   computed: {
     friends() {
@@ -119,31 +121,6 @@ export default {
 
 <style>
 
-.person_img{
-  width: 40% !important;
-  border-radius: 100%;
-  border: 3px solid white;
-}
-
-.player{
-  background: #0c0c0c;
-  width: 20% !important;
-  margin: 5px !important;
-  padding: 10px;
-}
-#players{
-  margin: 0 !important;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  text-align: center;
-}
-
-.person_img{
-  width: 75% !important;
-  border-radius: 100%;
-  border: 3px solid white;
-}
 .add{
   background-color: #4CAF50; /* Green */
   color: white;

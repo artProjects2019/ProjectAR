@@ -9,10 +9,11 @@
       </div>
       <div id="players">
         <div class="player" v-for="(FRIEND) in friends " :key="FRIEND">
-          <div class="personPhoto">
-            <img class="person_img" src="../plugins/image/person-icon.png" alt="User img">
-          </div>
-          Username<h1>{{ FRIEND.username }}</h1>
+          <user_photo/>
+        <div class="userName">
+          <h6>Username</h6>
+          <h3>{{ FRIEND.username }}</h3>
+        </div>
         </div>
       </div>
     </div>
@@ -23,11 +24,13 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
+import user_photo from "@/components/User_photo";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Friends",
   components: {
-    Menu
+    Menu,
+    user_photo
   },
   data() {
     return {

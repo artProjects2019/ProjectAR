@@ -16,7 +16,6 @@
           <button id="signup" @click="$router.push('./register')">
             <font-awesome-icon icon="user-plus" /> Sign up
           </button>
-
         </div>
 
         <div v-if="logged" class="topR">

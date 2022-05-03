@@ -20,6 +20,8 @@ body {
     min-height: 100px;
     width: 170px;
     color: white;
+    align-items: center;
+    text-align: center;
 }
 
 #main{
@@ -153,6 +155,25 @@ body {
     height: 60px;
 }
 
+.player{
+    background: #0c0c0c;
+    width: 20% !important;
+    margin: 5px !important;
+    height: 100% !important;
+    padding: 10px;
+}
+#players{
+    margin: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.userName{
+    width: 100%;
+}
+
 .dropdown-toggle {
     white-space: normal;
     font-family: "Microsoft YaHei UI Light", serif;
@@ -246,8 +267,8 @@ label {
 }
 
 .col-md-12 {
-    padding-right: 0px;
-    padding-left: 0px;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 #link_container {
@@ -273,9 +294,9 @@ label {
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 }
 .profile-img-card {
     width: 96px;
@@ -287,8 +308,12 @@ label {
     border-radius: 50%;
 }
 
+.alert{
+    padding: .75rem 0.75rem;
+}
+
 .alert.alert-danger {
-    width: 88%;
+    width: auto;
 
 }
 .error-feedback {
