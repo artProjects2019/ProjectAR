@@ -77,7 +77,7 @@ public class RegistrationService {
         );
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-        registrationEmailService.sendEmail(appUser.getEmail(), appUser.getUsername(), token);
+        registrationEmailService.createAndSendEmail(appUser.getEmail(), appUser.getUsername(), token);
 
         return ResponseEntity
                 .status(CREATED)
@@ -115,7 +115,7 @@ public class RegistrationService {
                 .body("verification completed");
     }
 
-    public void refreshOldTokenAndSendNewConfirmationEmail(AppUser appUser) {
+    private void refreshOldTokenAndSendNewConfirmationEmail(AppUser appUser) {
         String token = UUID.randomUUID().toString();
 
         confirmationTokenService.refreshToken(
@@ -125,6 +125,6 @@ public class RegistrationService {
                 LocalDateTime.now().plusMinutes(15)
         );
 
-        registrationEmailService.sendEmail(appUser.getEmail(), appUser.getUsername(), token);
+        registrationEmailService.createAndSendEmail(appUser.getEmail(), appUser.getUsername(), token);
     }
 }

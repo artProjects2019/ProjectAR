@@ -59,4 +59,24 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<Object> handleSessionNotFoundException(SessionNotFoundException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                NOT_FOUND
+        );
+
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler(NotInvitedToSessionException.class)
+    public ResponseEntity<Object> handleNotInvitedToSessionException(NotInvitedToSessionException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                FORBIDDEN
+        );
+
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
 }

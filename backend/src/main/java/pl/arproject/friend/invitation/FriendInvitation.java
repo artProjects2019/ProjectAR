@@ -22,11 +22,11 @@ public class FriendInvitation {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sender_id", referencedColumnName = "id")
-    AppUser sender;
+    private AppUser sender;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "receiver_id", referencedColumnName = "id")
-    AppUser receiver;
+    private AppUser receiver;
 
     public FriendInvitation(AppUser sender, AppUser receiver) {
         this.sender = sender;

@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class FriendInvitationRequest {
-    String senderUsername;
-    String receiverUsername;
+    private String senderUsername;
+    private String receiverUsername;
 }
