@@ -56,7 +56,6 @@
 <script>
 import {Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Register",
@@ -94,7 +93,6 @@ export default {
     created(){
       setTimeout( () => this.$router.push({ path: '/confirm'}), 3000);
     },
-
     handleRegister(user) {
       this.message = "";
       this.successful = false;

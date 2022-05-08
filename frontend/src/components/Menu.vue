@@ -28,7 +28,7 @@
     <div class="option" @click="$router.push('./stats')">
         STATISTICS
     </div>
-    <div class="option" @click="$router.push('./friends')">
+    <div v-if="logged" class="option" @click="$router.push('./friends')">
         FRIENDS
     </div>
   </div>
@@ -46,6 +46,11 @@ export default {
         id2 : "Checkers"
       },
     }
+  },
+  computed: {
+    logged() {
+      return this.$store.state.auth.user;
+    },
   },
   methods:{
     handleGame(selectedGame){

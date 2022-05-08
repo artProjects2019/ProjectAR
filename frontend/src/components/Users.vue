@@ -120,7 +120,6 @@ export default {
 </script>
 
 <style>
-
 .add{
   background-color: #4CAF50; /* Green */
   color: white;
@@ -131,5 +130,4 @@ export default {
   font-size: 16px;
   border: 2px solid black;
 }
-
 </style>

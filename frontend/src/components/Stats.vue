@@ -1,16 +1,15 @@
 <template>
   <body>
-  <div class="container">
-    <Menu/>
+    <div class="container">
+      <Menu/>
 
-    <div id="main">
-      <div class="bar">
-        Statistics
+      <div id="main">
+        <div class="bar">
+          Statistics
+        </div>
       </div>
 
     </div>
-
-  </div>
   </body>
 </template>
 

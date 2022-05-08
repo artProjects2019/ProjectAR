@@ -26,6 +26,12 @@ class AuthService {
         return axios.get('api/register/confirm?token=' + token.token, {
         });
     }
+    newPassword(user) {
+        return axios.post('api/changePassword', {
+            username: user.username,
+            password: user.password,
+        })
+    }
     invite(invitation) {
         return axios.post('api/friends/invite', {
             senderUsername: invitation.sender,

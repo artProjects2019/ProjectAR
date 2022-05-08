@@ -19,6 +19,18 @@ export const auth = {
                 }
             );
         },
+        newPassword({ commit }, user) {
+            return AuthService.newPassword(user).then(
+                user => {
+                    commit('newPasswordSuccess', user);
+                    return Promise.resolve(user);
+                },
+                error => {
+                    commit('newPasswordFailure');
+                    return Promise.reject(error);
+                }
+            );
+        },
         logout({ commit }) {
             AuthService.logout();
             commit('logout');
@@ -134,6 +146,12 @@ export const auth = {
             state.status.invited = false;
             state.status.accepted = true;
             state.status.rejected = false;
+        },
+        newPasswordSuccess() {
+            console.log("Password has been changed");
+        },
+        newPasswordFailure() {
+            console.log("Password change failure");
         }
     }
 };

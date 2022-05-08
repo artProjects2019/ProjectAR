@@ -1,18 +1,23 @@
 <template>
   <div class="panel">
     <div class="panel_option">
+      <button class="option_button" @click="$router.push('./changePassword')">
+      Change password
+      </button>
+    </div>
+    <div class="panel_option">
       <button class="option_button" @click="$router.push('./friends')" >
       My friends
       </button>
     </div>
     <div class="panel_option">
-      <button class="option_button">
-      Change password
+      <button class="option_button" @click="$router.push('./friendInvitation')">
+      Friend invitations
       </button>
     </div>
     <div class="panel_option">
-      <button class="option_button" @click="$router.push('./friendInvitation')">
-      My invitations
+      <button class="option_button" @click="$router.push('./gameInvitation')">
+        Game invitations
       </button>
     </div>
     <div class="panel_option">
@@ -37,6 +42,7 @@ export default {
 
 .panel_option{
 }
+
 .option_button{
   background-color: #4CAF50; /* Green */
   color: white;

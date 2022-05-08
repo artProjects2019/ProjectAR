@@ -2,18 +2,19 @@
   <body>
   <div class="container">
     <Menu/>
+
     <div id="main">
       <div class="bar">
-        Friend invitations
+        Game invitations
       </div>
 
-      <div id="players" v-for="(INVITATION) in invitations " :key="INVITATION">
+      <div id="players" v-for="(INVITATION) in gameInvitations " :key="INVITATION">
         <div class="player">
           <user_photo/>
-        <div class="userName">
-          <h6>Username</h6>
-          <h3>{{ INVITATION.senderUsername }}</h3>
-        </div>
+          <div class="userName">
+            <h6>Username</h6>
+            <h3>{{ INVITATION.senderUsername }}</h3>
+          </div>
 
           <div>
             <button @click="handleAcceptation(INVITATION.senderUsername, logged.username)" class="add">
@@ -25,12 +26,12 @@
               Decline
             </button>
           </div>
-            <div v-if="message && (selectedUser === INVITATION.senderUsername)"
-                 class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
-              {{ message }}
-            </div>
+          <div v-if="message && (selectedUser === INVITATION.senderUsername)"
+               class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+            {{ message }}
           </div>
         </div>
+      </div>
     </div>
   </div>
   </body>
@@ -42,14 +43,14 @@ import axios from "axios";
 import user_photo from "@/components/User_photo";
 import * as yup from "yup";
 export default {
-  name: "Friend_invitation",
+  name: "Game_invitation",
   components: {
     Menu,
     user_photo
   },
   data() {
     return {
-      invitations: [],
+      gameInvitations: [],
       successful: false,
       loading: false,
       message: "",
@@ -72,8 +73,8 @@ export default {
       setTimeout( () => this.fetchInvitations(), 3000);
     },
     fetchInvitations(){
-      axios.get("api/friends/invitations/" + this.logged.username).then(function (response) {
-        this.invitations = response.data
+      axios.get("api/games/invitations/" + this.logged.username).then(function (response) {
+        this.gameInvitations = response.data
       }.bind(this))
     },
     handleAcceptation(user, user2) {
