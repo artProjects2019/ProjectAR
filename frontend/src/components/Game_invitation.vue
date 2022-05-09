@@ -10,18 +10,18 @@
 
       <div id="players" v-for="(INVITATION) in gameInvitations " :key="INVITATION">
         <div class="player">
-          <user_photo/>
+          {{ INVITATION.game }}
           <div class="userName">
             <h6>Username</h6>
             <h3>{{ INVITATION.senderUsername }}</h3>
           </div>
 
           <div>
-            <button @click="handleAcceptation(INVITATION.senderUsername, logged.username)" class="add">
+            <button @click="handleAcceptation(logged.username, INVITATION.sessionKey)" class="add">
               <font-awesome-icon icon="user-check" />
               Accept
             </button>
-            <button @click="handleRejection(INVITATION.senderUsername, logged.username)" class="decline">
+            <button @click="handleRejection(INVITATION.sessionKey)" class="decline">
               <font-awesome-icon icon="user-xmark" />
               Decline
             </button>
@@ -40,13 +40,11 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
-import user_photo from "@/components/User_photo";
 import * as yup from "yup";
 export default {
   name: "Game_invitation",
   components: {
     Menu,
-    user_photo
   },
   data() {
     return {
@@ -77,20 +75,20 @@ export default {
         this.gameInvitations = response.data
       }.bind(this))
     },
-    handleAcceptation(user, user2) {
+    handleAcceptation(user, key) {
       const acceptation = yup.object().shape({
-        sender: yup.string(),
         receiver: yup.string(),
+        key: yup.string(),
       });
 
-      acceptation.sender = user;
-      acceptation.receiver = user2;
+      acceptation.receiver = user;
+      acceptation.key = key
       this.selectedUser = user;
 
       this.message = "";
       this.successful = false;
       this.loading = true;
-      this.$store.dispatch("auth/accept", acceptation).then(
+      this.$store.dispatch("auth/gameAccept", acceptation).then(
           (data) => {
             this.message = (data.response &&
                     data.response.data &&
@@ -113,20 +111,17 @@ export default {
           }
       );
     },
-    handleRejection(user, user2) {
+    handleRejection(key) {
       const rejection = yup.object().shape({
-        sender: yup.string(),
-        receiver: yup.string(),
+        key: yup.string(),
       });
 
-      rejection.sender = user;
-      rejection.receiver = user2;
-      this.selectedUser = user;
+      rejection.key = key;
 
       this.message = "";
       this.successful = false;
       this.loading = true;
-      this.$store.dispatch("auth/decline", rejection).then(
+      this.$store.dispatch("auth/gameDecline", rejection).then(
           (data) => {
             this.message = (data.response &&
                     data.response.data &&

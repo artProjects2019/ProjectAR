@@ -38,6 +38,17 @@ class AuthService {
             receiverUsername: invitation.receiver,
         })
     }
+    gameAccept(acceptation) {
+        return axios.post('api/games/sessions/accept', {
+            receiverUsername: acceptation.receiver,
+            sessionKey: acceptation.key,
+        })
+    }
+    gameDecline(rejection) {
+        return axios.post('api/games/sessions/decline', {
+            sessionKey: rejection.key,
+        })
+    }
     accept(acceptation) {
         return axios.post('api/friends/accept', {
             senderUsername: acceptation.sender,
@@ -48,6 +59,18 @@ class AuthService {
         return axios.post('api/friends/decline', {
             senderUsername: rejection.sender,
             receiverUsername: rejection.receiver,
+        })
+    }
+    sessionCreate(session) {
+        return axios.post('api/games/sessions/create', {
+            firstUser: session.firstUser,
+            secondUser: session.secondUser,
+            key: session.key,
+        })
+    }
+    sessionClose(session){
+        return axios.delete('api/games/sessions/close', {
+            key: session.key,
         })
     }
 }

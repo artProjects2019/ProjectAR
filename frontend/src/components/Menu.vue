@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {game} from '../store/actual-game'
+import {game} from '../store/global-variables'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Menu",
@@ -56,7 +56,6 @@ export default {
     handleGame(selectedGame){
       this.$router.push('./gameSession')
       game.ID = selectedGame
-      console.log(game.ID)
       return game;
     }
   }
