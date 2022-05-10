@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.arproject.game.gamesession.request.*;
+import pl.arproject.game.invitation.request.GameInvitationAcceptRequest;
+import pl.arproject.game.invitation.request.GameInvitationDeclineRequest;
 
 @RestController
 @RequestMapping("/api/games/sessions")
@@ -17,14 +19,14 @@ public class SessionController {
         return sessionService.createNewSession(request);
     }
 
-    @PatchMapping("/join")
-    public ResponseEntity<?> joinSession(@RequestBody SessionJoinRequest request) {
-        return sessionService.joinSession(request);
+    @PostMapping("/accept")
+    public ResponseEntity<?> acceptInvitation(@RequestBody GameInvitationAcceptRequest request) {
+        return sessionService.acceptInvitation(request);
     }
 
-    @PatchMapping("/invite")
-    public ResponseEntity<?> inviteToSession(@RequestBody SessionInviteRequest request) {
-        return sessionService.inviteToSession(request);
+    @PostMapping("/decline/{sessionKey}")
+    public ResponseEntity<?> declineInvitation(@PathVariable(name = "sessionKey") String sessionKey) {
+        return sessionService.declineInvitation(sessionKey);
     }
 
     @DeleteMapping("/close")

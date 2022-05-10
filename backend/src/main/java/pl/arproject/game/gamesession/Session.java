@@ -31,9 +31,6 @@ public class Session {
     @JoinColumn(name = "second_player_id", referencedColumnName = "id")
     private AppUser secondPlayer = null;
 
-    @Column(name = "expected_player")
-    private String expectedPlayerUsername = null;
-
     public Session(String sessionKey, AppUser firstPlayer) {
         this.sessionKey = sessionKey;
         this.firstPlayer = firstPlayer;

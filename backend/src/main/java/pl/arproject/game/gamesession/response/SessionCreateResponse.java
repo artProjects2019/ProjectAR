@@ -7,6 +7,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class SessionResponse {
+public class SessionCreateResponse {
     String sessionKey;
 }

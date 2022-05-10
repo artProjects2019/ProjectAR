@@ -43,7 +43,7 @@ public class FriendInvitationService {
         List<FriendInvitation> invitationsFromDb = friendInvitationRepository
                 .findAllByReceiverUsername(userFromDb.get().getUsername());
 
-        List<FriendInvitationResponse> invitations = mapper.getResponses(invitationsFromDb);
+        List<FriendInvitationResponse> invitations = mapper.mapFriendInvitations(invitationsFromDb);
 
         return ResponseEntity
                 .status(OK)

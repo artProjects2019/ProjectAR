@@ -94,6 +94,54 @@ export const auth = {
                     return Promise.reject(error.response.data);
                 }
             )
+        },
+        gameAccept({ commit }, acceptation) {
+            return AuthService.gameAccept(acceptation).then(
+                response => {
+                    commit('acceptationSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('acceptationFailure');
+                    return Promise.reject(error.response.data);
+                }
+            )
+        },
+        gameDecline({ commit }, rejection) {
+            return AuthService.gameDecline(rejection).then(
+                response => {
+                    commit('rejectionSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('rejectionFailure');
+                    return Promise.reject(error.response.data);
+                }
+            )
+        },
+        sessionCreate({ commit }, session) {
+            return AuthService.sessionCreate(session).then(
+                response => {
+                    commit('sessionSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('sessionFailure');
+                    return Promise.reject(error.response.data);
+                }
+            )
+        },
+        sessionClose({ commit }, session) {
+            return AuthService.sessionClose(session).then(
+                response => {
+                    commit('sessionSuccess');
+                    return Promise.resolve(response.data);
+                },
+                error => {
+                    commit('sessionFailure');
+                    return Promise.reject(error.response.data);
+                }
+            )
         }
     },
     mutations: {

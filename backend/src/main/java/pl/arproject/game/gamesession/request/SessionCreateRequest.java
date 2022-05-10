@@ -8,5 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SessionCreateRequest {
-    private String username;
+    private String firstPlayerUsername;
+    private String secondPlayerUsername;
+    private String game;
 }

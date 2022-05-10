@@ -21,11 +21,10 @@
         <tr v-for="(FRIEND) in friends " :key="FRIEND">
           <td>
             {{ FRIEND.username }}
-            Wariat
           </td>
           <td>
             <button class="invite" @click="handleSessionCreate(logged.username, FRIEND.username, selectedGame.ID)">
-              Send invite
+              Invite
             </button>
           </td>
         </tr>
@@ -68,13 +67,13 @@ export default {
     },
     handleSessionCreate(user, user2, game) {
       const session = yup.object().shape({
-        firstUser: yup.string(),
-        secondUser: yup.string(),
+        firstPlayerUsername: yup.string(),
+        secondPlayerUsername: yup.string(),
         game: yup.string(),
       });
 
-      session.firstUser = user;
-      session.secondUser = user2;
+      session.firstPlayerUsername = user;
+      session.secondPlayerUsername = user2;
       session.game = game;
       this.selectedUser = user2;
 
@@ -89,11 +88,7 @@ export default {
                 data.message ||
                 data.toString();
             this.successful = true;
-            sessionKey.ID = data.response.data.sessionKey;
-            console.log('data.response.data')
-            console.log(data.response.data)
-            console.log('data.response.data.sessionKey')
-            console.log(data.response.data.sessionKey)
+            sessionKey.ID = data.sessionKey
             this.loading = true;
           },
           (error) => {

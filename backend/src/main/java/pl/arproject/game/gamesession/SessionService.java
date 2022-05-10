@@ -3,19 +3,17 @@ package pl.arproject.game.gamesession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.arproject.appuser.AppUser;
 import pl.arproject.appuser.AppUserService;
-import pl.arproject.email.InvitationToSessionEmailService;
-import pl.arproject.exception.NotInvitedToSessionException;
-import pl.arproject.exception.SessionNotFoundException;
-import pl.arproject.exception.UserNotFoundException;
 import pl.arproject.game.gamesession.request.SessionCloseRequest;
 import pl.arproject.game.gamesession.request.SessionCreateRequest;
-import pl.arproject.game.gamesession.request.SessionInviteRequest;
-import pl.arproject.game.gamesession.request.SessionJoinRequest;
-import pl.arproject.game.gamesession.response.SessionResponse;
+import pl.arproject.game.gamesession.response.SessionCreateResponse;
+import pl.arproject.game.invitation.GameInvitation;
+import pl.arproject.game.invitation.GameInvitationService;
+import pl.arproject.game.invitation.request.GameInvitationAcceptRequest;
+import pl.arproject.game.invitation.request.GameInvitationDeclineRequest;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,82 +26,61 @@ public class SessionService {
 
     private final SessionRepository sessionRepository;
     private final AppUserService appUserService;
-    private final InvitationToSessionEmailService invitationToSessionEmailService;
+    private final GameInvitationService gameInvitationService;
 
+    @Transactional
     public ResponseEntity<?> createNewSession(SessionCreateRequest request) {
-        Optional<AppUser> playerFromDb = appUserService
-                .findByUsername(request.getUsername());
+        AppUser firstPlayer = appUserService.findByUsername(request.getFirstPlayerUsername()).get();
+        AppUser secondPlayer = appUserService.findByUsername(request.getSecondPlayerUsername()).get();
 
-        if(!playerFromDb.isPresent()) {
-            throw new UserNotFoundException("user not found");
-        }
-
-        AppUser firstPlayer = playerFromDb.get();
         String sessionKey = UUID.randomUUID().toString();
 
         Session session = new Session(sessionKey, firstPlayer);
         sessionRepository.save(session);
 
-        SessionResponse response = new SessionResponse(sessionKey);
+        GameInvitation invitation = new GameInvitation(firstPlayer, secondPlayer, request.getGame(), sessionKey);
+        gameInvitationService.saveGameInvitation(invitation);
+
+        SessionCreateResponse response = new SessionCreateResponse(sessionKey);
 
         return ResponseEntity
                 .status(CREATED)
                 .body(response);
     }
 
-    public ResponseEntity<?> joinSession(SessionJoinRequest request) {
-        Optional<Session> sessionFromDb = sessionRepository
-                .findBySessionKey(request.getSessionKey());
+    @Transactional
+    public ResponseEntity<?> acceptInvitation(GameInvitationAcceptRequest request) {
+        AppUser secondPlayer = appUserService.findByUsername(request.getReceiverUsername()).get();
 
-        if(!sessionFromDb.isPresent()) {
-            throw new SessionNotFoundException("session not found");
-        }
-
-        Session session = sessionFromDb.get();
-
-        Optional<AppUser> playerFromDb = appUserService
-                .findByUsername(request.getUsername());
-
-        if(!playerFromDb.isPresent()) {
-            throw new UserNotFoundException("user not found");
-        }
-
-        AppUser secondPlayer = playerFromDb.get();
-
-        if(!secondPlayer.getUsername().equals(session.getExpectedPlayerUsername())) {
-            throw new NotInvitedToSessionException("you are not invited to this session");
-        }
-
+        Session session = sessionRepository.findBySessionKey(request.getSessionKey()).get();
         session.setSecondPlayer(secondPlayer);
-        sessionRepository.save(session);
 
-        SessionResponse response = new SessionResponse(request.getSessionKey());
+        sessionRepository.save(session);
+        gameInvitationService.deleteBySessionKey(session.getSessionKey());
 
         return ResponseEntity
                 .status(OK)
-                .body(response);
+                .body("invitation accepted");
     }
 
-    public ResponseEntity<?> inviteToSession(SessionInviteRequest request) {
-        AppUser invitedUser = appUserService.findByUsername(request.getToUsername()).get();
-        Session session = sessionRepository.findBySessionKey(request.getSessionKey()).get();
-
-        session.setExpectedPlayerUsername(invitedUser.getUsername());
-        sessionRepository.save(session);
-        invitationToSessionEmailService.createAndSendEmail(
-                invitedUser.getEmail(),
-                invitedUser.getUsername(),
-                request.getFromUsername(),
-                session.getSessionKey()
-        );
+    @Transactional
+    public ResponseEntity<?> declineInvitation(String sessionKey) {
+        gameInvitationService.deleteBySessionKey(sessionKey);
+        sessionRepository.deleteBySessionKey(sessionKey);
 
         return ResponseEntity
                 .status(OK)
-                .body("invitation has been sent to " + invitedUser.getUsername());
+                .body("invitation declined");
     }
 
     @Transactional
     public ResponseEntity<?> closeSession(SessionCloseRequest request) {
+        Optional<GameInvitation> invitation = gameInvitationService.findBySessionkey(request.getSessionKey());
+
+        if(invitation.isPresent()) {
+            gameInvitationService.deleteBySessionKey(request.getSessionKey());
+        }
+
         sessionRepository.deleteBySessionKey(request.getSessionKey());
 
         return ResponseEntity
@@ -111,7 +88,6 @@ public class SessionService {
                 .body("session has been deleted");
     }
 }
-
 
 
 

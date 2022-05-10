@@ -45,9 +45,7 @@ class AuthService {
         })
     }
     gameDecline(rejection) {
-        return axios.post('api/games/sessions/decline', {
-            sessionKey: rejection.key,
-        })
+        return axios.post('api/games/sessions/decline/' + rejection.key)
     }
     accept(acceptation) {
         return axios.post('api/friends/accept', {
@@ -63,15 +61,15 @@ class AuthService {
     }
     sessionCreate(session) {
         return axios.post('api/games/sessions/create', {
-            firstUser: session.firstUser,
-            secondUser: session.secondUser,
-            key: session.key,
+            firstPlayerUsername: session.firstPlayerUsername,
+            secondPlayerUsername: session.secondPlayerUsername,
+            game: session.game,
         })
     }
-    sessionClose(session){
-        return axios.delete('api/games/sessions/close', {
-            key: session.key,
-        })
+    sessionClose(session) {
+        return axios.delete('api/games/sessions/close',
+            {data: {key: session.key}}
+        )
     }
 }
 export default new AuthService();

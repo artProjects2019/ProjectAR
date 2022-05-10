@@ -76,9 +76,7 @@ public class FriendService {
     @Transactional
     public ResponseEntity<?> acceptInvitation(FriendInvitationRequest request) {
         AppUser sender = appUserService.findByUsername(request.getSenderUsername()).get();
-        System.out.println(sender);
         AppUser receiver = appUserService.findByUsername(request.getReceiverUsername()).get();
-        System.out.println(receiver);
 
         Friend friend = new Friend(sender, receiver);
         friendRepository.save(friend);
@@ -86,7 +84,7 @@ public class FriendService {
         friendInvitationService.deleteBySenderAndReceiver(sender.getId(), receiver.getId());
 
         return ResponseEntity
-                .status(CREATED)
+                .status(OK)
                 .body("invitation accepted");
     }
 

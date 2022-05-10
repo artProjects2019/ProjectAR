@@ -116,7 +116,7 @@ export default {
         key: yup.string(),
       });
 
-      rejection.key = key;
+      rejection.key = key
 
       this.message = "";
       this.successful = false;
