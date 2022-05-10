@@ -14,7 +14,7 @@
           <user_photo/>
           <div class="userName">
             <h6>Username</h6>
-            <h3>{{ session.firstPlayer.username }}</h3>
+            <h3>{{ session.firstPlayerUsername }}</h3>
           </div>
         </div>
 
@@ -22,7 +22,7 @@
           <user_photo/>
           <div class="userName">
             <h6>Username</h6>
-            <h3>{{ session.secondPlayer.username }}</h3>
+            <h3>{{ session.secondPlayerUsername }}</h3>
           </div>
         </div>
       </div>
@@ -55,10 +55,15 @@ export default {
   data() {
     return {
       session: {},
+      connection: null,
     };
   },
   mounted() {
     this.fetchGameSessionUsers();
+  },
+  created: function connectWebSocket(){
+    console.log("Elo mordo");
+    this.connection = new WebSocket('')
   },
   methods: {
     fetchGameSessionUsers() {
@@ -66,6 +71,9 @@ export default {
         this.session = response.data
       }.bind(this))
     },
+    isSecondPlayerInLobby() {
+
+    }
   }
 }
 </script>

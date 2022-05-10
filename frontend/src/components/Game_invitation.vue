@@ -41,6 +41,7 @@
 import Menu from "@/components/Menu";
 import axios from "axios";
 import * as yup from "yup";
+import {game} from "@/store/global-variables";
 export default {
   name: "Game_invitation",
   components: {
@@ -97,6 +98,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
+            game.ID = data.game;
             this.created();
           },
           (error) => {

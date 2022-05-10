@@ -99,7 +99,6 @@ export default {
             this.successful = true;
             this.loading = true;
             sessionKey.ID = data.sessionKey;
-            console.log(sessionKey.ID);
             this.created();
           },
           (error) => {
