@@ -98,11 +98,11 @@ export const auth = {
         gameAccept({ commit }, acceptation) {
             return AuthService.gameAccept(acceptation).then(
                 response => {
-                    commit('acceptationSuccess');
+                    commit('acceptationGameSuccess');
                     return Promise.resolve(response.data);
                 },
                 error => {
-                    commit('acceptationFailure');
+                    commit('acceptationGameFailure');
                     return Promise.reject(error.response.data);
                 }
             )
@@ -200,6 +200,6 @@ export const auth = {
         },
         newPasswordFailure() {
             console.log("Password change failure");
-        }
+        },
     }
 };

@@ -17,11 +17,11 @@
           </div>
 
           <div>
-            <button @click="handleAcceptation(logged.username, INVITATION.sessionKey)" class="add">
+            <button @click="handleAcceptation(logged.username, INVITATION.senderUsername, INVITATION.sessionKey)" class="add">
               <font-awesome-icon icon="user-check" />
               Accept
             </button>
-            <button @click="handleRejection(INVITATION.sessionKey)" class="decline">
+            <button @click="handleRejection(INVITATION.senderUsername, INVITATION.sessionKey)" class="decline">
               <font-awesome-icon icon="user-xmark" />
               Decline
             </button>
@@ -68,22 +68,22 @@ export default {
   },
   methods: {
     created(){
-      setTimeout( () => this.fetchInvitations(), 3000);
+      setTimeout( () => this.$router.push({ path: '/lobby'}), 3000);
     },
     fetchInvitations(){
       axios.get("api/games/invitations/" + this.logged.username).then(function (response) {
         this.gameInvitations = response.data
       }.bind(this))
     },
-    handleAcceptation(user, key) {
+    handleAcceptation(receiver, sender, key) {
       const acceptation = yup.object().shape({
         receiver: yup.string(),
         key: yup.string(),
       });
 
-      acceptation.receiver = user;
+      acceptation.receiver = receiver;
       acceptation.key = key
-      this.selectedUser = user;
+      this.selectedUser = sender;
 
       this.message = "";
       this.successful = false;
@@ -111,12 +111,13 @@ export default {
           }
       );
     },
-    handleRejection(key) {
+    handleRejection(sender, key) {
       const rejection = yup.object().shape({
         key: yup.string(),
       });
 
-      rejection.key = key
+      rejection.key = key;
+      this.selectedUser = sender;
 
       this.message = "";
       this.successful = false;

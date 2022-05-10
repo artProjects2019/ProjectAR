@@ -27,6 +27,10 @@
               Invite
             </button>
           </td>
+          <div v-if="message && (selectedUser === FRIEND.username)"
+               class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+            {{ message }}
+          </div>
         </tr>
       </tbody>
     </table>
@@ -43,7 +47,11 @@ export default {
     return {
       friends: [],
       selectedGame: game,
-      selectedSession: ''
+      selectedSession: '',
+      message: "",
+      selectedUser: "",
+      successful: false,
+      loading: false,
     }
   },
   computed: {
@@ -55,10 +63,11 @@ export default {
     this.fetchFriends();
   },
   methods: {
+    created(){
+      setTimeout( () => this.$router.push({ path: '/lobby'}), 3000);
+    },
     handlePrivateSession(){
-      console.log(32442);
       this.selectedSession = "Private";
-      console.log(this.selectedSession);
     },
     fetchFriends() {
       axios.get("api/friends/" + this.logged.username).then(function (response) {
@@ -88,8 +97,10 @@ export default {
                 data.message ||
                 data.toString();
             this.successful = true;
-            sessionKey.ID = data.sessionKey
             this.loading = true;
+            sessionKey.ID = data.sessionKey;
+            console.log(sessionKey.ID);
+            this.created();
           },
           (error) => {
             this.message =

@@ -13,6 +13,7 @@ import Friends from "@/components/Friends";
 import Friend_invitation from "@/components/Friend_invitation";
 import Game_invitation from "@/components/Game_invitation";
 import Game_session from "@/components/Game_session";
+import Lobby from "@/components/Lobby";
 
 const routes = [
     {
@@ -70,6 +71,10 @@ const routes = [
     {
         path: "/gameSession",
         component: Game_session,
+    },
+    {
+        path: "/lobby",
+        component: Lobby,
     },
 ];
 const router = createRouter({
