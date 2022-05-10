@@ -47,6 +47,7 @@
 import Menu from "@/components/Menu";
 import axios from "axios";
 import {sessionKey} from "@/store/global-variables";
+import {connectToSocket} from "@/store/web-socket-module";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -60,9 +61,10 @@ export default {
   },
   mounted() {
     this.fetchGameSessionUsers();
+    connectToSocket(sessionKey.ID);
   },
   created: function connectWebSocket(){
-    console.log("Elo mordo");
+    console.log("Witam, czekam");
     this.connection = new WebSocket('')
   },
   methods: {

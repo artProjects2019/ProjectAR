@@ -68,6 +68,7 @@ export default {
       return this.$store.state.auth.accept;
     },
     logged() {
+      new SocetJS
       return this.$store.state.auth.user;
     },
   },
