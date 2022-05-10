@@ -13,6 +13,11 @@ public class SessionController {
 
     private final SessionService sessionService;
 
+    @GetMapping("/{sessionKey}")
+    public ResponseEntity<?> findSessionBySessionKey(@PathVariable(name = "sessionKey") String sessionKey) {
+        return sessionService.findSessionBySessionKey(sessionKey);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createNewSession(@RequestBody SessionCreateRequest request) {
         return sessionService.createNewSession(request);
