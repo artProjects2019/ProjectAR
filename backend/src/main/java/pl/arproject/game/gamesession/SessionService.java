@@ -5,8 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.arproject.appuser.AppUser;
 import pl.arproject.appuser.AppUserService;
+import pl.arproject.exception.SessionNotFoundException;
 import pl.arproject.game.gamesession.request.SessionCreateRequest;
 import pl.arproject.game.gamesession.response.SessionCreateResponse;
+import pl.arproject.game.gamesession.response.SessionGetResponse;
 import pl.arproject.game.invitation.GameInvitation;
 import pl.arproject.game.invitation.GameInvitationService;
 import pl.arproject.game.invitation.request.GameInvitationAcceptRequest;
@@ -25,6 +27,25 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final AppUserService appUserService;
     private final GameInvitationService gameInvitationService;
+
+    public ResponseEntity<?> findSessionBySessionKey(String sessionKey) {
+        Optional<Session> sessionFromDb = sessionRepository.findBySessionKey(sessionKey);
+
+        if(!sessionFromDb.isPresent()) {
+            throw new SessionNotFoundException("session not found");
+        }
+
+        Session session = sessionFromDb.get();
+
+        SessionGetResponse response = new SessionGetResponse(
+                session.getFirstPlayer().getUsername(),
+                session.getSecondPlayer().getUsername()
+        );
+
+        return ResponseEntity
+                .status(OK)
+                .body(response);
+    }
 
     @Transactional
     public ResponseEntity<?> createNewSession(SessionCreateRequest request) {
@@ -89,6 +110,7 @@ public class SessionService {
                 .body("session has been deleted");
     }
 }
+
 
 
 
