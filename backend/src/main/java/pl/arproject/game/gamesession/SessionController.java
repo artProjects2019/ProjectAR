@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.arproject.game.gamesession.request.*;
 import pl.arproject.game.invitation.request.GameInvitationAcceptRequest;
-import pl.arproject.game.invitation.request.GameInvitationDeclineRequest;
 
 @RestController
 @RequestMapping("/api/games/sessions")
@@ -29,8 +28,8 @@ public class SessionController {
         return sessionService.declineInvitation(sessionKey);
     }
 
-    @DeleteMapping("/close")
-    public ResponseEntity<?> closeSession(@RequestBody SessionCloseRequest request) {
-        return sessionService.closeSession(request);
+    @DeleteMapping("/close/{sessionKey}")
+    public ResponseEntity<?> closeSession(@PathVariable(name = "sessionKey") String sessionKey) {
+        return sessionService.closeSession(sessionKey);
     }
 }

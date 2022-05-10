@@ -24,7 +24,7 @@ public class Session {
     private String sessionKey;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "first_first_id", referencedColumnName = "id")
+    @JoinColumn(name = "first_player_id", referencedColumnName = "id")
     private AppUser firstPlayer;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -9,4 +9,5 @@ import lombok.Setter;
 @Getter
 public class SessionCreateResponse {
     String sessionKey;
+    String message;
 }

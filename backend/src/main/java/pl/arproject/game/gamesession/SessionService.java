@@ -5,13 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.arproject.appuser.AppUser;
 import pl.arproject.appuser.AppUserService;
-import pl.arproject.game.gamesession.request.SessionCloseRequest;
 import pl.arproject.game.gamesession.request.SessionCreateRequest;
 import pl.arproject.game.gamesession.response.SessionCreateResponse;
 import pl.arproject.game.invitation.GameInvitation;
 import pl.arproject.game.invitation.GameInvitationService;
 import pl.arproject.game.invitation.request.GameInvitationAcceptRequest;
-import pl.arproject.game.invitation.request.GameInvitationDeclineRequest;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -41,7 +39,10 @@ public class SessionService {
         GameInvitation invitation = new GameInvitation(firstPlayer, secondPlayer, request.getGame(), sessionKey);
         gameInvitationService.saveGameInvitation(invitation);
 
-        SessionCreateResponse response = new SessionCreateResponse(sessionKey);
+        String message = "Session created. You have invited "
+                + secondPlayer.getUsername() + " to play " + request.getGame();
+
+        SessionCreateResponse response = new SessionCreateResponse(sessionKey, message);
 
         return ResponseEntity
                 .status(CREATED)
@@ -74,14 +75,14 @@ public class SessionService {
     }
 
     @Transactional
-    public ResponseEntity<?> closeSession(SessionCloseRequest request) {
-        Optional<GameInvitation> invitation = gameInvitationService.findBySessionkey(request.getSessionKey());
+    public ResponseEntity<?> closeSession(String sessionKey) {
+        Optional<GameInvitation> invitation = gameInvitationService.findBySessionkey(sessionKey);
 
         if(invitation.isPresent()) {
-            gameInvitationService.deleteBySessionKey(request.getSessionKey());
+            gameInvitationService.deleteBySessionKey(sessionKey);
         }
 
-        sessionRepository.deleteBySessionKey(request.getSessionKey());
+        sessionRepository.deleteBySessionKey(sessionKey);
 
         return ResponseEntity
                 .status(OK)
