@@ -1,14 +1,13 @@
-package pl.arproject.game.tictactoe;
+package pl.arproject.game.gamesession.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor
-@Getter
 @Setter
-public class TicTacToeMoveRequest {
-    private int boxNumber;
-    private int mark;
+@Getter
+public class SessionSocketRequest {
+    private String message;
     private String sessionKey;
 }

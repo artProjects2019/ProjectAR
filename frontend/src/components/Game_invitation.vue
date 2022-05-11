@@ -41,8 +41,8 @@
 import Menu from "@/components/Menu";
 import axios from "axios";
 import * as yup from "yup";
-import {game} from "@/store/global-variables";
-import {sendMessageToSocket} from "@/store/web-socket-module";
+import {game, sessionKey} from "@/store/global-variables";
+import LobbyWebSocket from "@/components/LobbyWebSocket";
 
 export default {
   name: "Game_invitation",
@@ -101,7 +101,8 @@ export default {
             this.successful = true;
             this.loading = true;
             game.ID = data.game;
-            sendMessageToSocket('Elo Mordo. Juz jestem', key);
+            sessionKey.ID = key;
+            LobbyWebSocket.methods.sendMessageToSocket('Elo Mordo. Juz jestem', key);
             this.created();
           },
           (error) => {

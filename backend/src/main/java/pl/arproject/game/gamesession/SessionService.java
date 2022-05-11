@@ -37,10 +37,15 @@ public class SessionService {
 
         Session session = sessionFromDb.get();
 
-        SessionGetResponse response = new SessionGetResponse(
-                session.getFirstPlayer().getUsername(),
-                session.getSecondPlayer().getUsername()
-        );
+        SessionGetResponse response = new SessionGetResponse();
+        response.setFirstPlayerUsername(session.getFirstPlayer().getUsername());
+
+        if(session.getSecondPlayer() == null) {
+            response.setSecondPlayerUsername("null");
+        }
+        else {
+            response.setSecondPlayerUsername(session.getSecondPlayer().getUsername());
+        }
 
         return ResponseEntity
                 .status(OK)

@@ -2,6 +2,7 @@ package pl.arproject.game.gamesession;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import pl.arproject.game.gamesession.request.*;
 import pl.arproject.game.invitation.request.GameInvitationAcceptRequest;
@@ -12,6 +13,7 @@ import pl.arproject.game.invitation.request.GameInvitationAcceptRequest;
 public class SessionController {
 
     private final SessionService sessionService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping("/{sessionKey}")
     public ResponseEntity<?> findSessionBySessionKey(@PathVariable(name = "sessionKey") String sessionKey) {
@@ -36,5 +38,13 @@ public class SessionController {
     @DeleteMapping("/close/{sessionKey}")
     public ResponseEntity<?> closeSession(@PathVariable(name = "sessionKey") String sessionKey) {
         return sessionService.closeSession(sessionKey);
+    }
+
+    @PostMapping("/lobby")
+    public ResponseEntity<?> gamePlay(@RequestBody SessionSocketRequest request) {
+        String message = request.getMessage();
+        simpMessagingTemplate.convertAndSend("/topic/lobby/" + request.getSessionKey(), message);
+
+        return ResponseEntity.ok(message);
     }
 }
