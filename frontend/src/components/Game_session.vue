@@ -1,40 +1,48 @@
 <template>
-  <div class="bar" style="color: white">
-    {{ selectedGame.ID }}
-  </div>
-    <div class="session" v-if="this.selectedSession !== 'Private'">
-      <div class="sessionButton">
-        <button @click="$router.push('./' + selectedGame.ID)">
-          Public session
-        </button>
-      </div>
-      <div class="sessionButton">
-        <button style="background-color: #4CAF50; color: white" @click="handlePrivateSession()">
-          Private session
-        </button>
+  <body>
+    <div class="container">
+
+        <div id="main">
+          <div class="bar" style="color: white">
+            {{ selectedGame.ID }}
+          </div>
+
+          <div class="session" v-if="this.selectedSession !== 'Private'">
+            <div class="sessionButton">
+              <button @click="$router.push('./' + selectedGame.ID)">
+                Public session
+              </button>
+            </div>
+            <div class="sessionButton">
+              <button style="background-color: #4CAF50; color: white" @click="handlePrivateSession()">
+                Private session
+              </button>
+            </div>
+          </div>
+
+          <div class="session"  v-if="this.selectedSession === 'Private'">
+          <div id="players">
+            <div class="player" v-for="(FRIEND) in friends " :key="FRIEND">
+              <user_photo/>
+              <div class="userName">
+                <h6>Username</h6>
+                <h3>{{ FRIEND.username }}</h3>
+              </div>
+              <button class="invite" @click="handleSessionCreate(logged.username, FRIEND.username, selectedGame.ID)">
+                Invite
+              </button>
+
+              <div v-if="message && (selectedUser === FRIEND.username)"
+                   class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+                {{ message }}
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-  <div class="session"  v-if="this.selectedSession === 'Private'">
-    <table id="tab">
-      <tbody>
-        <tr v-for="(FRIEND) in friends " :key="FRIEND">
-          <td>
-            {{ FRIEND.username }}
-          </td>
-          <td>
-            <button class="invite" @click="handleSessionCreate(logged.username, FRIEND.username, selectedGame.ID)">
-              Invite
-            </button>
-          </td>
-          <div v-if="message && (selectedUser === FRIEND.username)"
-               class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
-            {{ message }}
-          </div>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  </body>
 </template>
 
 <script>
@@ -117,6 +125,7 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 .session{
   display: flex;
@@ -127,11 +136,13 @@ export default {
   margin: 0 !important;
   padding: 0 !important;
 }
-
+.player {
+  width: auto !important;
+  height: inherit !important;
+}
 .sessionButton{
   padding: 10px;
 }
-
 .sessionButton button{
   background-color: white;
   padding: 10px 16px;
@@ -142,16 +153,6 @@ export default {
   border: 2px solid black;
   width: 400px;
   height: 100px;
-}
-
-#tab{
-  color: white;
-  background: #1c1e1e;
-  font-size: 40px;
-  text-align: center
-}
-#tab td{
-  padding: 20px;
 }
 .invite{
   background-color: #4CAF50; /* Green */

@@ -1,7 +1,6 @@
 <template>
   <body>
     <div class="container">
-      <Menu/>
 
       <div id="main">
         <div class="bar">
@@ -45,7 +44,6 @@
 </template>
 
 <script>
-import Menu from "@/components/Menu";
 import axios from "axios";
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs'
@@ -53,7 +51,6 @@ import * as Stomp from 'stompjs'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Lobby",
-  components: {Menu},
   data() {
     return {
       firstPlayerUsername: '',

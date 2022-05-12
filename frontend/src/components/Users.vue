@@ -31,9 +31,6 @@
                 </button>
               </div>
 
-              <div v-if="friends" class="add">
-                You are friends!
-              </div>
             </div>
           </div>
         </div>
