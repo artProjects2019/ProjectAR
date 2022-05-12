@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {game, sessionKey} from '../store/global-variables'
+import {game} from '@/store/global-variables'
 import axios from "axios";
 import * as yup from "yup";
 export default {
@@ -98,7 +98,8 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            sessionKey.ID = data.sessionKey;
+            localStorage.setItem('sessionKey', data.sessionKey);
+            console.log(localStorage.getItem('sessionKey'));
             this.created();
           },
           (error) => {

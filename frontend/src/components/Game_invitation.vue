@@ -41,7 +41,7 @@
 import Menu from "@/components/Menu";
 import axios from "axios";
 import * as yup from "yup";
-import {game, sessionKey} from "@/store/global-variables";
+import {game} from "@/store/global-variables";
 import Lobby from "@/components/Lobby";
 
 export default {
@@ -101,7 +101,7 @@ export default {
             this.successful = true;
             this.loading = true;
             game.ID = data.game;
-            sessionKey.ID = key;
+            localStorage.setItem('sessionKey', key)
             Lobby.methods.sendMessageToSocket('Elo Mordo. Juz jestem', key);
             this.created();
           },

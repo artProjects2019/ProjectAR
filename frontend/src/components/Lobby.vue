@@ -33,7 +33,7 @@
             </button>
           </div>
           <div class="sessionButton">
-            <button style="background-color: #4CAF50; color: white" @click="handlePrivateSession()">
+            <button style="background-color: #4CAF50; color: white" @click="$router.push('./' + selectedGame.ID)">
               Close session
             </button>
           </div>
@@ -47,7 +47,6 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
-import {sessionKey} from "@/store/global-variables";
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs'
 
@@ -59,12 +58,13 @@ export default {
     return {
       firstPlayerUsername: '',
       secondPlayerUsername: '',
-      socket: null
+      socket: null,
+      sessionKey: localStorage.getItem('sessionKey'),
     };
   },
   mounted() {
     this.fetchGameSessionUsers();
-    this.connectToSocket(sessionKey.ID);
+    this.connectToSocket(this.sessionKey);
   },
   methods: {
     connectToSocket: function() {
@@ -74,7 +74,7 @@ export default {
           {},
           frame => {
             console.log(frame);
-            this.stompClient.subscribe("/topic/lobby/" + sessionKey.ID, response => {
+            this.stompClient.subscribe("/topic/lobby/" + this.sessionKey, response => {
               let message = response.body;
               console.log(message);
               this.fetchGameSessionUsers();
@@ -83,14 +83,14 @@ export default {
           },
       );
     },
-    sendMessageToSocket(message) {
+    sendMessageToSocket(message, key) {
       return axios.post('api/games/sessions/lobby', {
         message: message,
-        sessionKey: sessionKey.ID,
+        sessionKey: key,
       });
     },
     fetchGameSessionUsers() {
-      axios.get("api/games/sessions/" + sessionKey.ID).then(function (response) {
+      axios.get("api/games/sessions/" + this.sessionKey).then(function (response) {
         this.firstPlayerUsername = response.data.firstPlayerUsername
         this.secondPlayerUsername = response.data.secondPlayerUsername
       }.bind(this))
@@ -100,5 +100,28 @@ export default {
 </script>
 
 <style scoped>
+.session{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
+.sessionButton{
+  padding: 10px;
+}
+
+.sessionButton button{
+  background-color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 40px;
+  border: 2px solid black;
+  width: 400px;
+  height: 100px;
+}
 </style>
