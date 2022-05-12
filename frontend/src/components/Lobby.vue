@@ -13,15 +13,15 @@
             <user_photo/>
             <div class="userName">
               <h6>Username</h6>
-              <h3>{{ firstPlayerUsernameChange }}</h3>
+              <h3>{{ firstPlayerUsername }}</h3>
             </div>
           </div>
 
-          <div class="player" v-if="secondPlayerUsernameChange !== 'null'">
+          <div class="player" v-if="secondPlayerUsername !== 'null'">
             <user_photo/>
             <div class="userName">
               <h6>Username</h6>
-              <h3>{{ secondPlayerUsernameChange }}</h3>
+              <h3>{{ secondPlayerUsername }}</h3>
             </div>
           </div>
         </div>
@@ -47,9 +47,9 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
-import LobbyWebSocket from "@/components/LobbyWebSocket";
 import {sessionKey} from "@/store/global-variables";
-
+import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -59,26 +59,36 @@ export default {
     return {
       firstPlayerUsername: '',
       secondPlayerUsername: '',
+      socket: null
     };
   },
   mounted() {
     this.fetchGameSessionUsers();
-    LobbyWebSocket.methods.connectToSocket(sessionKey.ID);
-    // eslint-disable-next-line vue/no-deprecated-events-api
-    this.$on('lobbyWebSocket', (username) => { // here you need to use the arrow function
-      this.secondPlayerUsername = username;
-      console.log(this.secondPlayerUsername);
-    })
-  },
-  computed: {
-    firstPlayerUsernameChange() {
-      return this.firstPlayerUsername;
-    },
-    secondPlayerUsernameChange() {
-      return this.secondPlayerUsername;
-    },
+    this.connectToSocket(sessionKey.ID);
   },
   methods: {
+    connectToSocket: function() {
+      this.socket = new SockJS("http://localhost:8080/api/websocket");
+      this.stompClient = Stomp.over(this.socket);
+      this.stompClient.connect(
+          {},
+          frame => {
+            console.log(frame);
+            this.stompClient.subscribe("/topic/lobby/" + sessionKey.ID, response => {
+              let message = response.body;
+              console.log(message);
+              this.fetchGameSessionUsers();
+              console.log("drugi user: " + this.secondPlayerUsername);
+            });
+          },
+      );
+    },
+    sendMessageToSocket(message) {
+      return axios.post('api/games/sessions/lobby', {
+        message: message,
+        sessionKey: sessionKey.ID,
+      });
+    },
     fetchGameSessionUsers() {
       axios.get("api/games/sessions/" + sessionKey.ID).then(function (response) {
         this.firstPlayerUsername = response.data.firstPlayerUsername
