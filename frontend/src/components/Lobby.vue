@@ -26,13 +26,13 @@
         </div>
 
         <div class="session">
-          <div class="sessionButton">
+          <div class="sessionButton" v-if="secondPlayerUsername !== 'null'">
             <button @click="$router.push('./' + selectedGame.ID)">
               Start game
             </button>
           </div>
           <div class="sessionButton">
-            <button style="background-color: #4CAF50; color: white" @click="$router.push('./' + selectedGame.ID)">
+            <button style="background-color: #4CAF50; color: white" @click=closeSession(sessionKey)>
               Close session
             </button>
           </div>
@@ -45,8 +45,10 @@
 
 <script>
 import axios from "axios";
+import * as yup from "yup";
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs'
+import { game } from '@/store/global-variables'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -57,6 +59,10 @@ export default {
       secondPlayerUsername: '',
       socket: null,
       sessionKey: localStorage.getItem('sessionKey'),
+      selectedGame: game,
+      successful: false,
+      loading: false,
+      message: '',
     };
   },
   mounted() {
@@ -64,6 +70,42 @@ export default {
     this.connectToSocket(this.sessionKey);
   },
   methods: {
+    created(){
+      setTimeout( () => this.$router.push({ path: '/'}), 3000);
+    },
+    closeSession: function (key) {
+      const rejection = yup.object().shape({
+        key: yup.string(),
+      });
+
+      rejection.key = key;
+
+      this.message = "";
+      this.successful = false;
+      this.loading = true;
+      this.$store.dispatch("auth/gameDecline", rejection).then(
+          (data) => {
+            this.message = (data.response &&
+                    data.response.data &&
+                    data.response.data.message) ||
+                data.message ||
+                data.toString();
+            this.successful = true;
+            this.loading = true;
+            this.created();
+          },
+          (error) => {
+            this.message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            this.successful = false;
+            this.loading = false;
+          }
+      )
+    },
     connectToSocket: function() {
       this.socket = new SockJS("http://localhost:8080/api/websocket");
       this.stompClient = Stomp.over(this.socket);

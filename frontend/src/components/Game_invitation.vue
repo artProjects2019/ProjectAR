@@ -17,7 +17,7 @@
           </div>
 
           <div>
-            <button @click="handleAcceptation(logged.username, INVITATION.senderUsername, INVITATION.sessionKey)" class="add">
+            <button @click="handleAcceptation(logged.username, INVITATION.senderUsername, INVITATION.sessionKey, INVITATION.game)" class="add">
               <font-awesome-icon icon="user-check" />
               Accept
             </button>
@@ -41,8 +41,9 @@
 import Menu from "@/components/Menu";
 import axios from "axios";
 import * as yup from "yup";
-import {game} from "@/store/global-variables";
+import { game } from "@/store/global-variables";
 import Lobby from "@/components/Lobby";
+
 
 export default {
   name: "Game_invitation",
@@ -78,7 +79,7 @@ export default {
         this.gameInvitations = response.data
       }.bind(this))
     },
-    handleAcceptation(receiver, sender, key) {
+    handleAcceptation(receiver, sender, key, gameID) {
       const acceptation = yup.object().shape({
         receiver: yup.string(),
         key: yup.string(),
@@ -100,7 +101,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            game.ID = data.game;
+            game.ID = gameID;
             localStorage.setItem('sessionKey', key)
             Lobby.methods.sendMessageToSocket('Elo Mordo. Juz jestem', key);
             this.created();
