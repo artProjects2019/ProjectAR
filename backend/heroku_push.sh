@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sh ../../ProjectAR-heroku/heroku_setup.sh
+(cd ../../ProjectAR-heroku; sh heroku_setup.sh)
