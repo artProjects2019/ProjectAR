@@ -1,9 +1,5 @@
 <template>
-  <div id="startGame">
-    START GAME <br>
-    THERE<br>
-    |<br>|<br>|<br>|<br>|<br>V<br>
-  </div>
+  <div></div>
 </template>
 
 <script>
@@ -12,10 +8,20 @@ export default {
   name: "TicTacToe",
   mounted() {
     start();
+    console.log("cos");
+    this.startTheGame();
   },
   unmounted() {
     document.querySelectorAll("#ARButton").forEach(i=> i.remove());
     Array.from(document.querySelectorAll('body > div')).filter(i=> i.id!=='app').filter(i => !i.classList.contains('container')).forEach(i=> i.remove());
+  },
+  methods: {
+    clickArButton() {
+      document.getElementById("ARButton").click();
+    },
+    startTheGame(){
+      setTimeout( () => this.clickArButton(), 0.000000000000001);
+    },
   }
 }
 </script>
