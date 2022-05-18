@@ -5,7 +5,7 @@
     <div id="main">
       <div id="top">
         <div id="topL">
-          kVRnik
+          kVRnik - test
         </div>
 
         <div v-if="!logged" class="topR">
