@@ -103,7 +103,7 @@ export default {
             this.loading = true;
             game.ID = gameID;
             localStorage.setItem('sessionKey', key)
-            Lobby.methods.sendMessageToSocket('Elo Mordo. Juz jestem', key);
+            Lobby.methods.sendMessageToSocket('joining', key);
             this.created();
           },
           (error) => {

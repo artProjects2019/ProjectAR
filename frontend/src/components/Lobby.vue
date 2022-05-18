@@ -27,7 +27,7 @@
 
         <div class="session">
           <div class="sessionButton" v-if="secondPlayerUsername !== 'null'">
-            <button @click="$router.push('./' + selectedGame.ID)">
+            <button @click=startGame(sessionKey)>
               Start game
             </button>
           </div>
@@ -70,9 +70,6 @@ export default {
     this.connectToSocket(this.sessionKey);
   },
   methods: {
-    created(){
-      setTimeout( () => this.$router.push({ path: '/'}), 3000);
-    },
     closeSession: function (key) {
       const rejection = yup.object().shape({
         key: yup.string(),
@@ -92,7 +89,8 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            this.created();
+            this.$router.push({ path: '/'});
+            this.sendMessageToSocket('closing', key);
           },
           (error) => {
             this.message =
@@ -106,6 +104,10 @@ export default {
           }
       )
     },
+    startGame(sessionKey) {
+      this.sendMessageToSocket('starting', sessionKey);
+      this.$router.push({ path: './' + this.selectedGame.ID});
+    },
     connectToSocket: function() {
       this.socket = new SockJS("http://localhost:8080/api/websocket");
       this.stompClient = Stomp.over(this.socket);
@@ -115,13 +117,26 @@ export default {
             console.log(frame);
             this.stompClient.subscribe("/topic/lobby/" + this.sessionKey, response => {
               let message = response.body;
-              console.log(message);
-              this.fetchGameSessionUsers();
-              console.log("drugi user: " + this.secondPlayerUsername);
+
+              switch(message) {
+                case 'joining': {
+                  this.fetchGameSessionUsers();
+                  break;
+                }
+                case 'starting': {
+                  this.$router.push({ path: './' + this.selectedGame.ID});
+                  break;
+                }
+                case 'closing': {
+                  this.$router.push({ path: '/'});
+                  break;
+                }
+              }
             });
           },
       );
     },
+
     sendMessageToSocket(message, key) {
       return axios.post('api/games/sessions/lobby', {
         message: message,
