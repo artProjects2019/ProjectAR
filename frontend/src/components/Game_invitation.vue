@@ -138,7 +138,8 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            this.created();
+            Lobby.methods.sendMessageToSocket('decline', key);
+            setTimeout( () => this.fetchInvitations(), 3000);
           },
           (error) => {
             this.message =

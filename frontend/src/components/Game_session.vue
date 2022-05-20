@@ -92,7 +92,9 @@ export default {
       session.firstPlayerUsername = user;
       session.secondPlayerUsername = user2;
       session.game = game;
+      localStorage.setItem('owner', user);
       this.selectedUser = user2;
+
 
       this.message = "";
       this.successful = false;

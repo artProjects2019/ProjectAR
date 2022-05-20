@@ -1,16 +1,24 @@
 import  {
-     updateTextureX,
-     updateTextureXWin,
-     updateTextureO,
-     updateTextureOWin
+     updateTexture
 }  from './drawTicTacToe.js'
+
+import * as SockJS from "sockjs-client";
+import * as Stomp from "stompjs";
+import axios from "axios";
+import store from "@/store";
+import router from "@/router";
 
 import {playAudio} from '../../../public/audio/sound'
 
+let amIOwner;
+let isMyTurn;
+let myMark;
+
+let sessionKey;
+let socket = null;
+
 const SIZE = 3;
-const X = 1;
-const O = 0;
-const EMPTY = -1;
+const EMPTY = 'empty';
 
 // representation of the game board in the tic-tac-toe's logic
 let logicBoard =
@@ -20,199 +28,81 @@ let logicBoard =
 
 let gameOver = {status: false};
 
+function connectToSocket(sessionKey) {
+    socket = new SockJS("https://ar-project2019.herokuapp.com/api/websocket");
+    let stompClient = Stomp.over(socket);
+    stompClient.connect(
+        {},
+        frame => {
+            console.log(frame);
+            stompClient.subscribe("/topic/game/" + sessionKey, response => {
+                let message = JSON.parse(response.body);
+                let boxNumber = message.boxNumber;
+                let move = calculateRowAndColumn(boxNumber);
+                let column = move[0];
+                let row = move[1];
+                let mark = message.mark;
+
+                if(mark !== myMark) {
+                    logicBoard[row][column] = mark;
+                    updateTexture(boxNumber, mark);
+                    checkWin(mark);
+                    checkCatsGame();
+                    isMyTurn = true;
+                }
+            });
+        },
+    );
+}
+
+function sendMessageToSocket(mark, boxNumber, key) {
+    return axios.post('api/games/sessions/ticTacToeMove', {
+        mark: mark,
+        boxNumber: boxNumber,
+        sessionKey: key,
+    });
+}
+
 function restart(){
     logicBoard =
             [[EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]];
     gameOver.status = false;
-
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    amIOwner = localStorage.getItem('owner') === store.state.auth.user.username;
+    isMyTurn = amIOwner;
+    sessionKey = localStorage.getItem('sessionKey');
+    myMark = amIOwner ? 'o' : 'x';
 }
 
 function calculateBoxNumber(row, column) {
     return 3*row+column; // number of the box from 0 to 8
 }
 
+function calculateRowAndColumn(boxNumber) {
+    let column = boxNumber % 3;
+    let row = (boxNumber - column) / 3;
+
+    return [column, row];
+}
+
 // if the game is still going then the player makes a move based on the clicked box
-async function playerTurn(boxNumber) {
-    if(!gameOver.status) {
+function playerTurn(boxNumber, mark) {
+    if(!gameOver.status && isMyTurn) {
         let row = Math.floor(boxNumber / 3);
         let column = boxNumber % 3;
 
         if(logicBoard[row][column] === EMPTY) {
-            logicBoard[row][column] = O;
-            updateTextureO(boxNumber);
-
-            // check the game status after the player's move
-            checkWin(O);
+            logicBoard[row][column] = mark;
+            updateTexture(boxNumber, mark);
+            checkWin(mark);
             checkCatsGame();
-
-            // computer makes a move only after player's turn
-            await sleep(200);
-            computerTurn();
+            isMyTurn = false;
+            sendMessageToSocket(mark, boxNumber, sessionKey);
         }
     }
 }
 
-// if the game is still going then the computer makes a move
-function computerTurn() {
-    if(!gameOver.status) {
-        computerInput();
-
-        // check the game status after the computer's move
-        checkWin(X);
-        checkCatsGame();
-    }
-}
-
-function computerRandomInput() {
-    let row = Math.floor((Math.random() * 10) % 3);
-    let column = Math.floor((Math.random() * 10) % 3);
-
-    if(logicBoard[row][column] === EMPTY) {
-        logicBoard[row][column] = X;
-        updateTextureX(calculateBoxNumber(row, column));
-    }
-    else {
-        computerRandomInput();
-    }
-}
-
-// function used by the computer to check whether it should make a move in one of the rows
-function checkRow(madeTurn, mark) {
-    for(let i = 0; i < SIZE; ++i) {
-        let symbolCount = 0;
-        let column = -1;
-        for(let j = 0; j < SIZE; ++j) {
-            if(logicBoard[i][j] === mark) {
-                symbolCount++;
-            }
-            else if(logicBoard[i][j] === EMPTY) {
-                column = j; // remember the position of the potential computer's move
-            }
-        }
-
-        // if there are 2 the same marks in the same row and the third box is empty
-        // then make a move on the remembered position
-        if(symbolCount === SIZE - 1 && column >= 0) {
-            logicBoard[i][column] = X;
-            updateTextureX(calculateBoxNumber(i, column));
-            madeTurn.status = true;
-            break;
-        }
-    }
-}
-
-// function used by the computer to check whether it should make a move in one of the columns
-function checkColumn(madeTurn, mark) {
-    for(let j = 0; j < SIZE; ++j) {
-        let symbolCount = 0;
-        let row = -1;
-        for(let i = 0; i < SIZE; ++i) {
-            if(logicBoard[i][j] === mark) {
-                symbolCount++;
-            }
-            else if(logicBoard[i][j] === EMPTY) {
-                row = i; // remember the position of the potential computer's move
-            }
-        }
-
-        // if there are 2 the same marks in the same column and the third box is empty
-        // then make a move on the remembered position
-        if(symbolCount === SIZE - 1 && row >= 0) {
-            logicBoard[row][j] = X;
-            updateTextureX(calculateBoxNumber(row, j));
-            madeTurn.status = true;
-            break;
-        }
-    }
-}
-
-// function used by the computer to check whether it should make a move on one of the diagonals
-function checkDiagonalLeftTop(madeTurn, mark) {
-    let symbolCount = 0;
-    let position = -1;
-
-    for(let i = 0; i < SIZE; ++i) {
-        if(logicBoard[i][i] === mark) {
-            symbolCount++;
-        }
-        else if(logicBoard[i][i] === EMPTY) {
-            position = i; // remember the position of the potential computer's move
-        }
-    }
-
-    // if there are 2 the same marks on the same diagonal and the third box is empty
-    // then make a move on the remembered position
-    if(symbolCount === SIZE - 1 && position >= 0) {
-        logicBoard[position][position] = X;
-        updateTextureX(calculateBoxNumber(position, position));
-        madeTurn.status = true;
-    }
-}
-
-// function used by the computer to check whether it should make a move on one of the diagonals
-function checkDiagonalLeftBottom(madeTurn, mark) {
-    let symbolCount = 0;
-    let position = -1;
-
-    for(let i = 0; i < SIZE; ++i) {
-        if(logicBoard[SIZE - i - 1][i] === mark) {
-            symbolCount++;
-        }
-        else if(logicBoard[SIZE - i - 1][i] === EMPTY) {
-            position = i; // remember the position of the potential computer's move
-        }
-    }
-
-    // if there are 2 the same marks on the same diagonal and the third box is empty
-    // then make a move on the remembered position
-    if(symbolCount === SIZE - 1 && position >= 0) {
-        logicBoard[SIZE - position - 1][position] = X;
-        updateTextureX(calculateBoxNumber((SIZE - position - 1), position));
-        madeTurn.status = true;
-    }
-}
-
-// computer's logic
-function computerInput() {
-    let turnMade = {status: false};
-
-    // Computer checks if it can make 3 in a row and win the game
-    checkColumn(turnMade, X);
-    if(!turnMade.status) {
-        checkRow(turnMade, X);
-    }
-    if(!turnMade.status) {
-        checkDiagonalLeftTop(turnMade, X);
-    }
-    if(!turnMade.status) {
-        checkDiagonalLeftBottom(turnMade, X);
-    }
-
-    // Computer checks if the player can make 3 in a row in the next turn and blocks him if he can
-    if(!turnMade.status) {
-        checkColumn(turnMade, O);
-    }
-    if(!turnMade.status) {
-        checkRow(turnMade, O);
-    }
-    if(!turnMade.status) {
-        checkDiagonalLeftBottom(turnMade, O);
-    }
-    if(!turnMade.status) {
-        checkDiagonalLeftTop(turnMade, O);
-    }
-
-    // Computer makes a random move if it did not get to win the game, nor block the player
-    if(!turnMade.status) {
-        computerRandomInput();
-    }
-}
 
 // checks the every column looking for a win for a specific mark(X or O)
 function columnWin(mark) {
@@ -290,24 +180,21 @@ function checkWin(mark) {
         diagonalWin(mark);
     }
     if(gameOver.status) {
-        if(mark === O) {
+        if(mark === myMark) {
             playAudio("./audio/win.wav");
         }
-        if(mark === X) {
+        else {
             playAudio("./audio/lose.wav");
         }
+        setTimeout( () => router.push({ path: '/'}), 3000);
+        axios.delete('api/games/sessions/close/' + sessionKey);
     }
 }
 
 // changes the textures of the winning boxes
 function drawWin(mark, boxesInARow) {
     for(let boxNumber of boxesInARow) {
-        if(mark === O) {
-            updateTextureOWin(boxNumber);
-        }
-        if(mark === X) {
-            updateTextureXWin(boxNumber);
-        }
+        updateTexture(boxNumber, mark + 'Win');
     }
 }
 
@@ -327,8 +214,10 @@ function checkCatsGame() {
         if(catsGame) {
             gameOver.status = true;
             playAudio("../audio/draw.wav");
+            setTimeout( () => router.push({ path: '/'}), 3000);
+            axios.delete('api/games/sessions/close/' + sessionKey);
         }
     }
 }
 
-export {playerTurn, restart};
+export {playerTurn, restart, myMark, connectToSocket, sessionKey};

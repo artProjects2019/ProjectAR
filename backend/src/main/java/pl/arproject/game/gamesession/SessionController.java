@@ -41,7 +41,7 @@ public class SessionController {
     }
 
     @PostMapping("/lobby")
-    public ResponseEntity<?> gamePlay(@RequestBody SessionSocketRequest request) {
+    public ResponseEntity<?> lobby(@RequestBody SessionSocketRequest request) {
         String message = request.getMessage();
         simpMessagingTemplate.convertAndSend("/topic/lobby/" + request.getSessionKey(), message);
 

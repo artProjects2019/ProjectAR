@@ -8,7 +8,6 @@ export default {
   name: "TicTacToe",
   mounted() {
     start();
-    console.log("cos");
     this.startTheGame();
   },
   unmounted() {

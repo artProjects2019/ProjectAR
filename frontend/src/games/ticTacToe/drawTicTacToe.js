@@ -2,6 +2,9 @@ import {ARButton} from "three/examples/jsm/webxr/ARButton";
 import {playerTurn, restart} from './ticTacToe.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
+import {myMark} from "./ticTacToe.js";
+import {connectToSocket} from "./ticTacToe.js";
+import {sessionKey} from "./ticTacToe.js";
 
 const tempMatrix = new THREE.Matrix4();
 
@@ -62,20 +65,8 @@ function createMaterial(texture) {
     ];
 }
 
-function updateTextureX(boxNumber){
-    board.boxes[boxNumber].material = createMaterial('x');
-}
-
-function updateTextureXWin(boxNumber){
-    board.boxes[boxNumber].material = createMaterial('xWin');
-}
-
-function updateTextureO(boxNumber){
-    board.boxes[boxNumber].material = createMaterial('o');
-}
-
-function updateTextureOWin(boxNumber){
-    board.boxes[boxNumber].material = createMaterial('oWin');
+function updateTexture(boxNumber, mark){
+    board.boxes[boxNumber].material = createMaterial(mark);
 }
 
 function init() {
@@ -130,7 +121,7 @@ function onSelect() {
 
     for(let i = 0; i < board.boxes.length; i++) {
         if (intersections.length > 0 && intersections[0].object === board.boxes[i]) {
-            playerTurn(i);
+            playerTurn(i, myMark);
             playAudio("./audio/click.wav");
         }
     }
@@ -146,16 +137,12 @@ function render() {
 
 function start() {
     restart();
+    connectToSocket(sessionKey);
     init();
     animate();
 }
 
-// start();
-
 export {
-    updateTextureX,
-    updateTextureXWin,
-    updateTextureO,
-    updateTextureOWin,
+    updateTexture,
     start,
 };

@@ -109,7 +109,7 @@ export default {
       this.$router.push({ path: './' + this.selectedGame.ID});
     },
     connectToSocket: function() {
-      this.socket = new SockJS("http://localhost:8080/api/websocket");
+      this.socket = new SockJS("https://ar-project2019.herokuapp.com/api/websocket");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
           {},
@@ -128,6 +128,10 @@ export default {
                   break;
                 }
                 case 'closing': {
+                  this.$router.push({ path: '/'});
+                  break;
+                }
+                case 'decline': {
                   this.$router.push({ path: '/'});
                   break;
                 }
