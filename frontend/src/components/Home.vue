@@ -3,32 +3,7 @@
   <div class="container">
     <Menu/>
     <div id="main">
-      <div id="top">
-        <div id="topL">
-          kVRnik - test
-        </div>
-
-        <div v-if="!logged" class="topR">
-          <button id="login" @click="$router.push('./login')">
-            <font-awesome-icon icon="sign-in-alt" /> Log in
-          </button>
-
-          <button id="signup" @click="$router.push('./register')">
-            <font-awesome-icon icon="user-plus" /> Sign up
-          </button>
-        </div>
-
-        <div v-if="logged" class="topR">
-          <button id="user" @click="$router.push('./account')">
-            <font-awesome-icon icon="user" /> {{logged.username}}
-          </button>
-
-          <button id="logout" @click.prevent="logOut">
-            <font-awesome-icon icon="sign-out-alt" /> Log out
-          </button>
-
-        </div>
-      </div>
+      <User_panel/>
 
       <div class="bar">
         About project
@@ -143,10 +118,12 @@
 </template>
 <script>
 import Menu from "@/components/Menu";
+import User_panel from "@/components/User_panel";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   components: {
+    User_panel,
     Menu
   },
   computed: {

@@ -4,6 +4,8 @@
       <Menu/>
 
       <div id="main">
+        <User_panel/>
+
         <div class="bar">
           Players online
         </div>
@@ -44,6 +46,7 @@ import Menu from "@/components/Menu";
 import axios from "axios";
 import user_photo from "@/components/User_photo";
 import * as yup from "yup";
+import User_panel from "@/components/User_panel";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Users",
@@ -57,6 +60,7 @@ export default {
     };
   },
   components: {
+    User_panel,
     Menu,
     user_photo
   },

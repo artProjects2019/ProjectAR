@@ -4,6 +4,8 @@
     <Menu/>
 
     <div id="main">
+      <User_panel/>
+
       <div class="bar">
         Game invitations
       </div>
@@ -43,11 +45,13 @@ import axios from "axios";
 import * as yup from "yup";
 import { game } from "@/store/global-variables";
 import Lobby from "@/components/Lobby";
+import User_panel from "@/components/User_panel";
 
 
 export default {
   name: "Game_invitation",
   components: {
+    User_panel,
     Menu,
   },
   data() {

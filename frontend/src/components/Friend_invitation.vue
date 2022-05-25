@@ -3,6 +3,8 @@
   <div class="container">
     <Menu/>
     <div id="main">
+      <User_panel/>
+
       <div class="bar">
         Friend invitations
       </div>
@@ -41,9 +43,11 @@ import Menu from "@/components/Menu";
 import axios from "axios";
 import user_photo from "@/components/User_photo";
 import * as yup from "yup";
+import User_panel from "@/components/User_panel";
 export default {
   name: "Friend_invitation",
   components: {
+    User_panel,
     Menu,
     user_photo
   },

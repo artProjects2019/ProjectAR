@@ -4,6 +4,8 @@
       <Menu/>
 
       <div id="main">
+        <User_panel/>
+
         <div class="bar">
           Ranking
         </div>
@@ -84,11 +86,12 @@
 
 <script>
 import Menu from "@/components/Menu";
+import User_panel from "@/components/User_panel";
 
 export default {
 // eslint-disable-next-line vue/multi-word-component-names
   name: "Ranking",
-  components: {Menu}
+  components: {User_panel, Menu}
 }
 </script>
 
