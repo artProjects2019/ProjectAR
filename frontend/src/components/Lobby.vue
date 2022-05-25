@@ -26,7 +26,8 @@
         </div>
 
         <div class="session">
-          <div class="sessionButton" v-if="secondPlayerUsername !== 'null'">
+          <div class="sessionButton"
+               v-if="secondPlayerUsername !== 'null' && logged === owner">
             <button @click=startGame(sessionKey)>
               Start game
             </button>
@@ -59,6 +60,7 @@ export default {
       secondPlayerUsername: '',
       socket: null,
       sessionKey: localStorage.getItem('sessionKey'),
+      owner: localStorage.getItem('owner'),
       selectedGame: game,
       successful: false,
       loading: false,
@@ -68,6 +70,13 @@ export default {
   mounted() {
     this.fetchGameSessionUsers();
     this.connectToSocket(this.sessionKey);
+  },
+  computed: {
+    logged() {
+      console.log(this.$store.state.auth.user.username);
+      console.log(this.owner);
+      return this.$store.state.auth.user.username;
+    },
   },
   methods: {
     closeSession: function (key) {

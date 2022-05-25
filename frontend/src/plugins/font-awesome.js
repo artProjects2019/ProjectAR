@@ -11,6 +11,7 @@ import {
     faPlus,
     faUserCheck,
     faUserXmark,
+    faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faFacebook,
@@ -18,5 +19,5 @@ import {
     faGithub,
 } from '@fortawesome/free-brands-svg-icons'
 
-library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faRankingStar, faSignOut, faPlus, faUserCheck, faUserXmark ,faFacebook, faInstagram, faGithub);
+library.add(faCircleInfo, faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faRankingStar, faSignOut, faPlus, faUserCheck, faUserXmark ,faFacebook, faInstagram, faGithub);
 export { FontAwesomeIcon };

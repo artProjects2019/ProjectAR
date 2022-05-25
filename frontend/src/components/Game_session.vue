@@ -71,9 +71,6 @@ export default {
     this.fetchFriends();
   },
   methods: {
-    created(){
-      setTimeout( () => this.$router.push({ path: '/lobby'}), 3000);
-    },
     handlePrivateSession(){
       this.selectedSession = "Private";
     },
@@ -92,9 +89,7 @@ export default {
       session.firstPlayerUsername = user;
       session.secondPlayerUsername = user2;
       session.game = game;
-      localStorage.setItem('owner', user);
       this.selectedUser = user2;
-
 
       this.message = "";
       this.successful = false;
@@ -109,8 +104,8 @@ export default {
             this.successful = true;
             this.loading = true;
             localStorage.setItem('sessionKey', data.sessionKey);
-            console.log(localStorage.getItem('sessionKey'));
-            this.created();
+            localStorage.setItem('owner', user);
+            this.$router.push({ path: '/lobby'});
           },
           (error) => {
             this.message =

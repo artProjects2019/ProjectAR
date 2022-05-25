@@ -15,11 +15,11 @@ export default {
     Array.from(document.querySelectorAll('body > div')).filter(i=> i.id!=='app').filter(i => !i.classList.contains('container')).forEach(i=> i.remove());
   },
   methods: {
-    clickArButton() {
-      document.getElementById("ARButton").click();
+    touchArButton() {
+       document.getElementById("ARButton").click();
     },
     startTheGame(){
-      setTimeout( () => this.clickArButton(), 0.000000000000001);
+      setTimeout( () => this.touchArButton(), 0.0001);
     },
   }
 }

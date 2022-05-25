@@ -71,9 +71,6 @@ export default {
     this.fetchInvitations();
   },
   methods: {
-    created(){
-      setTimeout( () => this.$router.push({ path: '/lobby'}), 3000);
-    },
     fetchInvitations(){
       axios.get("api/games/invitations/" + this.logged.username).then(function (response) {
         this.gameInvitations = response.data
@@ -102,9 +99,10 @@ export default {
             this.successful = true;
             this.loading = true;
             game.ID = gameID;
-            localStorage.setItem('sessionKey', key)
+            localStorage.setItem('sessionKey', key);
+            localStorage.setItem('owner', sender);
             Lobby.methods.sendMessageToSocket('joining', key);
-            this.created();
+            this.$router.push({ path: '/lobby'});
           },
           (error) => {
             this.message =
@@ -139,7 +137,7 @@ export default {
             this.successful = true;
             this.loading = true;
             Lobby.methods.sendMessageToSocket('decline', key);
-            setTimeout( () => this.fetchInvitations(), 3000);
+            this.fetchInvitations();
           },
           (error) => {
             this.message =

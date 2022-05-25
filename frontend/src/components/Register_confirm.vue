@@ -49,10 +49,6 @@ export default {
     };
   },
   methods: {
-    created(){
-      setTimeout( () => this.$router.push({ path: '/login'}), 3000);
-    },
-
     handleConfirmation(token) {
       this.message = "";
       this.successful = false;
@@ -66,7 +62,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            this.created();
+            this.$router.push({ path: '/login'});
           },
           (error) => {
             this.message =

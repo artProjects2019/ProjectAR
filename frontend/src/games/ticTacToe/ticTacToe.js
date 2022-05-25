@@ -186,8 +186,10 @@ function checkWin(mark) {
         else {
             playAudio("./audio/lose.wav");
         }
-        setTimeout( () => router.push({ path: '/'}), 3000);
         axios.delete('api/games/sessions/close/' + sessionKey);
+        localStorage.removeItem('owner');
+        localStorage.removeItem('sessionKey');
+        setTimeout( () => router.push({ path: '/'}), 3000);
     }
 }
 
@@ -214,8 +216,10 @@ function checkCatsGame() {
         if(catsGame) {
             gameOver.status = true;
             playAudio("../audio/draw.wav");
-            setTimeout( () => router.push({ path: '/'}), 3000);
             axios.delete('api/games/sessions/close/' + sessionKey);
+            localStorage.removeItem('owner');
+            localStorage.removeItem('sessionKey');
+            setTimeout( () => router.push({ path: '/'}), 3000);
         }
     }
 }

@@ -68,9 +68,6 @@ export default {
     this.fetchInvitations();
   },
   methods: {
-    created(){
-      setTimeout( () => this.fetchInvitations(), 3000);
-    },
     fetchInvitations(){
       axios.get("api/friends/invitations/" + this.logged.username).then(function (response) {
         this.invitations = response.data
@@ -98,7 +95,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            this.created();
+            this.fetchInvitations();
           },
           (error) => {
             this.message =
@@ -134,7 +131,7 @@ export default {
                 data.toString();
             this.successful = true;
             this.loading = true;
-            this.created();
+            this.fetchInvitations();
           },
           (error) => {
             this.message =
