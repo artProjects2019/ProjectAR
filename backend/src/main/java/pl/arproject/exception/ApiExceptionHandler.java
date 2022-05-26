@@ -79,4 +79,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
+
+    @ExceptionHandler(PasswordsNotEqualException.class)
+    public ResponseEntity<Object> handlePasswordsNotEqualException(PasswordsNotEqualException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                UNAUTHORIZED
+        );
+
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler(PasswordIsNotValidException.class)
+    public ResponseEntity<Object> handlePasswordIsNotValidException(PasswordIsNotValidException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                UNPROCESSABLE_ENTITY
+        );
+
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler(RankingNotFoundException.class)
+    public ResponseEntity<Object> handleRankingNotFoundException(RankingNotFoundException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                NOT_FOUND
+        );
+
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
 }

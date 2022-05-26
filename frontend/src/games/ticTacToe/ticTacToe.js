@@ -29,7 +29,7 @@ let logicBoard =
 let gameOver = {status: false};
 
 function connectToSocket(sessionKey) {
-    socket = new SockJS("https://ar-project2019.herokuapp.com/api/websocket");
+    socket = new SockJS("http://localhost:8080/api/websocket");
     let stompClient = Stomp.over(socket);
     stompClient.connect(
         {},
@@ -182,14 +182,12 @@ function checkWin(mark) {
     if(gameOver.status) {
         if(mark === myMark) {
             playAudio("./audio/win.wav");
+            axios.patch('api/ranking/' + store.state.auth.user.username);
         }
         else {
             playAudio("./audio/lose.wav");
         }
-        axios.delete('api/games/sessions/close/' + sessionKey);
-        localStorage.removeItem('owner');
-        localStorage.removeItem('sessionKey');
-        setTimeout( () => router.push({ path: '/'}), 3000);
+        handleEndGame();
     }
 }
 
@@ -216,12 +214,16 @@ function checkCatsGame() {
         if(catsGame) {
             gameOver.status = true;
             playAudio("../audio/draw.wav");
-            axios.delete('api/games/sessions/close/' + sessionKey);
-            localStorage.removeItem('owner');
-            localStorage.removeItem('sessionKey');
-            setTimeout( () => router.push({ path: '/'}), 3000);
+            handleEndGame();
         }
     }
+}
+
+function handleEndGame() {
+    axios.delete('api/games/sessions/close/' + sessionKey);
+    localStorage.removeItem('owner');
+    localStorage.removeItem('sessionKey');
+    setTimeout( () => router.push({ path: '/'}), 3000);
 }
 
 export {playerTurn, restart, myMark, connectToSocket, sessionKey};

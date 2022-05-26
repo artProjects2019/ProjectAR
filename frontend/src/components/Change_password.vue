@@ -9,7 +9,7 @@
       <Form @submit="handleNewPassword" :validation-schema="schema">
         <div class="form-group">
           <label>New Password</label>
-          <Field name="newPassword" type="text" class="form-control" />
+          <Field name="newPassword" type="password" class="form-control" />
           <ErrorMessage name="newPassword" class="error-feedback" />
         </div>
         <div class="form-group">
@@ -61,9 +61,14 @@ export default {
     ErrorMessage,
   },
   data() {
+    const errorMessage = "passwords are not identical";
     const schema = yup.object().shape({
-      newPassword: yup.string().required("New password is required!"),
-      repeatPassword: yup.string().required("Repeat password!"),
+      newPassword: yup.string()
+          .required("New password is required!"),
+      repeatPassword: yup.string()
+          .required("Repeat password!")
+          .oneOf([yup.ref('newPassword')], errorMessage),
+      username: yup.string(),
     });
     return {
       successful: false,
@@ -72,15 +77,21 @@ export default {
       schema,
     };
   },
+  computed: {
+    logged() {
+      return this.$store.state.auth.user.username;
+    },
+  },
   methods: {
     created(){
-      setTimeout( () => this.$router.push({ path: '/login'}), 3000);
+      setTimeout( () => this.$router.push({ path: '/'}), 3000);
     },
-    handleNewPassword(user) {
+    handleNewPassword(changePasswordRequest) {
       this.message = "";
       this.successful = false;
       this.loading = true;
-      this.$store.dispatch("auth/newPassword", user).then(
+      changePasswordRequest.username = this.logged;
+      this.$store.dispatch("auth/newPassword", changePasswordRequest).then(
           (data) => {
             this.message = (data.response &&
                     data.response.data &&
@@ -92,7 +103,12 @@ export default {
             this.created();
           },
           (error) => {
-            this.message = error.response.data;
+            this.message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
             this.successful = false;
             this.loading = false;
           }

@@ -11,7 +11,8 @@
           <div class="form-group">
             <label>
               Username
-              <font-awesome-icon title="Username should be between 4 and 15 characters and it can only contain digits and letters both in lower and upper case"
+              <font-awesome-icon title="Username should be between 4 and 15 characters
+               and it can only contain digits and letters both in lower and upper case"
                 icon="circle-info" />
             </label>
             <Field name="username" type="text" class="form-control" />
@@ -25,7 +26,9 @@
           <div class="form-group">
             <label>
               Password
-              <font-awesome-icon title="Password should be between 8 and 20 characters and it has to contain at least: one digit, one upper case character, one lower case character and one symbol e.g. '$' or '#'"
+              <font-awesome-icon title="Password should be between 8 and 20 characters
+               and it has to contain at least: one digit, one upper case character,
+                one lower case character and one symbol e.g. '$' or '#'"
                 icon="circle-info" />
             </label>
             <Field name="password" type="password" class="form-control" />

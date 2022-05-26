@@ -26,10 +26,14 @@ class AuthService {
         return axios.get('api/register/confirm?token=' + token.token, {
         });
     }
-    newPassword(user) {
-        return axios.post('api/changePassword', {
-            username: user.username,
-            password: user.password,
+    newPassword(changePasswordRequest) {
+        console.log(changePasswordRequest.newPassword);
+        console.log(changePasswordRequest.username);
+        console.log(changePasswordRequest.repeatPassword);
+        return axios.patch('api/users/changePassword', {
+            newPassword: changePasswordRequest.newPassword,
+            repeatPassword: changePasswordRequest.repeatPassword,
+            username: changePasswordRequest.username
         })
     }
     invite(invitation) {

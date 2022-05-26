@@ -20,15 +20,15 @@ export const auth = {
                 }
             );
         },
-        newPassword({ commit }, user) {
-            return AuthService.newPassword(user).then(
+        newPassword({ commit }, changePasswordRequest) {
+            return AuthService.newPassword(changePasswordRequest).then(
                 user => {
                     commit('newPasswordSuccess', user);
-                    return Promise.resolve(user);
+                    return Promise.resolve(user.data);
                 },
                 error => {
                     commit('newPasswordFailure');
-                    return Promise.reject(error);
+                    return Promise.reject(error.response.data);
                 }
             );
         },

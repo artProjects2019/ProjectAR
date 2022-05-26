@@ -73,8 +73,6 @@ export default {
   },
   computed: {
     logged() {
-      console.log(this.$store.state.auth.user.username);
-      console.log(this.owner);
       return this.$store.state.auth.user.username;
     },
   },
@@ -118,7 +116,7 @@ export default {
       this.$router.push({ path: './' + this.selectedGame.ID});
     },
     connectToSocket: function() {
-      this.socket = new SockJS("https://ar-project2019.herokuapp.com/api/websocket");
+      this.socket = new SockJS("http://localhost:8080/api/websocket");
       this.stompClient = Stomp.over(this.socket);
       this.stompClient.connect(
           {},

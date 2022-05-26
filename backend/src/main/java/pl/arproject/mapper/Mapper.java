@@ -5,6 +5,8 @@ import pl.arproject.friend.invitation.FriendInvitation;
 import pl.arproject.friend.invitation.FriendInvitationResponse;
 import pl.arproject.game.invitation.GameInvitation;
 import pl.arproject.game.invitation.response.GameInvitationResponse;
+import pl.arproject.ranking.Ranking;
+import pl.arproject.ranking.response.RankingGetResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,19 @@ public class Mapper {
                     invitation.getSender().getUsername(),
                     invitation.getGame(),
                     invitation.getSessionKey()
+            );
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    public List<RankingGetResponse> mapRankings(List<Ranking> rankings) {
+        List<RankingGetResponse> responses = new ArrayList<>();
+
+        for(Ranking ranking : rankings) {
+            RankingGetResponse response = new RankingGetResponse(
+                    ranking.getAppUser().getUsername(),
+                    ranking.getScore()
             );
             responses.add(response);
         }

@@ -12,8 +12,12 @@ import pl.arproject.appuser.AppUserService;
 import pl.arproject.email.RegistrationEmailService;
 import pl.arproject.exception.RegistrationConfirmationException;
 import pl.arproject.exception.RegistrationRequestException;
+import pl.arproject.ranking.Ranking;
+import pl.arproject.ranking.RankingRepository;
+import pl.arproject.ranking.RankingService;
 import pl.arproject.registration.token.ConfirmationToken;
 import pl.arproject.registration.token.ConfirmationTokenService;
+import pl.arproject.validator.UserDataValidator;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -26,14 +30,15 @@ import static org.springframework.http.HttpStatus.*;
 public class RegistrationService {
 
     private final AppUserRepository appUserRepository;
-    private final RegistrationValidator registrationValidator;
+    private final UserDataValidator userDataValidator;
     private final RegistrationEmailService registrationEmailService;
     private final ConfirmationTokenService confirmationTokenService;
     private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
+    private final RankingService rankingService;
 
     public ResponseEntity<?> registerUser(RegistrationRequest request) {
-        String errorMessage = registrationValidator.validateRegistrationRequest(request);
+        String errorMessage = userDataValidator.validateRegistrationRequest(request);
 
         // if registration data are invalid
         if(!errorMessage.isEmpty()) {
@@ -76,6 +81,9 @@ public class RegistrationService {
                 appUser
         );
 
+        Ranking ranking = new Ranking(appUser, 0);
+
+        rankingService.saveRanking(ranking);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         registrationEmailService.createAndSendEmail(appUser.getEmail(), appUser.getUsername(), token);
 

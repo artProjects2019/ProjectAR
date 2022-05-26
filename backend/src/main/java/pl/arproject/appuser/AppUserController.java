@@ -3,10 +3,8 @@ package pl.arproject.appuser;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.arproject.appuser.request.ChangePasswordRequest;
 
 @AllArgsConstructor
 @RestController
@@ -23,6 +21,11 @@ public class AppUserController {
     @GetMapping("/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable("username") String username) {
         return appUserService.getUserByUsername(username);
+    }
+
+    @PatchMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+        return appUserService.changePassword(request);
     }
 }
 

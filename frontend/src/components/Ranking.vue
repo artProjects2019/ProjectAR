@@ -1,8 +1,7 @@
 <template>
   <body>
-    <div class="container">
+  <div class="container">
       <Menu/>
-
       <div id="main">
         <User_panel/>
 
@@ -14,65 +13,21 @@
         <div class="leaderboard_section">
           <div>
             <h2 style="text-align: center">
-              <font-awesome-icon icon="ranking-star" /> TOP 5 PLAYER RANKING
+              <font-awesome-icon icon="ranking-star" /> PLAYER RANKING
             </h2>
           </div>
 
           <div class="leaderboard_wrap">
-            <div class="leaderboard_item " style="display: block;">
+            <div class="leaderboard_item " style="display: block;" v-for="(RANKING, INDEX) in rankings " :key="RANKING">
               <div class="leaderboard_elem">
                 <div class="name_bar">
-                  <p><span>1.</span> First</p>
+                  <p><span>{{ INDEX + 1}}</span> {{RANKING.username}} </p>
                   <div class="bar_wrap">
-                    <div class="inner_bar" style="width: 95%"></div>
+                    <div class="inner_bar" :style="`width: ${RANKING.score / maxScore * 100}% !important;`"></div>
                   </div>
                 </div>
                 <div class="points">
-                  1195 points
-                </div>
-              </div>
-              <div class="leaderboard_elem">
-                <div class="name_bar">
-                  <p><span>2.</span>Second</p>
-                  <div class="bar_wrap">
-                    <div class="inner_bar" style="width: 80%"></div>
-                  </div>
-                </div>
-                <div class="points">
-                  1185 points
-                </div>
-              </div>
-              <div class="leaderboard_elem">
-                <div class="name_bar">
-                  <p><span>3.</span>Third</p>
-                  <div class="bar_wrap">
-                    <div class="inner_bar" style="width: 70%;"></div>
-                  </div>
-                </div>
-                <div class="points">
-                  1160 points
-                </div>
-              </div>
-              <div class="leaderboard_elem">
-                <div class="name_bar">
-                  <p><span>4.</span>Fourth</p>
-                  <div class="bar_wrap">
-                    <div class="inner_bar" style="width: 50%"></div>
-                  </div>
-                </div>
-                <div class="points">
-                  1130 points
-                </div>
-              </div>
-              <div class="leaderboard_elem">
-                <div class="name_bar">
-                  <p><span>5.</span>Fifth</p>
-                  <div class="bar_wrap">
-                    <div class="inner_bar" style="width: 30%"></div>
-                  </div>
-                </div>
-                <div class="points">
-                  1110 points
+                  {{ RANKING.score }} points
                 </div>
               </div>
             </div>
@@ -80,18 +35,40 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
   </body>
 </template>
 
 <script>
 import Menu from "@/components/Menu";
 import User_panel from "@/components/User_panel";
+import axios from "axios";
 
 export default {
 // eslint-disable-next-line vue/multi-word-component-names
   name: "Ranking",
-  components: {User_panel, Menu}
+  components: {User_panel, Menu},
+
+  data() {
+    return {
+      rankings: [],
+      successful: false,
+      loading: false,
+      message: "",
+      maxScore: 0,
+    };
+  },
+  mounted() {
+    this.fetchRankings();
+  },
+  methods: {
+    fetchRankings(){
+      axios.get("api/ranking").then(function (response){
+        this.rankings = response.data
+        this.maxScore = this.rankings.at(0).score;
+      }.bind(this))
+    },
+  }
 }
 </script>
 
@@ -159,7 +136,7 @@ export default {
 }
 
 .leaderboard_wrap .leaderboard_elem .name_bar p{
-  color: #3a3d51;
+  color: #000000;
 }
 
 .leaderboard_wrap .leaderboard_elem .name_bar p span{
@@ -168,7 +145,7 @@ export default {
 
 .leaderboard_wrap .leaderboard_elem .points{
   width: 100px;
-  color: #3a3d51;
+  color: #000000;
 }
 
 .leaderboard_wrap .leaderboard_elem .name_bar .bar_wrap{
@@ -177,14 +154,13 @@ export default {
   margin-top: 5px;
   border-radius: 5px;
   position: relative;
-  overflow: hidden;
 }
 
 .leaderboard_wrap .leaderboard_elem .name_bar .bar_wrap .inner_bar{
-  position: absolute;
+  position: relative;
   top: 0;
-  left: 0;
+  left: -10px;
   height: 5px;
-  background: #ff0000;
+  background: #ffffff;
 }
 </style>

@@ -5,7 +5,6 @@ import TicTacToe from "./components/TicTacToe";
 import Account from "@/components/Account";
 import Change_password from "@/components/Change_password";
 import Users from "@/components/Users";
-import Stats from "@/components/Stats";
 import Ranking from "@/components/Ranking";
 import Register from "./components/Register.vue";
 import Register_confirm from "@/components/Register_confirm";
@@ -51,10 +50,6 @@ const routes = [
     {
         path: "/ranking",
         component: Ranking,
-    },
-    {
-        path: "/stats",
-        component: Stats,
     },
     {
         path: "/friends",
