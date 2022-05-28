@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import {myMark} from "./ticTacToe.js";
 import {connectToSocket} from "./ticTacToe.js";
 import {sessionKey} from "./ticTacToe.js";
+import {isMyTurn} from "./ticTacToe.js";
 
 const tempMatrix = new THREE.Matrix4();
 
@@ -12,6 +13,7 @@ let camera;
 let scene;
 let renderer;
 let board;
+let infoBox;
 let controller;
 let raycaster;
 
@@ -65,6 +67,11 @@ function createMaterial(texture) {
     ];
 }
 
+function updateInfoBoxTexture(mark, isMyTurn) {
+    let texture = isMyTurn ? "yourTurn" : "oppTurn";
+    infoBox.material = createMaterial(texture + mark);
+}
+
 function updateTexture(boxNumber, mark){
     board.boxes[boxNumber].material = createMaterial(mark);
 }
@@ -84,7 +91,6 @@ function init() {
 
     document.body.appendChild(ARButton.createButton(renderer, {}));
 
-
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     light.position.set(0.5, 1, 0.25);
     scene.add(light);
@@ -95,6 +101,16 @@ function init() {
 
     board = new ticTacToeBoard();
     board.addToScene();
+
+    const infoBoxTexture = new THREE.TextureLoader().load('./textures/white.png' );
+    const infoBoxGeometry = new THREE.BoxBufferGeometry(0.26, 0.1, 0.0125);
+    const infoBoxMaterial = new THREE.MeshBasicMaterial({
+        map: infoBoxTexture
+    });
+    infoBox = new THREE.Mesh(infoBoxGeometry, infoBoxMaterial);
+    updateInfoBoxTexture(myMark, isMyTurn);
+    infoBox.position.set(0, 0.2, -0.5);
+    scene.add(infoBox);
 
     const geometry = new THREE.BufferGeometry().setFromPoints(
         [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1)]);
@@ -145,4 +161,5 @@ function start() {
 export {
     updateTexture,
     start,
+    updateInfoBoxTexture,
 };

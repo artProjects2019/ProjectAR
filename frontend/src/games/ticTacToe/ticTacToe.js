@@ -1,5 +1,6 @@
 import  {
-     updateTexture
+    updateTexture,
+    updateInfoBoxTexture
 }  from './drawTicTacToe.js'
 
 import * as SockJS from "sockjs-client";
@@ -49,6 +50,7 @@ function connectToSocket(sessionKey) {
                     checkWin(mark);
                     checkCatsGame();
                     isMyTurn = true;
+                    updateInfoBoxTexture(myMark, isMyTurn);
                 }
             });
         },
@@ -98,6 +100,7 @@ function playerTurn(boxNumber, mark) {
             checkWin(mark);
             checkCatsGame();
             isMyTurn = false;
+            updateInfoBoxTexture(myMark, isMyTurn);
             sendMessageToSocket(mark, boxNumber, sessionKey);
         }
     }
@@ -226,4 +229,4 @@ function handleEndGame() {
     setTimeout( () => router.push({ path: '/'}), 3000);
 }
 
-export {playerTurn, restart, myMark, connectToSocket, sessionKey};
+export {playerTurn, restart, myMark, connectToSocket, sessionKey, isMyTurn};
