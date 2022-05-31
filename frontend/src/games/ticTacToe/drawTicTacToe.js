@@ -1,12 +1,11 @@
-import {playerTurn, restart} from './ticTacToe.js'
+import {checkWin, playerTurn, boardY, boardX, player1, player2} from './ticTacToe.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
-import {myMark} from "./ticTacToe.js";
-import {connectToSocket} from "./ticTacToe.js";
-import {sessionKey} from "./ticTacToe.js";
-import {isMyTurn} from "./ticTacToe.js";
+import {isMyTurn, actualPlayer, restart, sessionKey, checkDraw} from "@/games/gameUtils";
+import {connectToSocket} from "@/games/socketUtils";
+
 import {initAR, animate, createMaterial, scene,
-    controller, raycaster} from "@/games/ARUtils";
+    controller, raycaster} from "@/games/arUtils";
 
 const tempMatrix = new THREE.Matrix4();
 let board;
@@ -52,13 +51,13 @@ class ticTacToeBoard {
     }
 }
 
-function updateInfoBoxTexture(mark, isMyTurn) {
+function updateInfoBoxTexture(player, isMyTurn) {
     let texture = isMyTurn ? "yourTurn" : "oppTurn";
-    infoBox.material = createMaterial(texture + mark);
+    infoBox.material = createMaterial(texture + player);
 }
 
-function updateTexture(boxNumber, mark){
-    board.boxes[boxNumber].material = createMaterial(mark);
+function updateTexture(boxNumber, player){
+    board.boxes[boxNumber].material = createMaterial(player);
 }
 
 function init() {
@@ -78,7 +77,7 @@ function createInfoBox() {
         map: infoBoxTexture
     });
     infoBox = new THREE.Mesh(infoBoxGeometry, infoBoxMaterial);
-    updateInfoBoxTexture(myMark, isMyTurn);
+    updateInfoBoxTexture(actualPlayer, isMyTurn);
     infoBox.position.set(0, 0.2, -0.5);
     scene.add(infoBox);
 }
@@ -92,15 +91,15 @@ function onSelect() {
 
     for(let i = 0; i < board.boxes.length; i++) {
         if (intersections.length > 0 && intersections[0].object === board.boxes[i]) {
-            playerTurn(i, myMark);
+            playerTurn(i, actualPlayer);
             playAudio("./audio/click.wav");
         }
     }
 }
 
 function start() {
-    restart();
-    connectToSocket(sessionKey);
+    restart(boardX, boardY, player1, player2);
+    connectToSocket(sessionKey, checkWin, checkDraw, boardX, boardY, updateTexture, updateInfoBoxTexture);
     init();
     animate();
 }

@@ -9,10 +9,10 @@
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <div class="dropdown-item" @click = "handleGame(games.id1)">
-            TicTacToe
+            Tic tac toe
         </div>
           <div class="dropdown-item" @click = "handleGame(games.id2)">
-            Checkers
+            Connect four
           </div>
       </div>
     </div>
@@ -43,7 +43,7 @@ export default {
     return {
       games: {
         id1 : "TicTacToe",
-        id2 : "Checkers"
+        id2 : "ConnectFour"
       },
     }
   },

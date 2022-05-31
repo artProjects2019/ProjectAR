@@ -1,232 +1,118 @@
-import  {
-    updateTexture,
-    updateInfoBoxTexture
-}  from './drawTicTacToe.js'
+import {updateInfoBoxTexture, updateTexture} from './drawTicTacToe.js'
+import {
+    calculateBoxNumber, handleWin,
+    logicBoard, gameOver, isMyTurn, calculateRowAndColumn, EMPTY, checkDraw, actualPlayer, sessionKey
+} from "@/games/gameUtils";
+import {sendMessageToSocket} from "@/games/socketUtils";
 
-import * as SockJS from "sockjs-client";
-import * as Stomp from "stompjs";
-import axios from "axios";
-import store from "@/store";
-import router from "@/router";
+let boardX = 3;
+let boardY = 3;
 
-import {playAudio} from '../../../public/audio/sound'
+let player1 = 'o';
+let player2 = 'x';
 
-let amIOwner;
-let isMyTurn;
-let myMark;
-
-let sessionKey;
-let socket = null;
-
-const SIZE = 3;
-const EMPTY = 'empty';
-
-// representation of the game board in the tic-tac-toe's logic
-let logicBoard =
-    [[EMPTY, EMPTY, EMPTY],
-        [EMPTY, EMPTY, EMPTY],
-        [EMPTY, EMPTY, EMPTY]];
-
-let gameOver = {status: false};
-
-function connectToSocket(sessionKey) {
-    socket = new SockJS("http://localhost:8080/api/websocket");
-    let stompClient = Stomp.over(socket);
-    stompClient.connect(
-        {},
-        frame => {
-            console.log(frame);
-            stompClient.subscribe("/topic/game/" + sessionKey, response => {
-                let message = JSON.parse(response.body);
-                let boxNumber = message.boxNumber;
-                let move = calculateRowAndColumn(boxNumber);
-                let column = move[0];
-                let row = move[1];
-                let mark = message.mark;
-
-                if(mark !== myMark) {
-                    logicBoard[row][column] = mark;
-                    updateTexture(boxNumber, mark);
-                    checkWin(mark);
-                    checkCatsGame();
-                    isMyTurn = true;
-                    updateInfoBoxTexture(myMark, isMyTurn);
-                }
-            });
-        },
-    );
-}
-
-function sendMessageToSocket(mark, boxNumber, key) {
-    return axios.post('api/games/sessions/ticTacToeMove', {
-        mark: mark,
-        boxNumber: boxNumber,
-        sessionKey: key,
-    });
-}
-
-function restart(){
-    logicBoard =
-            [[EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]];
-    gameOver.status = false;
-    amIOwner = localStorage.getItem('owner') === store.state.auth.user.username;
-    isMyTurn = amIOwner;
-    sessionKey = localStorage.getItem('sessionKey');
-    myMark = amIOwner ? 'o' : 'x';
-}
-
-function calculateBoxNumber(row, column) {
-    return 3*row+column; // number of the box from 0 to 8
-}
-
-function calculateRowAndColumn(boxNumber) {
-    let column = boxNumber % 3;
-    let row = (boxNumber - column) / 3;
-
-    return [column, row];
-}
-
-// if the game is still going then the player makes a move based on the clicked box
-function playerTurn(boxNumber, mark) {
+function playerTurn(boxNumber, player) {
     if(!gameOver.status && isMyTurn) {
-        let row = Math.floor(boxNumber / 3);
-        let column = boxNumber % 3;
+        let move = calculateRowAndColumn(boxNumber, boardX);
+        let column = move[0];
+        let row = move[1];
 
         if(logicBoard[row][column] === EMPTY) {
-            logicBoard[row][column] = mark;
-            updateTexture(boxNumber, mark);
-            checkWin(mark);
-            checkCatsGame();
+            logicBoard[row][column] = player;
+            updateTexture(boxNumber, player);
+            checkWin(player);
+            checkDraw(boardX, boardY);
+            // eslint-disable-next-line no-import-assign
             isMyTurn = false;
-            updateInfoBoxTexture(myMark, isMyTurn);
-            sendMessageToSocket(mark, boxNumber, sessionKey);
+            updateInfoBoxTexture(actualPlayer, isMyTurn);
+            sendMessageToSocket(player, boxNumber, sessionKey);
         }
     }
 }
 
-
-// checks the every column looking for a win for a specific mark(X or O)
-function columnWin(mark) {
-    for(let i = 0; i < SIZE; ++i) {
+// checks the every column looking for a win for a specific player(X or O)
+function columnWin(player) {
+    for(let i = 0; i < boardX; ++i) {
         let symbolCount = 0;
         let boxesInARow = [];
-        for(let j = 0; j < SIZE; ++j) {
-            if(logicBoard[i][j] === mark) {
+        for(let j = 0; j < boardX; ++j) {
+            if(logicBoard[i][j] === player) {
                 symbolCount++;
-                boxesInARow.push(calculateBoxNumber(i, j));
+                boxesInARow.push(calculateBoxNumber(i, j), boardX);
             }
         }
-        if(symbolCount === SIZE) {
-            drawWin(mark, boxesInARow);
+        if(symbolCount === boardX) {
+            drawWin(player, boxesInARow);
             gameOver.status = true;
         }
     }
 }
 
-// checks the every row looking for a win for a specific mark(X or O)
-function rowWin(mark) {
-    for(let i = 0; i < SIZE; ++i) {
+// checks the every row looking for a win for a specific player(X or O)
+function rowWin(player) {
+    for(let i = 0; i < boardX; ++i) {
         let symbolCount = 0;
         let boxesInARow = [];
-        for(let j = 0; j < SIZE; ++j) {
-            if(logicBoard[j][i] === mark) {
+        for(let j = 0; j < boardX; ++j) {
+            if(logicBoard[j][i] === player) {
                 symbolCount++;
-                boxesInARow.push(calculateBoxNumber(j, i));
+                boxesInARow.push(calculateBoxNumber(j, i), boardX);
             }
         }
-        if(symbolCount === SIZE) {
-            drawWin(mark, boxesInARow);
+        if(symbolCount === boardX) {
+            drawWin(player, boxesInARow);
             gameOver.status = true;
         }
     }
 }
 
-// checks the both diagonals looking for a win for a specific mark(X or O)
-function diagonalWin(mark) {
+// checks the both diagonals looking for a win for a specific player(X or O)
+function diagonalWin(player) {
     let symbolCount = 0;
     let boxesInARow = [];
-    for(let i = 0; i < SIZE; ++i) {
-        if(logicBoard[i][i] === mark) {
+    for(let i = 0; i < boardX; ++i) {
+        if(logicBoard[i][i] === player) {
             symbolCount++;
-            boxesInARow.push(calculateBoxNumber(i, i));
+            boxesInARow.push(calculateBoxNumber(i, i), boardX);
         }
     }
-    if(symbolCount === SIZE) {
-        drawWin(mark, boxesInARow);
+    if(symbolCount === boardX) {
+        drawWin(player, boxesInARow);
         gameOver.status = true;
     }
 
     symbolCount = 0;
     boxesInARow = [];
 
-    for(let i = 0; i < SIZE; ++i) {
-        if(logicBoard[SIZE - i - 1][i] === mark) {
+    for(let i = 0; i < boardX; ++i) {
+        if(logicBoard[boardX - i - 1][i] === player) {
             symbolCount++;
-            boxesInARow.push(calculateBoxNumber((SIZE - i - 1), i));
+            boxesInARow.push(calculateBoxNumber((boardX - i - 1), i), boardX);
         }
     }
-    if(symbolCount === SIZE) {
-        drawWin(mark, boxesInARow);
+    if(symbolCount === boardX) {
+        drawWin(player, boxesInARow);
         gameOver.status = true;
     }
 }
 
-// checks the entire board looking for a win for a specific mark(X or O)
-function checkWin(mark) {
-    columnWin(mark);
+function checkWin(player) {
+    columnWin(player);
     if(!gameOver.status) {
-        rowWin(mark);
+        rowWin(player);
     }
     if(!gameOver.status) {
-        diagonalWin(mark);
+        diagonalWin(player);
     }
-    if(gameOver.status) {
-        if(mark === myMark) {
-            playAudio("./audio/win.wav");
-            axios.patch('api/ranking/' + store.state.auth.user.username);
-        }
-        else {
-            playAudio("./audio/lose.wav");
-        }
-        handleEndGame();
-    }
+    handleWin(player);
 }
 
 // changes the textures of the winning boxes
-function drawWin(mark, boxesInARow) {
+function drawWin(player, boxesInARow) {
     for(let boxNumber of boxesInARow) {
-        updateTexture(boxNumber, mark + 'Win');
+        updateTexture(boxNumber, player + 'Win');
     }
 }
 
-// checks whether the game ended in a draw or is still going
-function checkCatsGame() {
-    if(!gameOver.status) {
-        let catsGame = true;
 
-        for(let i = 0; i < SIZE; ++i) {
-            for(let j = 0; j < SIZE; ++j) {
-                if(logicBoard[i][j] === EMPTY) {
-                    catsGame = false;
-                }
-            }
-        }
-
-        if(catsGame) {
-            gameOver.status = true;
-            playAudio("../audio/draw.wav");
-            handleEndGame();
-        }
-    }
-}
-
-function handleEndGame() {
-    axios.delete('api/games/sessions/close/' + sessionKey);
-    localStorage.removeItem('owner');
-    localStorage.removeItem('sessionKey');
-    setTimeout( () => router.push({ path: '/'}), 3000);
-}
-
-export {playerTurn, restart, myMark, connectToSocket, sessionKey, isMyTurn};
+export {boardX, boardY, player1, player2, checkWin, playerTurn};

@@ -13,6 +13,7 @@ import Friend_invitation from "@/components/Friend_invitation";
 import Game_invitation from "@/components/Game_invitation";
 import Game_session from "@/components/Game_session";
 import Lobby from "@/components/Lobby";
+import ConnectFour from "@/components/ConnectFour";
 
 const routes = [
     {
@@ -34,6 +35,10 @@ const routes = [
     {
         path: "/ticTacToe",
         component: TicTacToe,
+    },
+    {
+        path: "/connectFour",
+        component: ConnectFour,
     },
     {
         path: "/account",
