@@ -1,4 +1,3 @@
-import {ARButton} from "three/examples/jsm/webxr/ARButton";
 import {playerTurn, restart} from './ticTacToe.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
@@ -6,16 +5,13 @@ import {myMark} from "./ticTacToe.js";
 import {connectToSocket} from "./ticTacToe.js";
 import {sessionKey} from "./ticTacToe.js";
 import {isMyTurn} from "./ticTacToe.js";
+import {initAR, animate, createMaterial, scene,
+    controller, raycaster} from "@/games/ARUtils";
 
 const tempMatrix = new THREE.Matrix4();
-
-let camera;
-let scene;
-let renderer;
 let board;
 let infoBox;
-let controller;
-let raycaster;
+
 
 class ticTacToeBoard {
     boxes = [];
@@ -25,7 +21,7 @@ class ticTacToeBoard {
 
         for(let i = 0 ; i < 9 ; ++i) {
 
-            const texture = new THREE.TextureLoader().load('./textures/white.png' ); // Loading a basic texture png
+            const texture = new THREE.TextureLoader().load('./textures/white.png' );
             const geometry = new THREE.BoxBufferGeometry(BOX_SIZE, BOX_SIZE, BOX_SIZE * 0.25);
             const material = new THREE.MeshBasicMaterial({
                 map: texture
@@ -56,17 +52,6 @@ class ticTacToeBoard {
     }
 }
 
-function createMaterial(texture) {
-    return [
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('./textures/white.png')}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('./textures/white.png')}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('./textures/white.png')}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('./textures/white.png')}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('./textures/' + texture + '.png')}),
-        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('./textures/' + texture + '.png')})
-    ];
-}
-
 function updateInfoBoxTexture(mark, isMyTurn) {
     let texture = isMyTurn ? "yourTurn" : "oppTurn";
     infoBox.material = createMaterial(texture + mark);
@@ -77,31 +62,16 @@ function updateTexture(boxNumber, mark){
 }
 
 function init() {
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.01, 20);
-
-    raycaster = new THREE.Raycaster();
-
-    renderer = new THREE.WebGLRenderer({antialias: true, alpha: true, autoClear: true});
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    renderer.shadowMap.enabled = true;
-    renderer.xr.enabled = true;
-
-    document.body.appendChild(ARButton.createButton(renderer, {}));
-
-    const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-    light.position.set(0.5, 1, 0.25);
-    scene.add(light);
-
-    controller = renderer.xr.getController(0);
+    initAR();
     controller.addEventListener('select', onSelect);
-    scene.add(controller);
 
     board = new ticTacToeBoard();
     board.addToScene();
 
+    createInfoBox();
+}
+
+function createInfoBox() {
     const infoBoxTexture = new THREE.TextureLoader().load('./textures/white.png' );
     const infoBoxGeometry = new THREE.BoxBufferGeometry(0.26, 0.1, 0.0125);
     const infoBoxMaterial = new THREE.MeshBasicMaterial({
@@ -111,21 +81,6 @@ function init() {
     updateInfoBoxTexture(myMark, isMyTurn);
     infoBox.position.set(0, 0.2, -0.5);
     scene.add(infoBox);
-
-    const geometry = new THREE.BufferGeometry().setFromPoints(
-        [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1)]);
-
-    const line = new THREE.Line(geometry);
-    line.name = 'line';
-    line.scale.z = 5;
-
-    controller.add(line.clone());
-
-    window.addEventListener('resize', ()=> {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
 }
 
 function onSelect() {
@@ -141,14 +96,6 @@ function onSelect() {
             playAudio("./audio/click.wav");
         }
     }
-}
-
-function animate() {
-    renderer.setAnimationLoop(render);
-}
-
-function render() {
-    renderer.render(scene, camera);
 }
 
 function start() {
