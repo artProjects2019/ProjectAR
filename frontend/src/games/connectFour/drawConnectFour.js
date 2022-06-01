@@ -1,7 +1,7 @@
 import {checkWin, playerTurn, boardY, boardX, player1, player2} from './connectFour.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
-import {actualPlayer, restart, sessionKey, checkDraw} from "@/games/gameUtils";
+import {actualPlayer, restart, sessionKey, checkDraw, isMyTurn} from "@/games/gameUtils";
 import {connectToSocket} from "@/games/socketUtils";
 
 import {initAR, animate, createMaterial, scene,
@@ -9,7 +9,7 @@ import {initAR, animate, createMaterial, scene,
 
 const tempMatrix = new THREE.Matrix4();
 let board;
-// let infoBox;
+let infoBox;
 
 
 class connectFourBoard {
@@ -52,9 +52,8 @@ class connectFourBoard {
 }
 
 function updateInfoBoxTexture(player, isMyTurn) {
-        // let texture = isMyTurn ? "yourTurn" : "oppTurn";
-        // infoBox.material = createMaterial(texture + player);
-        console.log(player + isMyTurn);
+        let texture = isMyTurn ? "yourTurn" : "oppTurn";
+        infoBox.material = createMaterial(texture + player);
 }
 
 function updateTexture(boxNumber, player){
@@ -68,20 +67,20 @@ function init() {
         board = new connectFourBoard();
         board.addToScene();
 
-        // createInfoBox();
+        createInfoBox();
 }
 
-// function createInfoBox() {
-//         const infoBoxTexture = new THREE.TextureLoader().load('./textures/white.png' );
-//         const infoBoxGeometry = new THREE.BoxBufferGeometry(0.26, 0.1, 0.0125);
-//         const infoBoxMaterial = new THREE.MeshBasicMaterial({
-//                 map: infoBoxTexture
-//         });
-//         infoBox = new THREE.Mesh(infoBoxGeometry, infoBoxMaterial);
-//         updateInfoBoxTexture(actualPlayer, isMyTurn);
-//         infoBox.position.set(0, 0.2, -0.5);
-//         scene.add(infoBox);
-// }
+function createInfoBox() {
+        const infoBoxTexture = new THREE.TextureLoader().load('./textures/white.png' );
+        const infoBoxGeometry = new THREE.BoxBufferGeometry(0.35, 0.1, 0.0125);
+        const infoBoxMaterial = new THREE.MeshBasicMaterial({
+                map: infoBoxTexture
+        });
+        infoBox = new THREE.Mesh(infoBoxGeometry, infoBoxMaterial);
+        updateInfoBoxTexture(actualPlayer, isMyTurn);
+        infoBox.position.set(0, 0.25, -0.65);
+        scene.add(infoBox);
+}
 
 function onSelect() {
         tempMatrix.identity().extractRotation(controller.matrixWorld);

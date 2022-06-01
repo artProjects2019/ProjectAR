@@ -12,7 +12,7 @@ export default {
     this.startTheGame();
   },
   unmounted() {
-    document.querySelectorAll("#VRButton").forEach(i=> i.remove());
+    document.querySelectorAll("#ARButton").forEach(i=> i.remove());
     Array.from(document.querySelectorAll('body > div')).filter(i=> i.id!=='app').filter(i => !i.classList.contains('container')).forEach(i=> i.remove());
   },
   methods: {

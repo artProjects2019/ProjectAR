@@ -14,7 +14,7 @@ let gameOver = {status: false};
 const EMPTY = 'empty';
 
 function calculateBoxNumber(row, column, scalar) {
-    return scalar*row+column; // number of the box from 0 to 8
+    return scalar*row+column;
 }
 
 function calculateRowAndColumn(boxNumber, scalar) {
@@ -27,9 +27,9 @@ function calculateRowAndColumn(boxNumber, scalar) {
 
 function restart(boardX, boardY, player1, player2){
     logicBoard = [];
-    for(let i = 0; i < boardX; ++i) {
+    for(let i = 0; i < boardY; ++i) {
         let row = [];
-        for(let j = 0; j < boardY; ++j) {
+        for(let j = 0; j < boardX; ++j) {
             row.push(EMPTY);
         }
         logicBoard.push(row);
@@ -46,18 +46,18 @@ function handleEndGame() {
     axios.delete('api/games/sessions/close/' + sessionKey);
     localStorage.removeItem('owner');
     localStorage.removeItem('sessionKey');
-    setTimeout( () => router.push({ path: '/'}), 3000);
+    setTimeout( () => router.push({ path: '/'}), 4000);
 
 }
 
 function handleWin(player) {
     if(gameOver.status) {
         if(player === actualPlayer) {
-            playAudio("./audio/win.wav");
+            playAudio("./audio/polskaGurom.wav");
             axios.patch('api/ranking/' + store.state.auth.user.username);
         }
         else {
-            playAudio("./audio/lose.wav");
+            playAudio("./audio/klopoty.wav");
         }
         handleEndGame();
     }
@@ -67,8 +67,8 @@ function checkDraw(boardX, boardY) {
     if(!gameOver.status) {
         let draw = true;
 
-        for(let i = 0; i < boardX; ++i) {
-            for(let j = 0; j < boardY; ++j) {
+        for(let i = 0; i < boardY; ++i) {
+            for(let j = 0; j < boardX; ++j) {
                 if(logicBoard[i][j] === EMPTY) {
                     draw = false;
                 }
@@ -77,7 +77,7 @@ function checkDraw(boardX, boardY) {
 
         if(draw) {
             gameOver.status = true;
-            playAudio("../audio/draw.wav");
+            playAudio("../audio/toByNic2.wav");
             handleEndGame();
         }
     }

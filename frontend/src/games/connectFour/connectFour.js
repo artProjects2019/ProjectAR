@@ -117,7 +117,7 @@ function playerTurn(boxNumber, player) {
         let move = calculateRowAndColumn(boxNumber, boardX);
         let column = move[0];
 
-        for(let i = 0; i < 6; ++i) {
+        for(let i = 0; i < boardY; ++i) {
             if (logicBoard[i][column] === EMPTY) {
                 boxNumber = calculateBoxNumber(i, column, boardX);
                 logicBoard[i][column] = player;

@@ -14,7 +14,7 @@ function sendMessageToSocket(player, boxNumber, key) {
 }
 
 function connectToSocket(sessionKey, winHandler, drawHandler, boardX, boardY, updateTexture, updateInfoBoxTexture) {
-    socket = new SockJS("http://localhost:8080/api/websocket");
+    socket = new SockJS("https://ar-project2019.herokuapp.com/api/websocket");
     let stompClient = Stomp.over(socket);
     stompClient.connect(
         {},
