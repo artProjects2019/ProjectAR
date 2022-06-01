@@ -30,11 +30,11 @@ function initAR() {
     scene.add(controller);
 
     const geometry = new THREE.BufferGeometry().setFromPoints(
-        [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1.5)]);
+        [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1)]);
 
     const line = new THREE.Line(geometry);
     line.name = 'line';
-    line.scale.z = 5;
+    line.scale.z = 10;
 
     controller.add(line.clone());
 

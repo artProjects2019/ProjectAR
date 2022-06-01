@@ -38,7 +38,7 @@ function columnWin(player) {
         for(let j = 0; j < boardX; ++j) {
             if(logicBoard[i][j] === player) {
                 symbolCount++;
-                boxesInARow.push(calculateBoxNumber(i, j), boardX);
+                boxesInARow.push(calculateBoxNumber(i, j, boardX));
             }
         }
         if(symbolCount === boardX) {
@@ -56,7 +56,7 @@ function rowWin(player) {
         for(let j = 0; j < boardX; ++j) {
             if(logicBoard[j][i] === player) {
                 symbolCount++;
-                boxesInARow.push(calculateBoxNumber(j, i), boardX);
+                boxesInARow.push(calculateBoxNumber(j, i, boardX));
             }
         }
         if(symbolCount === boardX) {
@@ -73,7 +73,7 @@ function diagonalWin(player) {
     for(let i = 0; i < boardX; ++i) {
         if(logicBoard[i][i] === player) {
             symbolCount++;
-            boxesInARow.push(calculateBoxNumber(i, i), boardX);
+            boxesInARow.push(calculateBoxNumber(i, i, boardX));
         }
     }
     if(symbolCount === boardX) {
@@ -87,7 +87,7 @@ function diagonalWin(player) {
     for(let i = 0; i < boardX; ++i) {
         if(logicBoard[boardX - i - 1][i] === player) {
             symbolCount++;
-            boxesInARow.push(calculateBoxNumber((boardX - i - 1), i), boardX);
+            boxesInARow.push(calculateBoxNumber((boardX - i - 1), i, boardX));
         }
     }
     if(symbolCount === boardX) {

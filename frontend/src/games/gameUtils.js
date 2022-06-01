@@ -26,6 +26,7 @@ function calculateRowAndColumn(boxNumber, scalar) {
 
 
 function restart(boardX, boardY, player1, player2){
+    logicBoard = [];
     for(let i = 0; i < boardX; ++i) {
         let row = [];
         for(let j = 0; j < boardY; ++j) {
@@ -46,6 +47,7 @@ function handleEndGame() {
     localStorage.removeItem('owner');
     localStorage.removeItem('sessionKey');
     setTimeout( () => router.push({ path: '/'}), 3000);
+
 }
 
 function handleWin(player) {

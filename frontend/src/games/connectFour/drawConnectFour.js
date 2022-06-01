@@ -40,13 +40,13 @@ class connectFourBoard {
                 const POSITION = 0.06;
 
                 for(let i = 0; i < 6; i++) {
-                        this.boxes[i*7].position.set((-3) * POSITION, (-3) * POSITION + i * POSITION, -0.75);
-                        this.boxes[i*7 + 1].position.set((-2) * POSITION, (-3) * POSITION + i * POSITION, -0.75);
-                        this.boxes[i*7 + 2].position.set((-1) * POSITION, (-3) * POSITION + i * POSITION, -0.75);
-                        this.boxes[i*7 + 3].position.set(0, (-3) * POSITION + i * POSITION, -0.75);
-                        this.boxes[i*7 + 4].position.set(POSITION, (-3) * POSITION + i * POSITION, -0.75);
-                        this.boxes[i*7 + 5].position.set(2 * POSITION, (-3) * POSITION + i * POSITION, -0.75);
-                        this.boxes[i*7 + 6].position.set(3 * POSITION, (-3) * POSITION + i * POSITION, -0.75);
+                        this.boxes[i*7].position.set((-3) * POSITION, (-3) * POSITION + i * POSITION, -0.65);
+                        this.boxes[i*7 + 1].position.set((-2) * POSITION, (-3) * POSITION + i * POSITION, -0.65);
+                        this.boxes[i*7 + 2].position.set((-1) * POSITION, (-3) * POSITION + i * POSITION, -0.65);
+                        this.boxes[i*7 + 3].position.set(0, (-3) * POSITION + i * POSITION, -0.65);
+                        this.boxes[i*7 + 4].position.set(POSITION, (-3) * POSITION + i * POSITION, -0.65);
+                        this.boxes[i*7 + 5].position.set(2 * POSITION, (-3) * POSITION + i * POSITION, -0.65);
+                        this.boxes[i*7 + 6].position.set(3 * POSITION, (-3) * POSITION + i * POSITION, -0.65);
                 }
         }
 }
