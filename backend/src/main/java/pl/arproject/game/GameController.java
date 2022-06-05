@@ -21,4 +21,11 @@ public class GameController {
 
         return ResponseEntity.ok(request);
     }
+
+    @PostMapping("/memory/cards")
+    public ResponseEntity<?> locateCards(@RequestBody MemoryCardsRequest request) {
+        simpMessagingTemplate.convertAndSend("/topic/game/" + request.getSessionKey(), request);
+
+        return ResponseEntity.ok(request);
+    }
 }

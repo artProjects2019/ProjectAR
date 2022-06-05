@@ -1,8 +1,8 @@
 import {
-    handleWin, gameOver, isMyTurn, calculateRowAndColumn,
-    actualPlayer, sessionKey, calculateBoxNumber, handleEndGame
+    handleWin, gameOver, isMyTurn, calculateRowAndColumn, EMPTY,
+    actualPlayer, sessionKey, calculateBoxNumber, handleEndGame, logicBoard
 } from "@/games/gameUtils";
-import {sendMessageToSocket} from "@/games/socketUtils";
+import {sendMoveToSocket} from "@/games/socketUtils";
 import {updateInfoBoxTexture, updateTexture} from './drawConnectFour.js'
 import {playAudio} from "../../../public/audio/sound";
 
@@ -11,9 +11,6 @@ let boardY = 6;
 
 let player1 = 'red';
 let player2 = 'blue';
-
-const EMPTY = 'empty';
-let logicBoard = [];
 
 const winningCombinations = [
     [0, 1, 2, 3],
@@ -87,14 +84,65 @@ const winningCombinations = [
     [13, 20, 27, 34],
 ]
 
-function initLogicBoard() {
-    logicBoard = [];
-    for(let i = 0; i < boardY; ++i) {
-        let row = [];
-        for(let j = 0; j < boardX; ++j) {
-            row.push(EMPTY);
+function toggleIsMyTurn() {
+    return !isMyTurn;
+}
+
+function makeAMove(boxNumber, row, column, player) {
+    logicBoard[row][column] = player;
+    updateTexture(boxNumber, player);
+    checkWin(player);
+    checkDraw(boardX, boardY);
+    // eslint-disable-next-line no-import-assign
+    isMyTurn = toggleIsMyTurn();
+    updateInfoBoxTexture(actualPlayer, isMyTurn);
+}
+
+function handleMessageFromSocket(message) {
+    let boxNumber = message.boxNumber;
+    let move = calculateRowAndColumn(boxNumber, boardX);
+    let column = move[0];
+    let row = move[1];
+    let player = message.player;
+
+    if(player !== actualPlayer) {
+        makeAMove(boxNumber, row, column, player);
+    }
+}
+
+function playerTurn(boxNumber, player) {
+    if(!gameOver.status && isMyTurn) {
+        let move = calculateRowAndColumn(boxNumber, boardX);
+        let column = move[0];
+
+        for(let i = 0; i < boardY; ++i) {
+            if (logicBoard[i][column] === EMPTY) {
+                boxNumber = calculateBoxNumber(i, column, boardX);
+                makeAMove(boxNumber, i, column, player);
+                sendMoveToSocket(player, boxNumber, sessionKey);
+                break;
+            }
         }
-        logicBoard.push(row);
+    }
+}
+
+function checkDraw(boardX, boardY) {
+    if(!gameOver.status) {
+        let draw = true;
+
+        for(let i = 0; i < boardY; ++i) {
+            for(let j = 0; j < boardX; ++j) {
+                if(logicBoard[i][j] === EMPTY) {
+                    draw = false;
+                }
+            }
+        }
+
+        if(draw) {
+            gameOver.status = true;
+            playAudio("../audio/toByNic2.wav");
+            handleEndGame();
+        }
     }
 }
 
@@ -125,71 +173,11 @@ function checkWin(player) {
     handleWin(player);
 }
 
-function checkDraw(boardX, boardY) {
-    if(!gameOver.status) {
-        let draw = true;
-
-        for(let i = 0; i < boardY; ++i) {
-            for(let j = 0; j < boardX; ++j) {
-                if(logicBoard[i][j] === EMPTY) {
-                    draw = false;
-                }
-            }
-        }
-
-        if(draw) {
-            gameOver.status = true;
-            playAudio("../audio/toByNic2.wav");
-            handleEndGame();
-        }
-    }
-}
-
-function handleMessageFromSocket(message) {
-    let boxNumber = message.boxNumber;
-    let move = calculateRowAndColumn(boxNumber, boardX);
-    let column = move[0];
-    let row = move[1];
-    let player = message.player;
-
-    if(player !== actualPlayer) {
-        logicBoard[row][column] = player;
-        updateTexture(boxNumber, player);
-        checkWin(player);
-        checkDraw(boardX, boardY);
-        // eslint-disable-next-line no-import-assign
-        isMyTurn = true;
-        updateInfoBoxTexture(actualPlayer, isMyTurn);
-    }
-}
-
-function playerTurn(boxNumber, player) {
-    if(!gameOver.status && isMyTurn) {
-        let move = calculateRowAndColumn(boxNumber, boardX);
-        let column = move[0];
-
-        for(let i = 0; i < boardY; ++i) {
-            if (logicBoard[i][column] === EMPTY) {
-                boxNumber = calculateBoxNumber(i, column, boardX);
-                logicBoard[i][column] = player;
-                updateTexture(boxNumber, player);
-                checkWin(player);
-                checkDraw(boardX, boardY);
-                // eslint-disable-next-line no-import-assign
-                isMyTurn = false;
-                updateInfoBoxTexture(actualPlayer, isMyTurn);
-                sendMessageToSocket(player, boxNumber, sessionKey);
-                break;
-            }
-        }
-    }
-}
-
 function drawWin(boxesInARow) {
     for(let boxNumber of boxesInARow) {
         updateTexture(boxNumber, 'green');
     }
 }
 
-export {boardX, boardY, player1, player2, checkWin, playerTurn, handleMessageFromSocket, initLogicBoard};
+export {player1, player2, playerTurn, handleMessageFromSocket, boardY, boardX};
 

@@ -9,6 +9,9 @@ let actualPlayer;
 let sessionKey;
 let gameOver = {status: false};
 
+const EMPTY = 'empty';
+let logicBoard = [];
+
 function calculateBoxNumber(row, column, scalar) {
     return scalar*row+column;
 }
@@ -21,7 +24,16 @@ function calculateRowAndColumn(boxNumber, scalar) {
 }
 
 
-function restart(player1, player2){
+function restart(boardY, boardX, player1, player2){
+    logicBoard = [];
+    for(let i = 0; i < boardY; ++i) {
+        let row = [];
+        for(let j = 0; j < boardX; ++j) {
+            row.push(EMPTY);
+        }
+        logicBoard.push(row);
+    }
+
     gameOver.status = false;
     amIOwner = localStorage.getItem('owner') === store.state.auth.user.username;
     isMyTurn = amIOwner;
@@ -51,4 +63,4 @@ function handleWin(player) {
 }
 
 export {calculateRowAndColumn, calculateBoxNumber, handleEndGame, restart, handleWin,
-    amIOwner, isMyTurn, actualPlayer, sessionKey, gameOver}
+    amIOwner, isMyTurn, actualPlayer, sessionKey, gameOver, logicBoard, EMPTY}

@@ -14,6 +14,9 @@
           <div class="dropdown-item" @click = "handleGame(games.id2)">
             Connect four
           </div>
+        <div class="dropdown-item" @click = "handleGame(games.id3)">
+          Memory
+        </div>
       </div>
     </div>
     <div class="option" @click="$router.push('./')">
@@ -43,7 +46,8 @@ export default {
     return {
       games: {
         id1 : "TicTacToe",
-        id2 : "ConnectFour"
+        id2 : "ConnectFour",
+        id3 : "Memory"
       },
     }
   },

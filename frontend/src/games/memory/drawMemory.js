@@ -1,13 +1,20 @@
-import {checkWin, playerTurn, boardY, boardX, player1, player2} from './memory.js'
+import {
+    playerTurn, player1, player2,
+    handleMessageFromSocket, boardX, boardY, restartSettings
+} from './memory.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
-import {isMyTurn, actualPlayer, restart, sessionKey, checkDraw} from "@/games/gameUtils";
+import {actualPlayer, restart, sessionKey, isMyTurn} from "@/games/gameUtils";
 import {connectToSocket} from "@/games/socketUtils";
 import {initAR, animate, createMaterial, scene, controller, raycaster} from "@/games/arUtils";
 
 const tempMatrix = new THREE.Matrix4();
 let board;
 let infoBox;
+let yourScoreNumberBox;
+let yourScoreBox;
+let oppScoreBox;
+let oppScoreNumberBox;
 
 
 class memoryBoard {
@@ -48,13 +55,18 @@ class memoryBoard {
     }
 }
 
-function updateInfoBoxTexture(player, isMyTurn) {
+function updateInfoBoxTexture(isMyTurn) {
     let texture = isMyTurn ? "yourTurn" : "oppTurn";
-    infoBox.material = createMaterial(texture + player);
+    infoBox.material = createMaterial(texture);
 }
 
-function updateTexture(boxNumber, player){
-    board.boxes[boxNumber].material = createMaterial(player);
+function updateTexture(boxNumber, texture){
+    board.boxes[boxNumber].material = createMaterial(texture);
+}
+
+function updateScoreBoxes(yourScore, oppScore) {
+    yourScoreNumberBox.material = createMaterial(yourScore.toString());
+    oppScoreNumberBox.material = createMaterial(oppScore.toString());
 }
 
 function init() {
@@ -64,19 +76,44 @@ function init() {
     board = new memoryBoard();
     board.addToScene();
 
-    createInfoBox();
+    createInfoBoxes();
 }
 
-function createInfoBox() {
-    const infoBoxTexture = new THREE.TextureLoader().load('./textures/white.png' );
-    const infoBoxGeometry = new THREE.BoxBufferGeometry(0.26, 0.1, 0.0125);
-    const infoBoxMaterial = new THREE.MeshBasicMaterial({
-        map: infoBoxTexture
+function createInfoBoxes() {
+    const infoBoxGeometry = new THREE.BoxBufferGeometry(0.40, 0.1, 0.0125);
+    const boxTexture = new THREE.TextureLoader().load('./textures/white.png' );
+    const boxMaterial = new THREE.MeshBasicMaterial({
+        map: boxTexture
     });
-    infoBox = new THREE.Mesh(infoBoxGeometry, infoBoxMaterial);
-    updateInfoBoxTexture(actualPlayer, isMyTurn);
-    infoBox.position.set(0, 0.2, -0.5);
+
+    infoBox = new THREE.Mesh(infoBoxGeometry, boxMaterial);
+    updateInfoBoxTexture(isMyTurn);
+    infoBox.position.set(0, 0.35, -0.65);
     scene.add(infoBox);
+
+    const yourScoreBoxGeometry = new THREE.BoxBufferGeometry(0.15, 0.1, 0.0125);
+    yourScoreBox = new THREE.Mesh(yourScoreBoxGeometry, boxMaterial);
+    yourScoreBox.material = createMaterial('yourScore');
+    yourScoreBox.position.set(-0.125, 0.25, -0.65);
+    scene.add(yourScoreBox);
+
+    const yourScoreNumberBoxGeometry = new THREE.BoxBufferGeometry(0.05, 0.1, 0.0125);
+    yourScoreNumberBox = new THREE.Mesh(yourScoreNumberBoxGeometry, boxMaterial);
+    yourScoreNumberBox.material = createMaterial('0');
+    yourScoreNumberBox.position.set(-0.025, 0.25, -0.65);
+    scene.add(yourScoreNumberBox);
+
+    const oppScoreBoxGeometry = new THREE.BoxBufferGeometry(0.15, 0.1, 0.0125);
+    oppScoreBox = new THREE.Mesh(oppScoreBoxGeometry, boxMaterial);
+    oppScoreBox.material = createMaterial('oppScore');
+    oppScoreBox.position.set(0.075, 0.25, -0.65);
+    scene.add(oppScoreBox);
+
+    const oppScoreNumberBoxGeometry = new THREE.BoxBufferGeometry(0.05, 0.1, 0.0125);
+    oppScoreNumberBox = new THREE.Mesh(oppScoreNumberBoxGeometry, boxMaterial);
+    oppScoreNumberBox.material = createMaterial('0');
+    oppScoreNumberBox.position.set(0.175, 0.25, -0.65);
+    scene.add(oppScoreNumberBox);
 }
 
 function onSelect() {
@@ -95,8 +132,9 @@ function onSelect() {
 }
 
 function start() {
-    restart(boardX, boardY, player1, player2);
-    connectToSocket(sessionKey, checkWin, checkDraw, boardX, boardY, updateTexture, updateInfoBoxTexture);
+    restart(boardY, boardX, player1, player2);
+    restartSettings();
+    connectToSocket(sessionKey, handleMessageFromSocket);
     init();
     animate();
 }
@@ -105,4 +143,5 @@ export {
     updateTexture,
     start,
     updateInfoBoxTexture,
+    updateScoreBoxes,
 };

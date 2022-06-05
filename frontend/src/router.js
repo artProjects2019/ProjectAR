@@ -14,6 +14,7 @@ import Game_invitation from "@/components/Game_invitation";
 import Game_session from "@/components/Game_session";
 import Lobby from "@/components/Lobby";
 import ConnectFour from "@/components/ConnectFour";
+import Memory from "@/components/Memory";
 
 const routes = [
     {
@@ -39,6 +40,10 @@ const routes = [
     {
         path: "/connectFour",
         component: ConnectFour,
+    },
+    {
+        path: "/memory",
+        component: Memory,
     },
     {
         path: "/account",

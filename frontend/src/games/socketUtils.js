@@ -4,11 +4,20 @@ import * as Stomp from "stompjs";
 
 let socket = null;
 
-function sendMessageToSocket(player, boxNumber, key) {
+function sendMoveToSocket(player, boxNumber, key, action = 'gameMove') {
     return axios.post('api/games/gameMove', {
         player: player,
         boxNumber: boxNumber,
         sessionKey: key,
+        action: action
+    });
+}
+
+function sendCardsPositionToSocket(cards, key) {
+    return axios.post('api/games/memory/cards', {
+        cards: cards,
+        sessionKey: key,
+        action: 'positions'
     });
 }
 
@@ -27,4 +36,4 @@ function connectToSocket(sessionKey, messageFromSocketHandler) {
     );
 }
 
-export {sendMessageToSocket, connectToSocket}
+export {sendMoveToSocket, connectToSocket, sendCardsPositionToSocket}

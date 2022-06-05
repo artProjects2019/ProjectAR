@@ -1,4 +1,4 @@
-import {playerTurn, player1, player2, handleMessageFromSocket, initLogicBoard} from './ticTacToe.js'
+import {playerTurn, player1, player2, handleMessageFromSocket, boardY, boardX} from './ticTacToe.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
 import {isMyTurn, actualPlayer, restart, sessionKey} from "@/games/gameUtils";
@@ -54,8 +54,8 @@ function updateInfoBoxTexture(player, isMyTurn) {
     infoBox.material = createMaterial(texture + player);
 }
 
-function updateTexture(boxNumber, player){
-    board.boxes[boxNumber].material = createMaterial(player);
+function updateTexture(boxNumber, texture){
+    board.boxes[boxNumber].material = createMaterial(texture);
 }
 
 function init() {
@@ -96,8 +96,7 @@ function onSelect() {
 }
 
 function start() {
-    restart(player1, player2);
-    initLogicBoard();
+    restart(boardY, boardX, player1, player2);
     connectToSocket(sessionKey, handleMessageFromSocket);
     init();
     animate();
