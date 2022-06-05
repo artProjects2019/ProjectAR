@@ -1,11 +1,9 @@
-import {checkWin, playerTurn, boardY, boardX, player1, player2} from './connectFour.js'
+import {playerTurn, player1, player2, handleMessageFromSocket, initLogicBoard} from './connectFour.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
-import {actualPlayer, restart, sessionKey, checkDraw, isMyTurn} from "@/games/gameUtils";
+import {actualPlayer, restart, sessionKey, isMyTurn} from "@/games/gameUtils";
 import {connectToSocket} from "@/games/socketUtils";
-
-import {initAR, animate, createMaterial, scene,
-        controller, raycaster} from "@/games/arUtils";
+import {initAR, animate, createMaterial, scene, controller, raycaster} from "@/games/arUtils";
 
 const tempMatrix = new THREE.Matrix4();
 let board;
@@ -98,8 +96,9 @@ function onSelect() {
 }
 
 function start() {
-        restart(boardX, boardY, player1, player2);
-        connectToSocket(sessionKey, checkWin, checkDraw, boardX, boardY, updateTexture, updateInfoBoxTexture);
+        restart(player1, player2);
+        initLogicBoard();
+        connectToSocket(sessionKey, handleMessageFromSocket);
         init();
         animate();
 }

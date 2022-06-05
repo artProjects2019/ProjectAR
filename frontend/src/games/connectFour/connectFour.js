@@ -1,9 +1,10 @@
 import {
-    handleWin, logicBoard, gameOver, isMyTurn, calculateRowAndColumn, EMPTY,
-    checkDraw, actualPlayer, sessionKey, calculateBoxNumber
+    handleWin, gameOver, isMyTurn, calculateRowAndColumn,
+    actualPlayer, sessionKey, calculateBoxNumber, handleEndGame
 } from "@/games/gameUtils";
 import {sendMessageToSocket} from "@/games/socketUtils";
 import {updateInfoBoxTexture, updateTexture} from './drawConnectFour.js'
+import {playAudio} from "../../../public/audio/sound";
 
 let boardX = 7;
 let boardY = 6;
@@ -11,7 +12,10 @@ let boardY = 6;
 let player1 = 'red';
 let player2 = 'blue';
 
-const winningArrays = [
+const EMPTY = 'empty';
+let logicBoard = [];
+
+const winningCombinations = [
     [0, 1, 2, 3],
     [41, 40, 39, 38],
     [7, 8, 9, 10],
@@ -83,12 +87,21 @@ const winningArrays = [
     [13, 20, 27, 34],
 ]
 
+function initLogicBoard() {
+    logicBoard = [];
+    for(let i = 0; i < boardY; ++i) {
+        let row = [];
+        for(let j = 0; j < boardX; ++j) {
+            row.push(EMPTY);
+        }
+        logicBoard.push(row);
+    }
+}
+
 function checkCombination(player, combination) {
     let tmp = true;
 
     for(let i = 0; i < 4; ++i) {
-        console.log(combination.at(i));
-        console.log(combination[i]);
         let move = calculateRowAndColumn(combination.at(i), boardX);
         let column = move[0];
         let row = move[1];
@@ -105,11 +118,49 @@ function checkCombination(player, combination) {
 }
 
 function checkWin(player) {
-    for(let y = 0; y < winningArrays.length && !gameOver.status; y++) {
-        checkCombination(player, winningArrays[y]);
+    for(let i = 0; i < winningCombinations.length && !gameOver.status; i++) {
+        checkCombination(player, winningCombinations[i]);
     }
 
     handleWin(player);
+}
+
+function checkDraw(boardX, boardY) {
+    if(!gameOver.status) {
+        let draw = true;
+
+        for(let i = 0; i < boardY; ++i) {
+            for(let j = 0; j < boardX; ++j) {
+                if(logicBoard[i][j] === EMPTY) {
+                    draw = false;
+                }
+            }
+        }
+
+        if(draw) {
+            gameOver.status = true;
+            playAudio("../audio/toByNic2.wav");
+            handleEndGame();
+        }
+    }
+}
+
+function handleMessageFromSocket(message) {
+    let boxNumber = message.boxNumber;
+    let move = calculateRowAndColumn(boxNumber, boardX);
+    let column = move[0];
+    let row = move[1];
+    let player = message.player;
+
+    if(player !== actualPlayer) {
+        logicBoard[row][column] = player;
+        updateTexture(boxNumber, player);
+        checkWin(player);
+        checkDraw(boardX, boardY);
+        // eslint-disable-next-line no-import-assign
+        isMyTurn = true;
+        updateInfoBoxTexture(actualPlayer, isMyTurn);
+    }
 }
 
 function playerTurn(boxNumber, player) {
@@ -140,5 +191,5 @@ function drawWin(boxesInARow) {
     }
 }
 
-export {boardX, boardY, player1, player2, checkWin, playerTurn};
+export {boardX, boardY, player1, player2, checkWin, playerTurn, handleMessageFromSocket, initLogicBoard};
 

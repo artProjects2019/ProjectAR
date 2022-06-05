@@ -1,15 +1,30 @@
 import {updateInfoBoxTexture, updateTexture} from './drawTicTacToe.js'
 import {
     calculateBoxNumber, handleWin,
-    logicBoard, gameOver, isMyTurn, calculateRowAndColumn, EMPTY, checkDraw, actualPlayer, sessionKey
+    gameOver, isMyTurn, calculateRowAndColumn, actualPlayer, sessionKey, handleEndGame
 } from "@/games/gameUtils";
 import {sendMessageToSocket} from "@/games/socketUtils";
+import {playAudio} from "../../../public/audio/sound";
 
 let boardX = 3;
 let boardY = 3;
 
 let player1 = 'o';
 let player2 = 'x';
+
+const EMPTY = 'empty';
+let logicBoard = [];
+
+function initLogicBoard() {
+    logicBoard = [];
+    for(let i = 0; i < boardY; ++i) {
+        let row = [];
+        for(let j = 0; j < boardX; ++j) {
+            row.push(EMPTY);
+        }
+        logicBoard.push(row);
+    }
+}
 
 function playerTurn(boxNumber, player) {
     if(!gameOver.status && isMyTurn) {
@@ -107,6 +122,26 @@ function checkWin(player) {
     handleWin(player);
 }
 
+function checkDraw() {
+    if(!gameOver.status) {
+        let draw = true;
+
+        for(let i = 0; i < boardY; ++i) {
+            for(let j = 0; j < boardX; ++j) {
+                if(logicBoard[i][j] === EMPTY) {
+                    draw = false;
+                }
+            }
+        }
+
+        if(draw) {
+            gameOver.status = true;
+            playAudio("../audio/toByNic2.wav");
+            handleEndGame();
+        }
+    }
+}
+
 // changes the textures of the winning boxes
 function drawWin(player, boxesInARow) {
     for(let boxNumber of boxesInARow) {
@@ -114,5 +149,23 @@ function drawWin(player, boxesInARow) {
     }
 }
 
+function handleMessageFromSocket(message) {
+    let boxNumber = message.boxNumber;
+    let move = calculateRowAndColumn(boxNumber, boardX);
+    let column = move[0];
+    let row = move[1];
+    let player = message.player;
 
-export {boardX, boardY, player1, player2, checkWin, playerTurn};
+    if(player !== actualPlayer) {
+        logicBoard[row][column] = player;
+        updateTexture(boxNumber, player);
+        checkWin(player);
+        checkDraw(boardX, boardY);
+        // eslint-disable-next-line no-import-assign
+        isMyTurn = true;
+        updateInfoBoxTexture(actualPlayer, isMyTurn);
+    }
+}
+
+
+export {boardX, boardY, player1, player2, checkWin, playerTurn, handleMessageFromSocket, initLogicBoard};

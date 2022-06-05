@@ -7,11 +7,7 @@ let amIOwner;
 let isMyTurn;
 let actualPlayer;
 let sessionKey;
-
-let logicBoard = [];
 let gameOver = {status: false};
-
-const EMPTY = 'empty';
 
 function calculateBoxNumber(row, column, scalar) {
     return scalar*row+column;
@@ -25,16 +21,7 @@ function calculateRowAndColumn(boxNumber, scalar) {
 }
 
 
-function restart(boardX, boardY, player1, player2){
-    logicBoard = [];
-    for(let i = 0; i < boardY; ++i) {
-        let row = [];
-        for(let j = 0; j < boardX; ++j) {
-            row.push(EMPTY);
-        }
-        logicBoard.push(row);
-    }
-
+function restart(player1, player2){
     gameOver.status = false;
     amIOwner = localStorage.getItem('owner') === store.state.auth.user.username;
     isMyTurn = amIOwner;
@@ -63,25 +50,5 @@ function handleWin(player) {
     }
 }
 
-function checkDraw(boardX, boardY) {
-    if(!gameOver.status) {
-        let draw = true;
-
-        for(let i = 0; i < boardY; ++i) {
-            for(let j = 0; j < boardX; ++j) {
-                if(logicBoard[i][j] === EMPTY) {
-                    draw = false;
-                }
-            }
-        }
-
-        if(draw) {
-            gameOver.status = true;
-            playAudio("../audio/toByNic2.wav");
-            handleEndGame();
-        }
-    }
-}
-
-export {calculateRowAndColumn, calculateBoxNumber, handleEndGame, restart, handleWin, checkDraw,
-    amIOwner, isMyTurn, EMPTY, actualPlayer, sessionKey, logicBoard, gameOver}
+export {calculateRowAndColumn, calculateBoxNumber, handleEndGame, restart, handleWin,
+    amIOwner, isMyTurn, actualPlayer, sessionKey, gameOver}

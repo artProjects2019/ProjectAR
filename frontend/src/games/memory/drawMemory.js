@@ -1,7 +1,7 @@
-import {playerTurn, player1, player2, handleMessageFromSocket, initLogicBoard} from './ticTacToe.js'
+import {checkWin, playerTurn, boardY, boardX, player1, player2} from './memory.js'
 import {playAudio} from '../../../public/audio/sound'
 import * as THREE from 'three';
-import {isMyTurn, actualPlayer, restart, sessionKey} from "@/games/gameUtils";
+import {isMyTurn, actualPlayer, restart, sessionKey, checkDraw} from "@/games/gameUtils";
 import {connectToSocket} from "@/games/socketUtils";
 import {initAR, animate, createMaterial, scene, controller, raycaster} from "@/games/arUtils";
 
@@ -10,13 +10,13 @@ let board;
 let infoBox;
 
 
-class ticTacToeBoard {
+class memoryBoard {
     boxes = [];
 
     constructor() {
         const BOX_SIZE = 0.05;
 
-        for(let i = 0 ; i < 9 ; ++i) {
+        for(let i = 0 ; i < 20 ; ++i) {
 
             const texture = new THREE.TextureLoader().load('./textures/white.png' );
             const geometry = new THREE.BoxBufferGeometry(BOX_SIZE, BOX_SIZE, BOX_SIZE * 0.25);
@@ -30,22 +30,21 @@ class ticTacToeBoard {
     }
 
     addToScene() {
-        for(let i = 0 ; i < 9 ; ++i){
+        for(let i = 0 ; i < 20 ; ++i){
             scene.add(this.boxes[i]);
         }
     }
 
     setBoxesPosition() {
-        const POSITION = 0.08;
-        this.boxes[0].position.set(POSITION, POSITION, -0.5);
-        this.boxes[1].position.set(0, POSITION, -0.5);
-        this.boxes[2].position.set(-POSITION, POSITION, -0.5);
-        this.boxes[3].position.set(POSITION, 0, -0.5);
-        this.boxes[4].position.set(0, 0, -0.5);
-        this.boxes[5].position.set(-POSITION, 0, -0.5);
-        this.boxes[6].position.set(POSITION, -POSITION, -0.5);
-        this.boxes[7].position.set(0, -POSITION, -0.5);
-        this.boxes[8].position.set(-POSITION, -POSITION, -0.5);
+        const POSITION = 0.06;
+
+        for(let i = 0; i < 4; i++) {
+            this.boxes[i*5].position.set((-2) * POSITION, (-2) * POSITION + i * POSITION, -0.65);
+            this.boxes[i*5 + 1].position.set((-1) * POSITION, (-2) * POSITION + i * POSITION, -0.65);
+            this.boxes[i*5 + 2].position.set(0, (-2) * POSITION + i * POSITION, -0.65);
+            this.boxes[i*5 + 3].position.set(POSITION, (-2) * POSITION + i * POSITION, -0.65);
+            this.boxes[i*5 + 4].position.set(2 * POSITION, (-2) * POSITION + i * POSITION, -0.65);
+        }
     }
 }
 
@@ -62,7 +61,7 @@ function init() {
     initAR();
     controller.addEventListener('select', onSelect);
 
-    board = new ticTacToeBoard();
+    board = new memoryBoard();
     board.addToScene();
 
     createInfoBox();
@@ -96,9 +95,8 @@ function onSelect() {
 }
 
 function start() {
-    restart(player1, player2);
-    initLogicBoard();
-    connectToSocket(sessionKey, handleMessageFromSocket);
+    restart(boardX, boardY, player1, player2);
+    connectToSocket(sessionKey, checkWin, checkDraw, boardX, boardY, updateTexture, updateInfoBoxTexture);
     init();
     animate();
 }

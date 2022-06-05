@@ -64,5 +64,6 @@ function createMaterial(texture) {
     ];
 }
 
-export {initAR, animate, render, createMaterial, camera, scene, renderer, controller, raycaster };
+
+export {initAR, animate, render, createMaterial, camera, scene, renderer, controller, raycaster};
 
