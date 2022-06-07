@@ -1,20 +1,20 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Home from "./components/Home.vue";
-import Login from "./components/Login.vue";
-import TicTacToe from "./components/TicTacToe";
-import Account from "@/components/Account";
-import Change_password from "@/components/Change_password";
-import Users from "@/components/Users";
-import Ranking from "@/components/Ranking";
-import Register from "./components/Register.vue";
-import Register_confirm from "@/components/Register_confirm";
-import Friends from "@/components/Friends";
-import Friend_invitation from "@/components/Friend_invitation";
-import Game_invitation from "@/components/Game_invitation";
-import Game_session from "@/components/Game_session";
-import Lobby from "@/components/Lobby";
-import ConnectFour from "@/components/ConnectFour";
-import Memory from "@/components/Memory";
+import Home from "./components/pages/Home.vue";
+import Login from "./components/pages/Login.vue";
+import TicTacToe from "./components/games/TicTacToe";
+import Account from "@/components/pages/account/Account";
+import Change_password from "@/components/pages/Change_password";
+import Users from "@/components/pages/Users";
+import Ranking from "@/components/pages/Ranking";
+import Register from "./components/pages/register/Register.vue";
+import Register_confirm from "@/components/pages/register/Register_confirm";
+import Friends from "@/components/pages/Friends";
+import Friend_invitation from "@/components/pages/Friend_invitation";
+import Game_invitation from "@/components/pages/Game_invitation";
+import Game_session from "@/components/pages/Game_session";
+import Lobby from "@/components/pages/Lobby";
+import ConnectFour from "@/components/games/ConnectFour";
+import Memory from "@/components/games/Memory";
 
 const routes = [
     {

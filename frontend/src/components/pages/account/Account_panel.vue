@@ -20,11 +20,6 @@
         Game invitations
       </button>
     </div>
-    <div class="panel_option">
-      <button class="option_button">
-      Delete account
-      </button>
-    </div>
   </div>
 </template>
 

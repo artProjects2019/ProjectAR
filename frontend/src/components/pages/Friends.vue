@@ -30,7 +30,7 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
-import user_photo from "@/components/User_photo";
+import user_photo from "@/components/user/User_photo";
 import User_panel from "@/components/User_panel";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

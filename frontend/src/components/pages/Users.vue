@@ -44,7 +44,7 @@
 <script>
 import Menu from "@/components/Menu";
 import axios from "axios";
-import user_photo from "@/components/User_photo";
+import user_photo from "@/components/user/User_photo";
 import * as yup from "yup";
 import User_panel from "@/components/User_panel";
 export default {

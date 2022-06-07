@@ -82,7 +82,6 @@ export default {
 
 .leaderboard_section{
   width: 500px;
-  /*height: ;*/
   margin: 100px auto 0;
   background: #4CAF50;
   padding: 25px 40px;
@@ -101,14 +100,6 @@ export default {
   color: #3a3d51;
   cursor: pointer;
 }
-
-/*.leaderboard_wrap{*/
-/*  top: 70px;*/
-/*  left: 40px;*/
-/*  width: 100%;*/
-/*  height: 95%;*/
-/*  border-radius: 5px;*/
-/*}*/
 
 .leaderboard_wrap .leaderboard_elem{
   display: flex;

@@ -7,7 +7,7 @@
             {{ selectedGame.ID }}
           </div>
 
-          <div class="session"  v-if="this.selectedSession === 'Private'">
+          <div class="session">
           <div id="players">
             <div class="player" v-for="(FRIEND) in friends " :key="FRIEND">
               <user_photo/>

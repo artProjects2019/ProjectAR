@@ -44,7 +44,7 @@ import Menu from "@/components/Menu";
 import axios from "axios";
 import * as yup from "yup";
 import { game } from "@/store/global-variables";
-import Lobby from "@/components/Lobby";
+import Lobby from "@/components/pages/Lobby";
 import User_panel from "@/components/User_panel";
 
 

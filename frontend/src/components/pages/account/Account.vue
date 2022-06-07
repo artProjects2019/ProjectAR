@@ -23,7 +23,7 @@
 
 <script>
 import Menu from "@/components/Menu";
-import Account_panel from "@/components/Account_panel";
+import Account_panel from "@/components/pages/account/Account_panel";
 import User_panel from "@/components/User_panel";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

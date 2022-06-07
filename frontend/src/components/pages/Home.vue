@@ -32,7 +32,7 @@
       <div id= "people">
         <div class="person">
           <div class="personPhoto">
-            <img class="person_img" src="../plugins/image/salamandra.jpg" alt="Marcin Salamandra">
+            <img class="person_img" src="../../plugins/image/salamandra.jpg" alt="Marcin Salamandra">
           </div>
 
           <h1>Marcin Salamandra</h1>
@@ -58,7 +58,7 @@
 
         <div class="person">
           <div class="personPhoto">
-            <img class="person_img" src="../plugins/image/los.jpg" alt="Lukasz Pawlos">
+            <img class="person_img" src="../../plugins/image/los.jpg" alt="Lukasz Pawlos">
           </div>
           <h1>Łukasz Pawłoś</h1>
           <br>
@@ -83,7 +83,7 @@
 
         <div class="person">
           <div class="personPhoto">
-            <img class="person_img" src="../plugins/image/remek.jpg" alt="Remigiusz Mielcarz">
+            <img class="person_img" src="../../plugins/image/remek.jpg" alt="Remigiusz Mielcarz">
           </div>
           <h1>Remigiusz Mielcarz</h1>
           <br>
@@ -109,7 +109,7 @@
 
       <div class="bar">
         <a href="https://www.iteratec.com/pl/">
-          <img id="companyPhoto" src="../plugins/image/iteratec.png" alt="iteratec logo">
+          <img id="companyPhoto" src="../../plugins/image/iteratec.png" alt="iteratec logo">
         </a>
       </div>
     </div>

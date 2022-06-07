@@ -1,6 +1,6 @@
 <template>
   <div class="userPhoto">
-    <img class="user_img" src="../plugins/image/person-icon.png" alt="User img">
+    <img class="user_img" src="../../plugins/image/person-icon.png" alt="User img">
   </div>
 </template>
 
