@@ -28,9 +28,6 @@
     <div class="option" @click="$router.push('./ranking')">
         RANKING
     </div>
-    <div class="option" @click="$router.push('./stats')">
-        STATISTICS
-    </div>
     <div v-if="logged" class="option" @click="$router.push('./friends')">
         FRIENDS
     </div>

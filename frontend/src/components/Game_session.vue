@@ -7,19 +7,6 @@
             {{ selectedGame.ID }}
           </div>
 
-          <div class="session" v-if="this.selectedSession !== 'Private'">
-            <div class="sessionButton">
-              <button @click="$router.push('./' + selectedGame.ID)">
-                Public session
-              </button>
-            </div>
-            <div class="sessionButton">
-              <button style="background-color: #4CAF50; color: white" @click="handlePrivateSession()">
-                Private session
-              </button>
-            </div>
-          </div>
-
           <div class="session"  v-if="this.selectedSession === 'Private'">
           <div id="players">
             <div class="player" v-for="(FRIEND) in friends " :key="FRIEND">

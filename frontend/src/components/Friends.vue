@@ -15,6 +15,10 @@
         <div class="userName">
           <h6>Username</h6>
           <h3>{{ FRIEND.username }}</h3>
+          <button class="decline" @click="deleteFriend(logged.username, FRIEND.username)">
+            <font-awesome-icon icon="user-xmark" />
+            Delete friend
+          </button>
         </div>
         </div>
       </div>
@@ -55,6 +59,27 @@ export default {
         this.friends = response.data
       }.bind(this))
     },
+
+    deleteFriend(friendName) {
+      console.log(friendName);
+
+      return axios.delete('api/friends/' + this.logged.userName, {
+        friendName: friendName,
+      });
+    }
   }
 }
 </script>
+
+<style scoped>
+.decline{
+  background-color: white; /* Green */
+  color: black;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border: 2px solid black;
+}
+</style>
