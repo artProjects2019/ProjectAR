@@ -142,7 +142,7 @@ function checkDraw() {
 
         if(draw) {
             gameOver.status = true;
-            playAudio("../audio/toByNic2.wav");
+            playAudio("../audio/draw.wav");
             handleEndGame();
         }
     }

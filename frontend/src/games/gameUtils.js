@@ -52,11 +52,11 @@ function handleEndGame() {
 function handleWin(player) {
     if(gameOver.status) {
         if(player === actualPlayer) {
-            playAudio("./audio/polskaGurom.wav");
+            playAudio("./audio/win.wav");
             axios.patch('api/ranking/' + store.state.auth.user.username);
         }
         else {
-            playAudio("./audio/klopoty.wav");
+            playAudio("./audio/lose.wav");
         }
         handleEndGame();
     }

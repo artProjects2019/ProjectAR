@@ -27,9 +27,6 @@ class AuthService {
         });
     }
     newPassword(changePasswordRequest) {
-        console.log(changePasswordRequest.newPassword);
-        console.log(changePasswordRequest.username);
-        console.log(changePasswordRequest.repeatPassword);
         return axios.patch('api/users/changePassword', {
             newPassword: changePasswordRequest.newPassword,
             repeatPassword: changePasswordRequest.repeatPassword,

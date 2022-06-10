@@ -11,6 +11,7 @@ import pl.arproject.exception.UsersAreAlreadyFriendsException;
 import pl.arproject.friend.invitation.FriendInvitation;
 import pl.arproject.friend.invitation.FriendInvitationRequest;
 import pl.arproject.friend.invitation.FriendInvitationService;
+import pl.arproject.friend.request.FriendDeleteRequest;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -127,5 +128,18 @@ public class FriendService {
         friends.addAll(secondPartOfFriends);
 
         return friends;
+    }
+
+    @Transactional
+    public ResponseEntity<?> deleteFriendConnection(FriendDeleteRequest request) {
+        AppUser firstUser = appUserService.findByUsername(request.getFirstUser()).get();
+        AppUser secondUser = appUserService.findByUsername(request.getSecondUser()).get();
+        Friend friendConnection = friendRepository.findByFirstUserAndSecondUser(firstUser, secondUser).get();
+
+        friendRepository.deleteById(friendConnection.getId());
+
+        return ResponseEntity
+                .status(OK)
+                .body("friend has been deleted");
     }
 }

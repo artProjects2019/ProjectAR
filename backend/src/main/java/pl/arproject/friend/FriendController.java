@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.arproject.friend.invitation.FriendInvitationRequest;
+import pl.arproject.friend.request.FriendDeleteRequest;
 
 @RestController
 @RequestMapping("/api/friends")
@@ -38,5 +39,8 @@ public class FriendController {
         return friendService.getAllFriends(username);
     }
 
-    // delete friend
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteFriendConnection(@RequestBody FriendDeleteRequest request) {
+        return friendService.deleteFriendConnection(request);
+    }
 }

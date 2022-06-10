@@ -15,7 +15,7 @@
         <div class="userName">
           <h6>Username</h6>
           <h3>{{ FRIEND.username }}</h3>
-          <button class="decline" @click="deleteFriend(logged.username, FRIEND.username)">
+          <button class="decline" @click="deleteFriend(FRIEND.username)">
             <font-awesome-icon icon="user-xmark" />
             Delete friend
           </button>
@@ -61,10 +61,10 @@ export default {
     },
 
     deleteFriend(friendName) {
-      console.log(friendName);
-
-      return axios.delete('api/friends/' + this.logged.userName, {
-        friendName: friendName,
+      axios.delete('api/friends/delete', {
+        data: {
+          firstUser: this.logged.username,
+          secondUser: friendName}
       });
     }
   }

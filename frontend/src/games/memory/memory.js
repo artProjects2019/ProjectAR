@@ -196,7 +196,7 @@ function checkWin() {
                 handleWin('looser');
             }
             else { // draw
-                playAudio("../audio/toByNic2.wav");
+                playAudio("../audio/draw.wav");
                 handleEndGame();
             }
         }

@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 import pl.arproject.appuser.AppUser;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FriendRepository extends JpaRepository<Friend, Long> {
     boolean existsByFirstUserAndSecondUser(AppUser firstUser, AppUser secondUser);
+    Optional<Friend> findByFirstUserAndSecondUser(AppUser firstUser, AppUser secondUser);
 
     @Query("SELECT f.secondUser FROM Friend f " +
             "WHERE f.firstUser.id = ?1 ")
