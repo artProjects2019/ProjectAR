@@ -8,7 +8,7 @@ import {
     gameOver,
     isMyTurn, handleEndGame, handleWin, amIOwner
 } from "@/games/gameUtils";
-import {sendCardsPositionToSocket, sendMoveToSocket} from "@/games/socketUtils";
+import {sendMoveToSocket} from "@/games/socketUtils";
 import {playAudio} from "../../../public/audio/sound";
 
 let boardX = 5;
@@ -52,7 +52,7 @@ function locateCards() {
         cards.splice(index, 1);
     }
 
-    sendCardsPositionToSocket(locatedCards, sessionKey);
+    //sendCardsPositionToSocket(locatedCards, sessionKey);
 }
 
 function toggleIsMyTurn() {
@@ -72,11 +72,10 @@ function handleMessageFromSocket(message) {
     let action = message.action;
 
     if(player !== actualPlayer) {
-        if(action === 'positions') {
-            locatedCards = message.cards;
-        }
-        else {
             if(action === 'firstCard') {
+                if(locatedCards[0] === EMPTY) {
+                    locatedCards = message.cards;
+                }
                 firstCard = locatedCards[boxNumber];
                 firstCardIndex = boxNumber;
                 logicBoard[row][column] = player;
@@ -113,17 +112,19 @@ function handleMessageFromSocket(message) {
                     secondCard = null;
                 }, 1000);
             }
-        }
     }
 }
 
 function makeAMove(boxNumber, row, column, player) {
     if(firstCard === null) {
+        if(amIOwner && locatedCards[0] === EMPTY) {
+            locateCards();
+        }
         firstCard = locatedCards[boxNumber];
         firstCardIndex = boxNumber;
         logicBoard[row][column] = player;
         updateTexture(boxNumber, firstCard);
-        sendMoveToSocket(player, boxNumber, sessionKey, 'firstCard');
+        sendMoveToSocket(player, boxNumber, sessionKey, 'firstCard', locatedCards);
     }
     else if(secondCard === null) {
         secondCard = locatedCards[boxNumber];
@@ -160,9 +161,6 @@ function makeAMove(boxNumber, row, column, player) {
 }
 
 function playerTurn(boxNumber, player) {
-    if(amIOwner && locatedCards[0] === EMPTY) {
-        locateCards();
-    }
     if(!gameOver.status && isMyTurn) {
         let move = calculateRowAndColumn(boxNumber, boardX);
         let column = move[0];

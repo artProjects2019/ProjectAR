@@ -4,12 +4,13 @@ import * as Stomp from "stompjs";
 
 let socket = null;
 
-function sendMoveToSocket(player, boxNumber, key, action = 'gameMove') {
+function sendMoveToSocket(player, boxNumber, key, action = 'gameMove', cards = null) {
     return axios.post('api/games/gameMove', {
         player: player,
         boxNumber: boxNumber,
         sessionKey: key,
-        action: action
+        action: action,
+        cards: cards
     });
 }
 
