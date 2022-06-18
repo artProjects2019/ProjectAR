@@ -145,7 +145,16 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 40px;
   border: 2px solid black;
 }
+
+.player h6 {
+  font-size: 30px;
+}
+
+.player h3 {
+  font-size: 80px;
+}
+
 </style>

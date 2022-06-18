@@ -11,9 +11,10 @@
           <div class="form-group">
             <label>
               Username
-              <font-awesome-icon title="Username should be between 4 and 15 characters
-               and it can only contain digits and letters both in lower and upper case"
+              <font-awesome-icon @click="changeStatus('username')"
                 icon="circle-info" />
+              <p v-if="usernameHint">Username should be between 4 and 15 characters
+                and it can only contain digits and letters both in lower and upper case</p>
             </label>
             <Field name="username" type="text" class="form-control" />
             <ErrorMessage name="username" class="error-feedback" />
@@ -26,10 +27,11 @@
           <div class="form-group">
             <label>
               Password
-              <font-awesome-icon title="Password should be between 8 and 20 characters
-               and it has to contain at least: one digit, one upper case character,
-                one lower case character and one symbol e.g. '$' or '#'"
+              <font-awesome-icon @click="changeStatus('password')"
                 icon="circle-info" />
+              <p v-if="passwordHint">Password should be between 8 and 20 characters
+                and it has to contain at least: one digit, one upper case character,
+                one lower case character and one symbol e.g. '$' or '#'</p>
             </label>
             <Field name="password" type="password" class="form-control" />
             <ErrorMessage name="password" class="error-feedback" />
@@ -98,11 +100,21 @@ export default {
       loading: false,
       message: "",
       schema,
+      passwordHint: false,
+      usernameHint: false,
     };
   },
   methods: {
     created(){
       setTimeout( () => this.$router.push({ path: '/confirm'}), 3000);
+    },
+    changeStatus(hint) {
+      if(hint === 'password') {
+        this.passwordHint = !this.passwordHint;
+      }
+      if(hint === 'username') {
+        this.usernameHint = !this.usernameHint;
+      }
     },
     handleRegister(user) {
       this.message = "";
@@ -152,6 +164,10 @@ export default {
 
 .alert {
   white-space: pre-wrap;
+}
+
+p {
+  color: #106900;
 }
 
 </style>
